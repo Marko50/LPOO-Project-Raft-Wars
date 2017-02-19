@@ -89,13 +89,20 @@ public class game {
 		int[] gPos = {8,1};
 		char[][] maze = new char[10][10];
 		boolean flagVictory = false;
-		boolean flagDefeat = false;
+		int contador = 0;
 		boolean lever = false;
 		Scanner s = new Scanner(System.in);
 		char order;
-		while(!flagVictory && !flagDefeat)
+		while(!flagVictory)
 		{
 			showMaze(MazeCreator(maze, hPos, gPos, lever));
+			if(((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) || ((gPos[1] == hPos[1] - 1 || gPos[1] == hPos[1] + 1) && gPos[0] == hPos[0]) )
+			{
+				break;
+			}
+			if(contador == 24)
+				contador = 0;
+			
 			while(true)
 			{
 				System.out.println("Your move. Choose wisely");
@@ -112,15 +119,21 @@ public class game {
 					{
 						System.out.println("You shall not pass!");
 						continue;
-					}
-					else if(maze[hPos[1]-1][hPos[0]] == 'S')
-					{
-						System.out.println("You opened the door. Congratz. ");
-						hPos[1] = hPos[1] - 1;
-						flagVictory = true;
-						break;
+					} else if (maze[hPos[1] - 1][hPos[0]] == 'S') {
+						if (hPos[1] - 2 < 0) {
+							flagVictory = true;
+							break;
+						} else if (maze[hPos[1] - 2][hPos[0]] == ' ') {
+							System.out.println("You opened the door. Congratz. ");
+							hPos[1] = hPos[1] - 2;
+							break;
+						} else {
+							System.out.println("You triggered feminist.. Only men can do that");
+							continue;
+						}
 					}
 					
+				
 					else if(maze[hPos[1]-1][hPos[0]] == 'K')
 					{
 						System.out.println("You pulled a mysterious lever. Jesus Christ superstar..");
@@ -150,10 +163,17 @@ public class game {
 					}
 					else if(maze[hPos[1]][hPos[0]-1] == 'S')
 					{
-						System.out.println("You opened the door. Congratz. ");
-						hPos[0] = hPos[0] - 1;
-						flagVictory = true;
-						break;
+						if (hPos[0] - 2 < 0) {
+							flagVictory = true;
+							break;
+						} else if (maze[hPos[1]][hPos[0]-2] == ' ') {
+							System.out.println("You opened the door. Congratz. ");
+							hPos[0] = hPos[0] - 2;
+							break;
+						} else {
+							System.out.println("You triggered feminist.. Only men can do that");
+							continue;
+						}
 					}
 					
 					else if(maze[hPos[1]][hPos[0]-1] == 'K')
@@ -185,10 +205,17 @@ public class game {
 					}
 					else if(maze[hPos[1]+1][hPos[0]] == 'S')
 					{
-						System.out.println("You opened the door. Congratz. ");
-						hPos[1] = hPos[1] + 1;
-						flagVictory = true;
-						break;
+						if (hPos[1] + 2 > 10) {
+							flagVictory = true;
+							break;
+						} else if (maze[hPos[1] + 2][hPos[0]] == ' ') {
+							System.out.println("You opened the door. Congratz. ");
+							hPos[1] = hPos[1] + 2;
+							break;
+						} else {
+							System.out.println("You triggered feminist.. Only men can do that");
+							continue;
+						}
 					}
 					
 					else if(maze[hPos[1]+1][hPos[0]] == 'K')
@@ -220,10 +247,17 @@ public class game {
 					}
 					else if(maze[hPos[1]][hPos[0]+1] == 'S')
 					{
-						System.out.println("You opened the door. Congratz. ");
-						hPos[0] = hPos[0] + 1;
-						flagVictory = true;
-						break;
+						if (hPos[0] + 2 > 10) {
+							flagVictory = true;
+							break;
+						} else if (maze[hPos[1]][hPos[0]+2] == ' ') {
+							System.out.println("You opened the door. Congratz. ");
+							hPos[0] = hPos[0] + 2;
+							break;
+						} else {
+							System.out.println("You triggered feminist.. Only men can do that");
+							continue;
+						}
 					}
 					
 					else if(maze[hPos[1]][hPos[0]+1] == 'K')
@@ -241,13 +275,41 @@ public class game {
 					
 				}
 			}
+			guardMove(gPos, contador);
+			contador++;
 			
-			
+		}
+		if(flagVictory)
+		{
+			System.out.println("Wow you won. Maybe now you'll skip out of b5. NOT");
+		}
+		else
+			System.out.println("You lost n00blord");
+		
+	}
+	
+	public static void guardMove(int[] gPos, int contador)
+	{
+		char[] movs = {'a','s','s','s','s','a','a','a','a','a','a','s','d','d','d','d','d','d','d','w','w','w','w','w'};
+		if(movs[contador] == 'w')
+		{
+			gPos[1] = gPos[1] - 1;
+		}
+		else if(movs[contador] == 'a')
+		{
+			gPos[0] = gPos[0] - 1;
+		}
+		else if(movs[contador] == 's')
+		{
+			gPos[1] = gPos[1] + 1;
+		}
+		else if(movs[contador] == 'd')
+		{
+			gPos[0] = gPos[0] + 1;
 		}
 		
 		
 	}
-	
 	
 	public static void main(String[] args) {
 		System.out.println("Olá Universo");
