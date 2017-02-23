@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class game {
@@ -16,7 +17,7 @@ public class game {
 		}
 	}
 
-	public static char[][] MazeCreator2(char[][] res, int[]hPos, int[]oPos, boolean lever)
+	public static char[][] MazeCreator2(char[][] res, int[]hPos, int[]oPos, boolean lever, boolean near, boolean openDoor, int[] cPos)
 	{
 		for(int i = 0; i < res.length; i++)
 		{
@@ -33,10 +34,11 @@ public class game {
 			res[res.length - 1][i] = 'X';
 		}
 		
+	
 		if(lever)
 		{
-			char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,'K', 'X' };
-			char[] l2 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l2 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
 			char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
 			char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
 			char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
@@ -53,6 +55,8 @@ public class game {
 			res[7] = l7;
 			res[8] = l8;
 		}
+		
+		
 		else
 		{
 			char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,'K', 'X' };
@@ -73,8 +77,20 @@ public class game {
 			res[7] = l7;
 			res[8] = l8;
 		}
-		res[hPos[1]][hPos[0]] = 'H';
-		res[oPos[1]][oPos[0]] = 'O';
+		res[cPos[1]][cPos[0]] = '*';
+		
+		if(openDoor)
+			res[2][0] = 'S';
+		
+		if(lever)
+		 res[hPos[1]][hPos[0]] = 'K';
+		else
+		 res[hPos[1]][hPos[0]] = 'H';
+		
+		if(oPos[0] == 8 && oPos[1] == 1 && res[1][8] == 'K')
+			res[oPos[1]][oPos[0]] = '$';
+		else
+			res[oPos[1]][oPos[0]] = 'O';
 		return res;
 		
 	}
@@ -106,7 +122,7 @@ public class game {
 			char[] l5 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
 			char[] l6 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
 			char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
-			char[] l8 = {'X', ' ', 'S', ' ', 'S', ' ', 'X', 'K', ' ', 'X'};
+			char[] l8 = {'X', ' ', 'S', ' ', 'S', ' ', 'X', 'k', ' ', 'X'};
 			
 			res[1] = l1;
 			res[2] = l2;
@@ -149,7 +165,9 @@ public class game {
 	{
 		int[] hPos = {1,1};
 		int[] gPos = {8,1};
-		int[] oPos = {4,1};
+		int[] oPos = {7,1};
+		int[] cPos = {7,2};
+		boolean openDoor = false;
 		char[][] maze = new char[10][10];
 		boolean flagVictory = false;
 		int contador = 0;
@@ -157,23 +175,37 @@ public class game {
 		Scanner s = new Scanner(System.in);
 		char order;
 		int gameMode = 1;
+		boolean near = false;
 		while(!flagVictory)
 		{
+				
 			if(gameMode == 1)
 			{
+				if((((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) || ((gPos[1] == hPos[1] - 1 || gPos[1] == hPos[1] + 1) && gPos[0] == hPos[0])))
+				{
+					showMaze(MazeCreator(maze, hPos, gPos, lever));
+					break;
+				}
 				showMaze(MazeCreator(maze, hPos, gPos, lever));
 				guardMove(gPos, contador);
 				contador++;
-			}
-			else
-			{
-				showMaze(MazeCreator2(maze, hPos, oPos, lever));
+			} else {
+				if ((((oPos[0] == hPos[0] - 1 || oPos[0] == hPos[0] + 1) && oPos[1] == hPos[1])
+						|| ((oPos[1] == hPos[1] - 1 || oPos[1] == hPos[1] + 1) && oPos[0] == hPos[0]
+								|| oPos[1] == hPos[1]) && oPos[0] == hPos[0] )) {
+					showMaze(MazeCreator2(maze, hPos, oPos, lever, near, openDoor, cPos));
+					break;
+				}
+				else if ((((cPos[0] == hPos[0] - 1 || cPos[0] == hPos[0] + 1) && cPos[1] == hPos[1])
+						|| ((cPos[1] == hPos[1] - 1 || cPos[1] == hPos[1] + 1) && cPos[0] == hPos[0]
+								|| cPos[1] == hPos[1]) && cPos[0] == hPos[0] )) {
+					showMaze(MazeCreator2(maze, hPos, oPos, lever, near, openDoor, cPos));
+					break;
+				}
+				showMaze(MazeCreator2(maze, hPos, oPos, lever, near, openDoor, cPos));
+				orcMove(oPos, maze, near, cPos);
 			}
 			
-			if((((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) || ((gPos[1] == hPos[1] - 1 || gPos[1] == hPos[1] + 1) && gPos[0] == hPos[0])&& gameMode ==1))
-			{
-				break;
-			}
 			if(contador == 24)
 				contador = 0;
 			
@@ -181,6 +213,12 @@ public class game {
 			{
 				System.out.println("Your move. Choose wisely");
 				order = s.next().charAt(0);
+				if(order == 'p')
+				{
+					gameMode = 2;
+					break;
+				}
+					
 				if(order == 'w')
 				{
 					System.out.println(order);
@@ -191,7 +229,12 @@ public class game {
 					}
 					else if(maze[hPos[1]-1][hPos[0]] == 'I')
 					{
-						System.out.println("You shall not pass!");
+						if(gameMode == 2)
+							openDoor = true; 
+						
+						else
+							System.out.println("You shall not pass!");
+						
 						continue;
 					} else if (maze[hPos[1] - 1][hPos[0]] == 'S') {
 						if (hPos[1] - 2 < 0 && gameMode == 1) {
@@ -218,7 +261,7 @@ public class game {
 				
 					else if(maze[hPos[1]-1][hPos[0]] == 'K')
 					{
-						System.out.println("You pulled a mysterious lever. Jesus Christ superstar..");
+						System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
 						lever = true;
 						break;
 					}
@@ -238,9 +281,14 @@ public class game {
 						System.out.println("You triggered feminist.. Only men can do that");
 						continue;
 					}
-					else if(maze[hPos[1]][hPos[0]-1] == 'I' && !lever)
+					else if(maze[hPos[1]][hPos[0]-1] == 'I')
 					{
-						System.out.println("You shall not pass!");
+						if(gameMode == 2)
+							openDoor = true; 
+						
+						else
+							System.out.println("You shall not pass!");
+						
 						continue;
 					}
 					else if(maze[hPos[1]][hPos[0]-1] == 'S')
@@ -267,7 +315,7 @@ public class game {
 					
 					else if(maze[hPos[1]][hPos[0]-1] == 'K')
 					{
-						System.out.println("You pulled a mysterious lever. Jesus Christ superstar..");
+						System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
 						lever = true;
 						break;
 					}
@@ -287,9 +335,14 @@ public class game {
 						System.out.println("You triggered feminist.. Only men can do that");
 						continue;
 					}
-					else if(maze[hPos[1]+1][hPos[0]] == 'I' && !lever)
+					else if(maze[hPos[1]+1][hPos[0]] == 'I')
 					{
-						System.out.println("You shall not pass!");
+						if(gameMode == 2)
+							openDoor = true; 
+						
+						else
+							System.out.println("You shall not pass!");
+						
 						continue;
 					}
 					else if(maze[hPos[1]+1][hPos[0]] == 'S')
@@ -317,7 +370,7 @@ public class game {
 					
 					else if(maze[hPos[1]+1][hPos[0]] == 'K')
 					{
-						System.out.println("You pulled a mysterious lever. Jesus Christ superstar..");
+						System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
 						lever = true;
 						break;
 					}
@@ -337,9 +390,14 @@ public class game {
 						System.out.println("You triggered feminist.. Only men can do that");
 						continue;
 					}
-					else if(maze[hPos[1]][hPos[0]+1] == 'I' && !lever)
+					else if(maze[hPos[1]][hPos[0]+1] == 'I')
 					{
-						System.out.println("You shall not pass!");
+						if(gameMode == 2)
+							openDoor = true; 
+						
+						else
+							System.out.println("You shall not pass!");
+						
 						continue;
 					}
 					else if(maze[hPos[1]][hPos[0]+1] == 'S')
@@ -366,7 +424,7 @@ public class game {
 					
 					else if(maze[hPos[1]][hPos[0]+1] == 'K')
 					{
-						System.out.println("You pulled a mysterious lever. Jesus Christ superstar..");
+						System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
 						lever = true;
 						break;
 					}
@@ -390,11 +448,78 @@ public class game {
 		
 	}
 	
-	
-	public static void orcMove(int[]oPos, char[][] maze)
+	public static void action(int[] oPos, char[][]maze)
 	{
+		int randomNum;
+		while(true)
+		{
+			randomNum = ThreadLocalRandom.current().nextInt(1,5);
+			if(randomNum == 1)//w
+			{
+				if(maze[oPos[1]-1][oPos[0]] == 'X' || maze[oPos[1]-1][oPos[0]] == 'I')
+				{
+					continue;
+				}
+				else
+				{
+					oPos[1] = oPos[1]-1;
+					break;
+				}
+					
+				
+			}
+			else if(randomNum == 2)//d
+			{
+				if(maze[oPos[1]][oPos[0]+1] == 'X' || maze[oPos[1]][oPos[0]+1] == 'I')
+				{
+					continue;
+				}
+			
+				else
+				{
+					oPos[0] = oPos[0]+1;
+					break;
+				}
+				
+			}
+			else if(randomNum == 3)//s
+			{
+				if(maze[oPos[1]+1][oPos[0]] == 'X' || maze[oPos[1]+1][oPos[0]] == 'I')
+				{
+					continue;
+				}
+			
+				else
+				{
+					oPos[1] = oPos[1]+1;
+					break;
+				}
+				
+			}
+			else if(randomNum == 4)//a
+			{
+				if(maze[oPos[1]][oPos[0]-1] == 'X' || maze[oPos[1]][oPos[0]-1] == 'I')
+				{
+					continue;
+				}
+				else
+				{
+					oPos[0] = oPos[0]-1;
+					break;
+				}
+				
+			}
+		}
 		
-		
+	}
+	
+	public static void orcMove(int[]oPos, char[][] maze, boolean near, int[] cPos)
+	{
+		action(oPos, maze);
+		cPos[0] = oPos[0];
+		cPos[1] = oPos[1];
+		action (cPos, maze);
+	
 	}
 	
 	public static void guardMove(int[] gPos, int contador)
