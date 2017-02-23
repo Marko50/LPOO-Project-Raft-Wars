@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class game {
+public class Game {
 	
 	public static void showMaze(char[][] maze)
 	{
