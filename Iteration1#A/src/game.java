@@ -16,10 +16,72 @@ public class game {
 		}
 	}
 
+	public static char[][] MazeCreator2(char[][] res, int[]hPos, int[]oPos, boolean lever)
+	{
+		for(int i = 0; i < res.length; i++)
+		{
+			res[0][i] = 'X';
+		}
+		
+		for(int i = 0; i < res.length; i++)
+		{
+			res[i][9] = 'X';
+		}
+		
+		for(int i = 0; i < res.length; i++)
+		{
+			res[res.length - 1][i] = 'X';
+		}
+		
+		if(lever)
+		{
+			char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,'K', 'X' };
+			char[] l2 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'};
+			
+			res[1] = l1;
+			res[2] = l2;
+			res[3] = l3;
+			res[4] = l4;
+			res[5] = l5;
+			res[6] = l6;
+			res[7] = l7;
+			res[8] = l8;
+		}
+		else
+		{
+			char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,'K', 'X' };
+			char[] l2 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+			char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'};
+			
+			res[1] = l1;
+			res[2] = l2;
+			res[3] = l3;
+			res[4] = l4;
+			res[5] = l5;
+			res[6] = l6;
+			res[7] = l7;
+			res[8] = l8;
+		}
+		res[hPos[1]][hPos[0]] = 'H';
+		res[oPos[1]][oPos[0]] = 'O';
+		return res;
+		
+	}
+	
 	public static char[][] MazeCreator(char[][] res,int[] hPos, int[]gPos, boolean lever)
 	{
-		
-		
+				
 		for(int i = 0; i < res.length; i++)
 		{
 			res[0][i] = 'X';
@@ -87,16 +149,28 @@ public class game {
 	{
 		int[] hPos = {1,1};
 		int[] gPos = {8,1};
+		int[] oPos = {4,1};
 		char[][] maze = new char[10][10];
 		boolean flagVictory = false;
 		int contador = 0;
 		boolean lever = false;
 		Scanner s = new Scanner(System.in);
 		char order;
+		int gameMode = 1;
 		while(!flagVictory)
 		{
-			showMaze(MazeCreator(maze, hPos, gPos, lever));
-			if(((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) || ((gPos[1] == hPos[1] - 1 || gPos[1] == hPos[1] + 1) && gPos[0] == hPos[0]) )
+			if(gameMode == 1)
+			{
+				showMaze(MazeCreator(maze, hPos, gPos, lever));
+				guardMove(gPos, contador);
+				contador++;
+			}
+			else
+			{
+				showMaze(MazeCreator2(maze, hPos, oPos, lever));
+			}
+			
+			if((((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) || ((gPos[1] == hPos[1] - 1 || gPos[1] == hPos[1] + 1) && gPos[0] == hPos[0])&& gameMode ==1))
 			{
 				break;
 			}
@@ -120,10 +194,18 @@ public class game {
 						System.out.println("You shall not pass!");
 						continue;
 					} else if (maze[hPos[1] - 1][hPos[0]] == 'S') {
-						if (hPos[1] - 2 < 0) {
-							flagVictory = true;
+						if (hPos[1] - 2 < 0 && gameMode == 1) {
+							//flagVictory = true;
+							gameMode = 2;
+							lever = false;
 							break;
-						} else if (maze[hPos[1] - 2][hPos[0]] == ' ') {
+						}
+						else if (hPos[1] - 2 < 0 && gameMode == 2) {
+							flagVictory = true;
+							//gameMode = 2;
+							break;
+						}
+						else if (maze[hPos[1] - 2][hPos[0]] == ' ') {
 							System.out.println("You opened the door. Congratz. ");
 							hPos[1] = hPos[1] - 2;
 							break;
@@ -163,10 +245,17 @@ public class game {
 					}
 					else if(maze[hPos[1]][hPos[0]-1] == 'S')
 					{
-						if (hPos[0] - 2 < 0) {
-							flagVictory = true;
+						if (hPos[0] - 2 < 0 && gameMode == 1) {
+							//flagVictory = true;
+							gameMode = 2;
+							lever = false;
 							break;
-						} else if (maze[hPos[1]][hPos[0]-2] == ' ') {
+						}
+						else if (hPos[0] - 2 < 0 && gameMode == 2) {
+							flagVictory = true;
+							//gameMode = 2;
+							break;
+						}else if (maze[hPos[1]][hPos[0]-2] == ' ') {
 							System.out.println("You opened the door. Congratz. ");
 							hPos[0] = hPos[0] - 2;
 							break;
@@ -205,10 +294,18 @@ public class game {
 					}
 					else if(maze[hPos[1]+1][hPos[0]] == 'S')
 					{
-						if (hPos[1] + 2 > 10) {
-							flagVictory = true;
+						if (hPos[1] + 2 > 10 && gameMode == 1) {
+							//flagVictory = true;
+							gameMode = 2;
+							lever = false;
 							break;
-						} else if (maze[hPos[1] + 2][hPos[0]] == ' ') {
+						}
+						else if (hPos[1] + 2 > 10 && gameMode == 2) {
+							flagVictory = true;
+							//gameMode = 2;
+							break;
+						}
+						else if (maze[hPos[1] + 2][hPos[0]] == ' ') {
 							System.out.println("You opened the door. Congratz. ");
 							hPos[1] = hPos[1] + 2;
 							break;
@@ -247,8 +344,15 @@ public class game {
 					}
 					else if(maze[hPos[1]][hPos[0]+1] == 'S')
 					{
-						if (hPos[0] + 2 > 10) {
+						if (hPos[0] + 2 > 10 && gameMode == 1) {
+							//flagVictory = true;
+							gameMode = 2;
+							lever = false;
+							break;
+						} 
+						else if (hPos[0] + 2 > 10 && gameMode == 2) {
 							flagVictory = true;
+							//gameMode = 2;
 							break;
 						} else if (maze[hPos[1]][hPos[0]+2] == ' ') {
 							System.out.println("You opened the door. Congratz. ");
@@ -275,8 +379,6 @@ public class game {
 					
 				}
 			}
-			guardMove(gPos, contador);
-			contador++;
 			
 		}
 		if(flagVictory)
@@ -285,6 +387,13 @@ public class game {
 		}
 		else
 			System.out.println("You lost n00blord");
+		
+	}
+	
+	
+	public static void orcMove(int[]oPos, char[][] maze)
+	{
+		
 		
 	}
 	
