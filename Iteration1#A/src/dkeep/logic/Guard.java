@@ -1,13 +1,35 @@
 package dkeep.logic;
 
-public class Guard {
+public abstract class Guard   extends Character{
+	/*
 	private int[] gPos;
 	private char image;
-	public Guard(int x, int y, char im)
+	*/
+	protected char[] movs;
+	public Guard(int x, int y, char im, char[] m)
 	{
-		this.gPos[0] = x;
-		this.gPos[1] = y;
+		super(x,y,im);
+		this.movs = m;
+	}
+	public char[] getMovs()
+	{
+		return this.movs;
+	}
+	
+	
+	abstract void gMove(int contador);
+	/*
+	public void setIm(char im)
+	{
 		this.image = im;
 	}
-
+	public char getImage()
+	{
+		return this.image;
+	}
+	public int[] getGpos()
+	{
+		return this.gPos;
+	}
+    */
 }

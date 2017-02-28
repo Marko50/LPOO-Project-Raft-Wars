@@ -1,17 +1,36 @@
 package dkeep.logic;
 
-public class Hero {
+public class Hero  extends Character {
+	/*
 	private int[] hPos;
 	private char image;
+	*/
 	Club c;
 	
 	public Hero(int x, int y, char im, char cim)
 	{
-		this.hPos[0] = x;
-		this.hPos[1] = y;
-		this.image = im;
+		super(x,y,im);
 		Club c1 = new Club(x,y,cim);
 		this.c = c1;
+	}
+	/*
+	public void setIm(char im)
+	{
+		this.image = im;
+	}
+	
+	public char getImage()
+	{
+		return this.image;
+	}
+	public int[] getHpos()
+	{
+		return this.hPos;
+	}
+	*/
+	public Club getClub()
+	{
+		return this.c;
 	}
 
 }
