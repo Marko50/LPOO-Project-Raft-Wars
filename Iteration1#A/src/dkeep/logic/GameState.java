@@ -12,7 +12,7 @@ public class GameState {
 	private int gameMode;
 	private boolean defeat;
 	
-	public void mazeSet()
+	public void mapSet()
 	{
 		if(l.getPressed() && gameMode == 1)
 		{
@@ -178,7 +178,7 @@ public class GameState {
         }
 	}
 	
-	public void showMaze() {
+	public void showmap() {
 		for (int i = 0; i < map.length; i++) {
 			for (int c = 0; c < map[i].length; c++) {
 				System.out.print(map[i][c]);
@@ -188,7 +188,7 @@ public class GameState {
 		}
 	}
 	
-	public static void action(int[] oPos, char[][]maze)
+	public static void action(int[] oPos, char[][]map)
 	{
 		int randomNum;
 		while(true)
@@ -196,7 +196,7 @@ public class GameState {
 			randomNum = ThreadLocalRandom.current().nextInt(1,5);
 			if(randomNum == 1)//w
 			{
-				if(maze[oPos[1]-1][oPos[0]] == 'X' || maze[oPos[1]-1][oPos[0]] == 'I')
+				if(map[oPos[1]-1][oPos[0]] == 'X' || map[oPos[1]-1][oPos[0]] == 'I')
 				{
 					continue;
 				}
@@ -209,7 +209,7 @@ public class GameState {
 			}
 			else if(randomNum == 2)//d
 			{
-				if(maze[oPos[1]][oPos[0]+1] == 'X' || maze[oPos[1]][oPos[0]+1] == 'I')
+				if(map[oPos[1]][oPos[0]+1] == 'X' || map[oPos[1]][oPos[0]+1] == 'I')
 				{
 					continue;
 				}
@@ -223,7 +223,7 @@ public class GameState {
 			}
 			else if(randomNum == 3)//s
 			{
-				if(maze[oPos[1]+1][oPos[0]] == 'X' || maze[oPos[1]+1][oPos[0]] == 'I')
+				if(map[oPos[1]+1][oPos[0]] == 'X' || map[oPos[1]+1][oPos[0]] == 'I')
 				{
 					continue;
 				}
@@ -237,7 +237,7 @@ public class GameState {
 			}
 			else if(randomNum == 4)//a
 			{
-				if(maze[oPos[1]][oPos[0]-1] == 'X' || maze[oPos[1]][oPos[0]-1] == 'I')
+				if(map[oPos[1]][oPos[0]-1] == 'X' || map[oPos[1]][oPos[0]-1] == 'I')
 				{
 					continue;
 				}
@@ -267,12 +267,12 @@ public class GameState {
 	{
 		if(order == 'w')
 		{
-			if(maze[hPos[1]-1][hPos[0]] == 'X')
+			if(map[h.getPos()[1]-1][h.getPos()[0]] == 'X')
 			{
 				System.out.println("You triggered feminist.. Only men can do that");
-				continue;
+				
 			}
-			else if(maze[hPos[1]-1][hPos[0]] == 'I')
+			else if(map[h.getPos()[1]-1][h.getPos()[0]] == 'I')
 			{
 				if(gameMode == 2)
 					l.setDoorOpen(true);
@@ -280,204 +280,203 @@ public class GameState {
 				else
 					System.out.println("You shall not pass!");
 				
-				continue;
-			} else if (maze[hPos[1] - 1][hPos[0]] == 'S') {
-				if (hPos[1] - 2 < 0 && gameMode == 1) {
+				
+			} else if (map[h.getPos()[1] - 1][h.getPos()[0]] == 'S') {
+				if (h.getPos()[1] - 2 < 0 && gameMode == 1) {
 					//flagVictory = true;
 					gameMode = 2;
-					lever = false;
-					break;
+					l.setPressed(false);
+					
 				}
-				else if (hPos[1] - 2 < 0 && gameMode == 2) {
-					flagVictory = true;
+				else if (h.getPos()[1] - 2 < 0 && gameMode == 2) {
+					//flagVictory = true;
 					//gameMode = 2;
-					break;
+					
 				}
-				else if (maze[hPos[1] - 2][hPos[0]] == ' ') {
+				else if (map[h.getPos()[1] - 2][h.getPos()[0]] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
-					hPos[1] = hPos[1] - 2;
-					break;
+					h.getPos()[1] = h.getPos()[1] - 2;
+					
 				} else {
 					System.out.println("You triggered feminist.. Only men can do that");
-					continue;
+					
 				}
 			}
 			
 		
-			else if(maze[hPos[1]-1][hPos[0]] == 'K')
+			else if(map[h.getPos()[1]-1][h.getPos()[0]] == 'K')
 			{
 				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
-				lever = true;
-				break;
+				l.setPressed(true);
+				
 			}
 			else
 			{
 				System.out.println("Wow fascinating...You just moved..");
-				hPos[1] = hPos[1] - 1;
-				break;
+				h.getPos()[1] = h.getPos()[1] - 1;
+				
 			}
 			
 		}
 		else if(order == 'a')
 		{
 			System.out.println(order);
-			if(maze[hPos[1]][hPos[0]-1] == 'X')
+			if(map[h.getPos()[1]][h.getPos()[0]-1] == 'X')
 			{
 				System.out.println("You triggered feminist.. Only men can do that");
-				continue;
+				
 			}
-			else if(maze[hPos[1]][hPos[0]-1] == 'I')
+			else if(map[h.getPos()[1]][h.getPos()[0]-1] == 'I')
 			{
 				if(gameMode == 2)
-					openDoor = true; 
+					l.setDoorOpen(true);
 				
 				else
 					System.out.println("You shall not pass!");
 				
-				continue;
+				
 			}
-			else if(maze[hPos[1]][hPos[0]-1] == 'S')
+			else if(map[h.getPos()[1]][h.getPos()[0]-1] == 'S')
 			{
-				if (hPos[0] - 2 < 0 && gameMode == 1) {
+				if (h.getPos()[0] - 2 < 0 && gameMode == 1) {
 					//flagVictory = true;
 					gameMode = 2;
-					lever = false;
-					break;
+					l.setPressed(false);
+					
 				}
-				else if (hPos[0] - 2 < 0 && gameMode == 2) {
-					flagVictory = true;
+				else if (h.getPos()[0] - 2 < 0 && gameMode == 2) {
+					//flagVictory = true;
 					//gameMode = 2;
-					break;
-				}else if (maze[hPos[1]][hPos[0]-2] == ' ') {
+					
+				}else if (map[h.getPos()[1]][h.getPos()[0]-2] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
-					hPos[0] = hPos[0] - 2;
-					break;
+					h.getPos()[0] = h.getPos()[0] - 2;
+					
 				} else {
 					System.out.println("You triggered feminist.. Only men can do that");
-					continue;
+					
 				}
 			}
 			
-			else if(maze[hPos[1]][hPos[0]-1] == 'K')
+			else if(map[h.getPos()[1]][h.getPos()[0]-1] == 'K')
 			{
 				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
-				lever = true;
-				break;
+				l.setPressed(true);
+				
 			}
 			else
 			{
 				System.out.println("Wow fascinating...You just moved..");
-				hPos[0] = hPos[0] - 1;
-				break;
+				h.getPos()[0] = h.getPos()[0] - 1;
+				
 			}
 			
 		}
 		else if(order == 's')
 		{
 			System.out.println(order);
-			if(maze[hPos[1]+1][hPos[0]] == 'X')
+			if(map[h.getPos()[1]+1][h.getPos()[0]] == 'X')
 			{
 				System.out.println("You triggered feminist.. Only men can do that");
-				continue;
+				
 			}
-			else if(maze[hPos[1]+1][hPos[0]] == 'I')
+			else if(map[h.getPos()[1]+1][h.getPos()[0]] == 'I')
 			{
 				if(gameMode == 2)
-					openDoor = true; 
+					l.setDoorOpen(true); 
 				
 				else
 					System.out.println("You shall not pass!");
 				
-				continue;
+				
 			}
-			else if(maze[hPos[1]+1][hPos[0]] == 'S')
+			else if(map[h.getPos()[1]+1][h.getPos()[0]] == 'S')
 			{
-				if (hPos[1] + 2 > 10 && gameMode == 1) {
+				if (h.getPos()[1] + 2 > 10 && gameMode == 1) {
 					//flagVictory = true;
 					gameMode = 2;
-					lever = false;
-					break;
+					l.setPressed(false);
+					
 				}
-				else if (hPos[1] + 2 > 10 && gameMode == 2) {
-					flagVictory = true;
+				else if (h.getPos()[1] + 2 > 10 && gameMode == 2) {
+					//flagVictory = true;
 					//gameMode = 2;
-					break;
+					
 				}
-				else if (maze[hPos[1] + 2][hPos[0]] == ' ') {
+				else if (map[h.getPos()[1] + 2][h.getPos()[0]] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
-					hPos[1] = hPos[1] + 2;
-					break;
+					h.getPos()[1] = h.getPos()[1] + 2;
+					
 				} else {
 					System.out.println("You triggered feminist.. Only men can do that");
-					continue;
+					
 				}
 			}
 			
-			else if(maze[hPos[1]+1][hPos[0]] == 'K')
+			else if(map[h.getPos()[1]+1][h.getPos()[0]] == 'K')
 			{
 				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
-				lever = true;
-				break;
+				l.setPressed(true);
+				
 			}
 			else
 			{
 				System.out.println("Wow fascinating...You just moved..");
-				hPos[1] = hPos[1] + 1;
-				break;
+				h.getPos()[1] = h.getPos()[1] + 1;
+				
 			}
 			
 		}
 		else if(order == 'd')
 		{
 			System.out.println(order);
-			if(maze[hPos[1]][hPos[0]+1] == 'X')
+			if(map[h.getPos()[1]][h.getPos()[0]+1] == 'X')
 			{
 				System.out.println("You triggered feminist.. Only men can do that");
-				continue;
+				
 			}
-			else if(maze[hPos[1]][hPos[0]+1] == 'I')
+			else if(map[h.getPos()[1]][h.getPos()[0]+1] == 'I')
 			{
 				if(gameMode == 2)
-					openDoor = true; 
+					l.setDoorOpen(true);
 				
 				else
 					System.out.println("You shall not pass!");
 				
-				continue;
+				
 			}
-			else if(maze[hPos[1]][hPos[0]+1] == 'S')
+			else if(map[h.getPos()[1]][h.getPos()[0]+1] == 'S')
 			{
-				if (hPos[0] + 2 > 10 && gameMode == 1) {
+				if (h.getPos()[0] + 2 > 10 && gameMode == 1) {
 					//flagVictory = true;
 					gameMode = 2;
-					lever = false;
-					break;
+					l.setPressed(false);
+					
 				} 
-				else if (hPos[0] + 2 > 10 && gameMode == 2) {
-					flagVictory = true;
+				else if (h.getPos()[0] + 2 > 10 && gameMode == 2) {
+					//flagVictory = true;
 					//gameMode = 2;
-					break;
-				} else if (maze[hPos[1]][hPos[0]+2] == ' ') {
+					
+				} else if (map[h.getPos()[1]][h.getPos()[0]+2] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
-					hPos[0] = hPos[0] + 2;
-					break;
+					h.getPos()[0] = h.getPos()[0] + 2;
+					
 				} else {
 					System.out.println("You triggered feminist.. Only men can do that");
-					continue;
 				}
 			}
 			
-			else if(maze[hPos[1]][hPos[0]+1] == 'K')
+			else if(map[h.getPos()[1]][h.getPos()[0]+1] == 'K')
 			{
 				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
-				lever = true;
-				break;
+				l.setPressed(true);
+				
 			}
 			else
 			{
 				System.out.println("Wow fascinating...You just moved..");
-				hPos[0] = hPos[0] + 1;
-				break;
+				h.getPos()[0] = h.getPos()[0] + 1;
+				
 			}
 			
 		}
