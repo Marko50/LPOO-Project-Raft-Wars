@@ -17,7 +17,7 @@ public abstract class Guard   extends Character{
 	}
 	
 	
-	abstract void gMove(int contador);
+	public abstract void gMove(int contador);
 	/*
 	public void setIm(char im)
 	{
