@@ -51,12 +51,17 @@ public class UserInteraction {
 				if (game.getGMode() == 1) {
 					game.moveHero(order);
 					game.getGuard().gMove(contador);
-					contador++;
+					contador = contador + game.getGuard().getDirection();
 				}
 				else if (game.getGMode() == 2) {
 					game.moveHero(order);
 					game.moveOgres();
 				}
+			}
+			if (contador == 24 && game.getGuard().getDirection() == 1)
+				contador = 0;
+			else if (contador == 0 && game.getGuard().getDirection() == -1) {
+				contador = 24;
 			}
 			
 			if(game.getDefeat())

@@ -8,7 +8,7 @@ public class Rookie extends Guard {
 	}
 
 	@Override
-	void gMove(int contador) {
+	public void gMove(int contador) {
 		if(movs[contador] == 'w')
 		{
 			//gPos[1] = gPos[1] - 1;
