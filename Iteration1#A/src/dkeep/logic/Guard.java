@@ -7,15 +7,15 @@ public abstract class Guard   extends Character{
 	*/
 	private int direction;
 	private int asleep;
-	protected char[] movs;
-	public Guard(int x, int y, char im, char[] m)
+	protected int[][] movs = new int[24][2];
+	public Guard(int x, int y, char im, int[][] m)
 	{
 		super(x,y,im);
 		this.movs = m;
 		direction = 1;
 		asleep = 0;
 	}
-	public char[] getMovs()
+	public int[][] getMovs()
 	{
 		return this.movs;
 	}
@@ -31,9 +31,14 @@ public abstract class Guard   extends Character{
 	}
 	public void SleepTurn() {
 		this.asleep--;
+	    if(this.asleep == 0)
+	    {
+	    	this.setIm('G');
+	    }
 	}
 	public void fallAsleep() {
 		this.asleep = 3;
+		this.setIm('g');
 	}
 	
 	

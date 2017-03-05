@@ -1,7 +1,7 @@
 package dkeep.logic;
 
 public class Character {
-	private int[] pos;
+	private int[] pos = new int[2];
 	private char image;
 	
 	public Character(int x, int y, char im)
@@ -33,7 +33,7 @@ public class Character {
 	
 	public void setY(int y)
 	{
-		this.pos[0] = y;
+		this.pos[1] = y;
 	}
 
 }

@@ -1,6 +1,8 @@
 package dkeep.logic;
 
 public class Hero  extends Character {
+	
+	boolean key;
 	/*
 	private int[] hPos;
 	private char image;
@@ -12,6 +14,17 @@ public class Hero  extends Character {
 		super(x,y,im);
 		Club c1 = new Club(x,y,cim);
 		this.c = c1;
+		this.key = false;
+	}
+	
+	public boolean getKey()
+	{
+		return this.key;
+	}
+	
+	public void setKey(boolean k)
+	{
+		this.key = k;
 	}
 	/*
 	public void setIm(char im)

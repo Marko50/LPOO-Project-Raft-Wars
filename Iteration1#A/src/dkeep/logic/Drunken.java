@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Drunken extends Guard{
 
-	public Drunken(int x, int y, char im, char[] m) {
+	public Drunken(int x, int y, char im, int[][] m) {
 		super(x, y, im, m);
 
 	}
@@ -20,7 +20,7 @@ public class Drunken extends Guard{
 			int num = rn.nextInt(5) + 1;
 
 			if (num != 1) { //If 1, guard falls asleep and doesn't move)
-
+                /*
 				if(movs[contador] == 'w')
 				{
 					//gPos[1] = gPos[1] - 1;
@@ -41,6 +41,9 @@ public class Drunken extends Guard{
 					this.setX(this.getPos()[0]+1);
 					//gPos[0] = gPos[0] + 1;
 				}
+				*/
+				this.setX(movs[contador][0]); 
+				this.setY(movs[contador][1]);
 			}
 			else {
 				int dir = rn.nextInt(1);

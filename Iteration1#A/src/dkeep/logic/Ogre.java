@@ -6,7 +6,19 @@ public class Ogre  extends Character {
 	private char image;
 	*/
 	private boolean onTheKey;
-	Club c;
+	private Club c;
+	
+	private int stun;
+	
+	public int getStun()
+	{
+		return this.stun;
+	}
+	
+	public void setStun(int s)
+	{
+		this.stun = s;
+	}
 	
 	public Ogre(int x, int y, char im, char cim)
 	{
@@ -14,6 +26,12 @@ public class Ogre  extends Character {
 		Club c2 = new Club(x,y,cim);
 		this.c = c2;
 		this.onTheKey = false;
+		stun = 0;
+	}
+	
+	public void setOnTheKey(boolean b)
+	{
+		this.onTheKey = b;
 	}
 	
 	public boolean getOnTheKey()
