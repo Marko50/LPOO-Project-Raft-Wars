@@ -33,7 +33,7 @@ public abstract class Guard   extends Character{
 		this.asleep--;
 	    if(this.asleep == 0)
 	    {
-	    	this.setIm('G');
+	    	this.setIm('D');
 	    }
 	}
 	public void fallAsleep() {

@@ -52,14 +52,15 @@ public class UserInteraction {
 				if (!game.moveHero(order)) {
 					continue;	
 				}
-				game.getGuard().gMove(contador);
-				if(game.getGuard().getSleep() == 0)
-					contador = contador + game.getGuard().getDirection();
-				if (contador == 24 && game.getGuard().getDirection() == 1)
+				if (contador == 23 && game.getGuard().getDirection() == 1)
 					contador = 0;
 				else if (contador == 0 && game.getGuard().getDirection() == -1) {
-					contador = 24;
+					contador = 23;
 				}
+				else if(game.getGuard().getSleep() == 0)
+					contador = contador + game.getGuard().getDirection();
+				game.getGuard().gMove(contador);
+				System.out.println(contador);
 			}
 			game.heroNearGuard();
 			if(game.getDefeat())

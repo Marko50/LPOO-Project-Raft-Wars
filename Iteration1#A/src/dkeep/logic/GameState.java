@@ -296,7 +296,6 @@ public class GameState {
 			Rookie d = new Rookie(gx, gy, 'R', movs);
 			this.g = d;
 		}
-
 		else if (dif == 3) {
 			Suspicious d = new Suspicious(gx,gy,'S',movs);
         	this.g = d;
