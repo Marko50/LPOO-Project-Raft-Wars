@@ -3,9 +3,15 @@ package dkeep.logic;
 public class GameMap {
 	private char[][] map;
 	
-	public GameMap(char[][] map1)
+	
+	public GameMap(int sizeX, int sizeY, char[][] map1)
 	{
-		this.map = map1;
+		if(map1 != null)
+		{
+			map = map1;
+		}
+		else
+		   this.map = new char[sizeY][sizeX];
 	}
 
 	public char[][] getMap() {
@@ -15,5 +21,7 @@ public class GameMap {
 	public void setMap(char[][] map) {
 		this.map = map;
 	}
+	
+	
 
 }

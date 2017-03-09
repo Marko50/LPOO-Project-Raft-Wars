@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GameState {
 
-	private char[][] map = new char[10][10];
+	private char[][] map;
 	private Hero h;
 	private Guard g;
 	private Ogre[] o = new Ogre[3];
@@ -115,164 +115,179 @@ public class GameState {
 		this.l = l1;
 	}
 	
-	public void mapSet()
+	public void mapSet(char [][] test)
 	{
-		if(l.getPressed() && gameMode == 1)
+		if(test != null)
 		{
-			char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			char[] l1 = {'X', ' ', ' ', ' ', 'S', ' ', 'X', ' ' ,' ', 'X' };
-			char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-			char[] l3 = {'X', ' ', 'S', ' ', 'S', ' ', 'X', ' ' ,' ', 'X' };
-			char[] l4 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-			char[] l5 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l6 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
-			char[] l8 = {'X', ' ', 'S', ' ', 'S', ' ', 'X', 'k', ' ', 'X'};
-			char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			map[0] = l0;
-			map[1] = l1;
-			map[2] = l2;
-			map[3] = l3;
-			map[4] = l4;
-			map[5] = l5;
-			map[6] = l6;
-			map[7] = l7;
-			map[8] = l8;
-			map[9] = l9;
-			map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-			map[g.getPos()[1]][g.getPos()[0]] = g.getImage();
-		}
-		else if(!l.getPressed() && gameMode == 1)
-		{
-			char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			char[] l1 = {'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
-			char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-			char[] l3 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
-			char[] l4 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-			char[] l5 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l6 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
-			char[] l8 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'};
-			char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			map[0] = l0;
-			map[1] = l1;
-			map[2] = l2;
-			map[3] = l3;
-			map[4] = l4;
-			map[5] = l5;
-			map[6] = l6;
-			map[7] = l7;
-			map[8] = l8;
-			map[9] = l9;
-			map[l.getPos()[1]][l.getPos()[0]] = l.getImage();
-			map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-			map[g.getPos()[1]][g.getPos()[0]] = g.getImage();
-		}	
-		else if(h.getKey() && gameMode == 2 && !l.getDoorOpen())
-		{
-			char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l2 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
-			char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
 			
-			map[0] = l0;
-			map[1] = l1;
-			map[2] = l2;
-			map[3] = l3;
-			map[4] = l4;
-			map[5] = l5;
-			map[6] = l6;
-			map[7] = l7;
-			map[8] = l8;
-			map[9] = l9;
-			
-			if(l.getDoorOpen())
-				map[2][0] = 'S';
-			
-			map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-			
-			for(int i = 0; i < o.length; i++)
-			{
-				map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
-				map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
-			}
-			
+			//map={{'X','X','X','X','X'},{'X','H',' ','G','X'},{'I',' ',' ',' ','X'},{'I','k',' ',' ','X'},{'X','X','X','X','X'}};
+	        // char[][] mapa = {{'X','X','X','X','X'},{'X',' ',' ',' ','X'},{'I',' ',' ',' ','X'},{'I','k',' ',' ','X'},{'X','X','X','X','X'}};
+	         map = test;
+	         map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
+			 map[g.getPos()[1]][g.getPos()[0]] = g.getImage();        
 		}
 		
-		else if(h.getKey() && gameMode == 2 && l.getDoorOpen())
+		else		
 		{
-			char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l2 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
-			char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			
-			map[0] = l0;
-			map[1] = l1;
-			map[2] = l2;
-			map[3] = l3;
-			map[4] = l4;
-			map[5] = l5;
-			map[6] = l6;
-			map[7] = l7;
-			map[8] = l8;
-			map[9] = l9;
-			
-			if(l.getDoorOpen())
-				map[2][0] = 'S';
-			
-			map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-			
-			for(int i = 0; i < o.length; i++)
+			map = new char[10][10];
+			if(l.getPressed() && gameMode == 1)
 			{
-				map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
-				map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
+				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				char[] l1 = {'X', ' ', ' ', ' ', 'S', ' ', 'X', ' ' ,' ', 'X' };
+				char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
+				char[] l3 = {'X', ' ', 'S', ' ', 'S', ' ', 'X', ' ' ,' ', 'X' };
+				char[] l4 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
+				char[] l5 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l6 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
+				char[] l8 = {'X', ' ', 'S', ' ', 'S', ' ', 'X', 'k', ' ', 'X'};
+				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				map[0] = l0;
+				map[1] = l1;
+				map[2] = l2;
+				map[3] = l3;
+				map[4] = l4;
+				map[5] = l5;
+				map[6] = l6;
+				map[7] = l7;
+				map[8] = l8;
+				map[9] = l9;
+				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
+				map[g.getPos()[1]][g.getPos()[0]] = g.getImage();
+			}
+			else if(!l.getPressed() && gameMode == 1)
+			{
+				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				char[] l1 = {'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
+				char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
+				char[] l3 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
+				char[] l4 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
+				char[] l5 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l6 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
+				char[] l8 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'};
+				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				map[0] = l0;
+				map[1] = l1;
+				map[2] = l2;
+				map[3] = l3;
+				map[4] = l4;
+				map[5] = l5;
+				map[6] = l6;
+				map[7] = l7;
+				map[8] = l8;
+				map[9] = l9;
+				map[l.getPos()[1]][l.getPos()[0]] = l.getImage();
+				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
+				map[g.getPos()[1]][g.getPos()[0]] = g.getImage();
+			}	
+			else if(h.getKey() && gameMode == 2 && !l.getDoorOpen())
+			{
+				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l2 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
+				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				
+				map[0] = l0;
+				map[1] = l1;
+				map[2] = l2;
+				map[3] = l3;
+				map[4] = l4;
+				map[5] = l5;
+				map[6] = l6;
+				map[7] = l7;
+				map[8] = l8;
+				map[9] = l9;
+				
+				if(l.getDoorOpen())
+					map[2][0] = 'S';
+				
+				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
+				
+				for(int i = 0; i < o.length; i++)
+				{
+					map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
+					map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
+				}
+				
 			}
 			
+			else if(h.getKey() && gameMode == 2 && l.getDoorOpen())
+			{
+				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l2 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
+				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				
+				map[0] = l0;
+				map[1] = l1;
+				map[2] = l2;
+				map[3] = l3;
+				map[4] = l4;
+				map[5] = l5;
+				map[6] = l6;
+				map[7] = l7;
+				map[8] = l8;
+				map[9] = l9;
+				
+				if(l.getDoorOpen())
+					map[2][0] = 'S';
+				
+				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
+				
+				for(int i = 0; i < o.length; i++)
+				{
+					map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
+					map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
+				}
+				
+			}
+			
+			else if(!h.getKey() && gameMode == 2)
+			{
+				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,'k', 'X' };
+				char[] l2 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
+				char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
+				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
+				
+				map[0] = l0;
+				map[1] = l1;
+				map[2] = l2;
+				map[3] = l3;
+				map[4] = l4;
+				map[5] = l5;
+				map[6] = l6;
+				map[7] = l7;
+				map[8] = l8;
+				map[9] = l9;
+
+				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
+
+				for (int i = 0; i < o.length; i++) {
+					map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
+					map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
+				}
+			}
 		}
 		
-		else if(!h.getKey() && gameMode == 2)
-		{
-			char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,'k', 'X' };
-			char[] l2 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-			char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
-			char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-			
-			map[0] = l0;
-			map[1] = l1;
-			map[2] = l2;
-			map[3] = l3;
-			map[4] = l4;
-			map[5] = l5;
-			map[6] = l6;
-			map[7] = l7;
-			map[8] = l8;
-			map[9] = l9;
-
-			map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-
-			for (int i = 0; i < o.length; i++) {
-				map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
-				map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
-			}
-		}
 
 	}
 	

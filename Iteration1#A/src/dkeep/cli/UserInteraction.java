@@ -40,7 +40,7 @@ public class UserInteraction {
 		char order;
 		while(game.getVictory() == false)
 		{
-			game.mapSet();
+			game.mapSet(null);
 			game.showmap();
 			System.out.println("Your move. Choose wisely");
 			order = s.next().charAt(0);
@@ -65,7 +65,7 @@ public class UserInteraction {
 			game.heroNearGuard();
 			if(game.getDefeat())
 			{
-				game.mapSet();
+				game.mapSet(null);
 				game.showmap();
 				System.out.println("This isn't even my final form n00b");
 				return 1;
@@ -75,7 +75,7 @@ public class UserInteraction {
 		GameState game2 = new GameState(2,1,8,3);
 		while(game2.getVictory() == false)
 		{
-			game2.mapSet(); 
+			game2.mapSet(null); 
 			game2.showmap();
 			System.out.println("Your move. Choose wisely");
 			order = s.next().charAt(0);
@@ -86,7 +86,7 @@ public class UserInteraction {
 			game2.moveOgres();
 			game2.heroNearOgre();
 			if (game2.getDefeat()) {
-				game2.mapSet();
+				game2.mapSet(null);
 				game2.showmap();
 				System.out.println("You lost n00blord");
 				break;
