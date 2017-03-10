@@ -3,12 +3,12 @@ package dkeep.logic;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameState {
-
-	private char[][] map;
+	GameMap mapa;
 	private Hero h;
 	private Guard g;
 	private Ogre[] o = new Ogre[3];
 	private Lever l;
+	private Key k;
 	private int gameMode;
 	private boolean defeat;
 	private boolean victory;
@@ -27,8 +27,7 @@ public class GameState {
 			}
 		}
 	}
-	
-	
+		
 	public boolean heroNearOgre()
 	{
 		int[] hPos = h.getPos();
@@ -62,6 +61,20 @@ public class GameState {
 		int[] hPos = h.getPos();
 		if ((((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) // Near
 																						// Guard
+				|| ((gPos[1] == hPos[1] - 1 || gPos[1] == hPos[1] + 1) && gPos[0] == hPos[0])) && this.g.getSleep() == 0) {
+			this.defeat = true;
+			return true;
+		}
+
+		else
+			return false;
+	}
+	
+	public boolean heroNearOgreSimple() {
+		int[] gPos = o[0].getPos();
+		int[] hPos = h.getPos();
+		if ((((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) // Near
+																						// Guard
 				|| ((gPos[1] == hPos[1] - 1 || gPos[1] == hPos[1] + 1) && gPos[0] == hPos[0]))) {
 			this.defeat = true;
 			return true;
@@ -88,8 +101,7 @@ public class GameState {
 	{
 		this.h = h1;
 	}
-	
-	
+		
 	public Guard getGuard()
 	{
 		return this.g;
@@ -115,189 +127,14 @@ public class GameState {
 		this.l = l1;
 	}
 	
-	public void mapSet(char [][] test)
+	public GameState(int gMode, int hx, int hy, int gx, int gy, int dif, char[][] map, int lx, int ly)
 	{
-		if(test != null)
-		{
-			
-			//map={{'X','X','X','X','X'},{'X','H',' ','G','X'},{'I',' ',' ',' ','X'},{'I','k',' ',' ','X'},{'X','X','X','X','X'}};
-	        // char[][] mapa = {{'X','X','X','X','X'},{'X',' ',' ',' ','X'},{'I',' ',' ',' ','X'},{'I','k',' ',' ','X'},{'X','X','X','X','X'}};
-	         map = test;
-	         map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-			 map[g.getPos()[1]][g.getPos()[0]] = g.getImage();        
-		}
-		
-		else		
-		{
-			map = new char[10][10];
-			if(l.getPressed() && gameMode == 1)
-			{
-				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				char[] l1 = {'X', ' ', ' ', ' ', 'S', ' ', 'X', ' ' ,' ', 'X' };
-				char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-				char[] l3 = {'X', ' ', 'S', ' ', 'S', ' ', 'X', ' ' ,' ', 'X' };
-				char[] l4 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-				char[] l5 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l6 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
-				char[] l8 = {'X', ' ', 'S', ' ', 'S', ' ', 'X', 'k', ' ', 'X'};
-				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				map[0] = l0;
-				map[1] = l1;
-				map[2] = l2;
-				map[3] = l3;
-				map[4] = l4;
-				map[5] = l5;
-				map[6] = l6;
-				map[7] = l7;
-				map[8] = l8;
-				map[9] = l9;
-				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-				map[g.getPos()[1]][g.getPos()[0]] = g.getImage();
-			}
-			else if(!l.getPressed() && gameMode == 1)
-			{
-				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				char[] l1 = {'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
-				char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-				char[] l3 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
-				char[] l4 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-				char[] l5 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l6 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
-				char[] l8 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'};
-				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				map[0] = l0;
-				map[1] = l1;
-				map[2] = l2;
-				map[3] = l3;
-				map[4] = l4;
-				map[5] = l5;
-				map[6] = l6;
-				map[7] = l7;
-				map[8] = l8;
-				map[9] = l9;
-				map[l.getPos()[1]][l.getPos()[0]] = l.getImage();
-				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-				map[g.getPos()[1]][g.getPos()[0]] = g.getImage();
-			}	
-			else if(h.getKey() && gameMode == 2 && !l.getDoorOpen())
-			{
-				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l2 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
-				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				
-				map[0] = l0;
-				map[1] = l1;
-				map[2] = l2;
-				map[3] = l3;
-				map[4] = l4;
-				map[5] = l5;
-				map[6] = l6;
-				map[7] = l7;
-				map[8] = l8;
-				map[9] = l9;
-				
-				if(l.getDoorOpen())
-					map[2][0] = 'S';
-				
-				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-				
-				for(int i = 0; i < o.length; i++)
-				{
-					map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
-					map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
-				}
-				
-			}
-			
-			else if(h.getKey() && gameMode == 2 && l.getDoorOpen())
-			{
-				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l2 = {'S', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
-				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				
-				map[0] = l0;
-				map[1] = l1;
-				map[2] = l2;
-				map[3] = l3;
-				map[4] = l4;
-				map[5] = l5;
-				map[6] = l6;
-				map[7] = l7;
-				map[8] = l8;
-				map[9] = l9;
-				
-				if(l.getDoorOpen())
-					map[2][0] = 'S';
-				
-				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-				
-				for(int i = 0; i < o.length; i++)
-				{
-					map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
-					map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
-				}
-				
-			}
-			
-			else if(!h.getKey() && gameMode == 2)
-			{
-				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				char[] l1 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,'k', 'X' };
-				char[] l2 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l3 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l4 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l5 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l6 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l7 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-				char[] l8 = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
-				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-				
-				map[0] = l0;
-				map[1] = l1;
-				map[2] = l2;
-				map[3] = l3;
-				map[4] = l4;
-				map[5] = l5;
-				map[6] = l6;
-				map[7] = l7;
-				map[8] = l8;
-				map[9] = l9;
-
-				map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-
-				for (int i = 0; i < o.length; i++) {
-					map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
-					map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
-				}
-			}
-		}
-		
-
-	}
-	
-	public GameState(int gMode, int hx, int hy, int gx, int gy, int dif)
-	{
-		this.l = new Lever(7, 8, 'k');
+		this.k = new Key(0,0,'k');
+		this.mapa = new GameMap(map);
+		//this.l = new Lever(7, 8, 'k');
+		this.l = new Lever(lx, ly, 'k');
 		this.defeat = false;
 		this.victory = false;
-		// char[] movs =
-		// {'a','s','s','s','s','a','a','a','a','a','a','s','d','d','d','d','d','d','d','w','w','w','w','w'};
 		int[][] movs = { { 8, 1 }, { 7, 1 }, { 7, 2 }, { 7, 3 }, { 7, 4 }, { 7, 5 }, { 6, 5 }, { 5, 5 }, { 4, 5 },
 				{ 3, 5 }, { 2, 5 }, { 1, 5 }, { 1, 6 }, { 2, 6 }, { 3, 6 }, { 4, 6 }, { 5, 6 }, { 6, 6 }, { 7, 6 },
 				{ 8, 6 }, { 8, 5 }, { 8, 4 }, { 8, 3 }, { 8, 2 } };
@@ -317,9 +154,13 @@ public class GameState {
         }		
 	}
 	
-	public GameState(int gMode, int hx, int hy, int nOgres)
+	public GameState(int gMode, int hx, int hy, int nOgres, char[][] map, int kx, int ky)
 	{
-		this.l = new Lever(7,8,'k');
+		this.l = new Lever(0, 0, 'k');
+	
+		this.mapa = new GameMap(map);
+		//this.k = new Key(7,8,'k');
+		this.k = new Key(kx,ky,'k');
 		this.defeat = false;
 		this.victory = false;
 		this.gameMode = gMode;
@@ -327,12 +168,13 @@ public class GameState {
         this.h = h1;
         for(int i = 0; i < nOgres; i++)
         {
-        	Ogre o1 = new Ogre(8, 1, 'O', '*');
+        	Ogre o1 = new Ogre(3, 1, 'O', '*');
         	o[i] = o1;
         }
 	}
 	
 	public void showmap() {
+		char[][] map = this.mapa.getMap();
 		for (int i = 0; i < map.length; i++) {
 			for (int c = 0; c < map[i].length; c++) {
 				System.out.print(map[i][c]);
@@ -358,14 +200,15 @@ public class GameState {
 				
 				else if(map[oPos[1]-1][oPos[0]] == l.getImage())
 				{
+					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setY(o.getPos()[1]-1);
-					//oPos[1] = oPos[1]-1;
 					o.setOnTheKey(true);
 					
 				}
 				
 				else
 				{
+					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setY(o.getPos()[1]-1);
 					break;
 				}
@@ -381,11 +224,13 @@ public class GameState {
 				else if(map[oPos[1]][oPos[0]+1] == l.getImage())
 				{
 					o.setOnTheKey(true);
+					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setX(o.getPos()[0] + 1);
 				}
 			
 				else
 				{
+					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setX(o.getPos()[0] + 1);
 					//oPos[0] = oPos[0]+1;
 					break;
@@ -401,12 +246,14 @@ public class GameState {
 			    
 				else if(map[oPos[1]+1][oPos[0]] == l.getImage())
 				{
+					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setOnTheKey(true);
 					o.setY(o.getPos()[1]+1);
 				}
 				
 				else
 				{
+					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setY(o.getPos()[1]+1);
 					//oPos[1] = oPos[1]+1;
 					break;
@@ -422,6 +269,7 @@ public class GameState {
 				
 				else if(map[oPos[1]][oPos[0]-1] == l.getImage()) 
 				{
+					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setOnTheKey(true);
 					o.setX(o.getPos()[0]-1);
 					continue;
@@ -429,6 +277,7 @@ public class GameState {
 				
 				else
 				{
+					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setX(o.getPos()[0]-1);
 					//oPos[0] = oPos[0]-1;
 					break;
@@ -532,33 +381,38 @@ public class GameState {
 	}
 	
 	public void moveOgres() {
+		
 		for (int i = 0; i < o.length; i++) {
 			if (o[i].getStun() > 0) {
 				o[i].setStun(o[i].getStun() - 1);
 			} else {
-				action(o[i], this.map);
+				action(o[i], this.mapa.getMap());
+				this.mapa.getMap()[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = ' ';
 				o[i].getClub().getPos()[0] = o[i].getPos()[0];
 				o[i].getClub().getPos()[1] = o[i].getPos()[1];
-				action2(o[i].getClub(), this.map);
+				action2(o[i].getClub(), this.mapa.getMap());
 			}
 		}
 	}
 
-	public boolean moveHero(char order)
+	public boolean moveHero(char order) throws CloneNotSupportedException
 	{
 		if(order == 'w')
 		{
-			if(map[h.getPos()[1]-1][h.getPos()[0]] == 'X')
+			System.out.println(order);
+			if(this.mapa.getMap()[h.getPos()[1]-1][h.getPos()[0]] == 'X')
 			{
 				System.out.println("You triggered feminist.. Only men can do that");
 				return false;
 				
 			}
-			else if(map[h.getPos()[1]-1][h.getPos()[0]] == 'I')
+			else if(this.mapa.getMap()[h.getPos()[1]-1][h.getPos()[0]] == 'I')
 			{
-				if(gameMode == 2 && h.getKey())
+				if(gameMode == 2 && k.isPickedUp())
 				{
-					l.setDoorOpen(true);
+					k.setUsed(true);
+					System.out.println("You used the key!");
+					this.mapa.getMap()[h.getPos()[1]-1][h.getPos()[0]] = 'S';
 					return false;
 				}
 		
@@ -569,7 +423,7 @@ public class GameState {
 				}
 				
 				
-			} else if (map[h.getPos()[1] - 1][h.getPos()[0]] == 'S') {
+			} else if (this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] == 'S') {
 				if (h.getPos()[1] - 2 < 0 && gameMode == 1) {
 					System.out.println("TOP KEK. LV1. YOU HAPPY?");
 					this.victory = true;
@@ -580,7 +434,7 @@ public class GameState {
 					this.victory = true;
 					return true;
 				}
-				else if (map[h.getPos()[1] - 2][h.getPos()[0]] == ' ') {
+				else if (this.mapa.getMap()[h.getPos()[1] - 2][h.getPos()[0]] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
 					h.getPos()[1] = h.getPos()[1] - 2;
 					return true;
@@ -591,22 +445,30 @@ public class GameState {
 				}
 			}
 			
-		
-			else if(map[h.getPos()[1]-1][h.getPos()[0]] == l.getImage())
-			{
-				if(gameMode == 2)
-				{
-					h.setIm('k');
-				}
-				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
+			else if (this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] == l.getImage() && gameMode == 1) {
+				System.out.println(
+						"The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
 				l.setPressed(true);
-				h.setKey(true);
+				this.mapa.changeDoors();
 				return false;
-				
+
 			}
+
+			else if (this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] == k.getImage() && gameMode == 2) {
+				Key test = (Key) k.clone();
+				h.setIm(test.getImage());
+				//k.setIm(' ');
+				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
+				k.setPickedUp(true);
+				System.out.println(
+						"You can now open doors!Magnificent. The actual doors, not the band. Jesus Christ superstar..");
+				return false;
+			}
+			
 			else
 			{
 				System.out.println("Wow fascinating...You just moved..");
+				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 				h.getPos()[1] = h.getPos()[1] - 1;
 				return true;
 			}
@@ -615,16 +477,18 @@ public class GameState {
 		else if(order == 'a')
 		{
 			System.out.println(order);
-			if(map[h.getPos()[1]][h.getPos()[0]-1] == 'X')
+			if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == 'X')
 			{
 				System.out.println("You triggered feminist.. Only men can do that");
 				return false;
 			}
-			else if(map[h.getPos()[1]][h.getPos()[0]-1] == 'I')
+			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == 'I')
 			{
-				if(gameMode == 2 && h.getKey())
+				if(gameMode == 2 && k.isPickedUp())
 				{
-					l.setDoorOpen(true);
+					k.setUsed(true);
+					System.out.println("You used the key!");
+					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] = 'S';
 					return true;
 				}
 					
@@ -635,7 +499,7 @@ public class GameState {
 				}				
 				
 			}
-			else if(map[h.getPos()[1]][h.getPos()[0]-1] == 'S')
+			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == 'S')
 			{
 				if (h.getPos()[0] - 2 < 0 && gameMode == 1) {
 					System.out.println("TOP KEK. LV1. YOU HAPPY?");
@@ -644,12 +508,11 @@ public class GameState {
 					
 				}
 				else if (h.getPos()[0] - 2 < 0 && gameMode == 2) {
-					//flagVictory = true;
-					//gameMode = 2;
+					System.out.println("Ok. Nice cheats bruh");
 					this.victory = true;
 					return false;
 					
-				}else if (map[h.getPos()[1]][h.getPos()[0]-2] == ' ') {
+				}else if (this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-2] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
 					h.getPos()[0] = h.getPos()[0] - 2;
 					return true;
@@ -659,20 +522,26 @@ public class GameState {
 				}
 			}
 			
-			else if(map[h.getPos()[1]][h.getPos()[0]-1] == l.getImage())
+			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == l.getImage() && gameMode == 1)
 			{
-				if(gameMode == 2)
-				{
-					h.setIm('k');
-				}
 				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
-				l.setPressed(true);
-				h.setKey(true);
+				this.mapa.changeDoors();
+				l.setPressed(true);			
 				return false;
+			}
+			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == k.getImage() && gameMode == 2)
+			{
+				Key test = (Key) k.clone();
+				h.setIm(test.getImage());	
+			    k.setIm(' ');
+			    k.setPickedUp(true);
+			    System.out.println("You can now open doors! The actual doors, not the band. Jesus Christ superstar..");
+			    return true;
 			}
 			else
 			{
 				System.out.println("Wow fascinating...You just moved..");
+				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 				h.getPos()[0] = h.getPos()[0] - 1;
 				return true;
 			}
@@ -681,17 +550,19 @@ public class GameState {
 		else if(order == 's')
 		{
 			System.out.println(order);
-			if(map[h.getPos()[1]+1][h.getPos()[0]] == 'X')
+			if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == 'X')
 			{
 				System.out.println("You triggered feminist.. Only men can do that");
 				return false;
 				
 			}
-			else if(map[h.getPos()[1]+1][h.getPos()[0]] == 'I')
+			else if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == 'I')
 			{
-				if(gameMode == 2 && h.getKey())
+				if(gameMode == 2 && k.isPickedUp())
 				{
-					l.setDoorOpen(true); 
+					k.setUsed(true); 
+					this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] = 'S';
+					System.out.println("You used the key!");
 					return true;
 				}
 				else
@@ -702,20 +573,20 @@ public class GameState {
 					
 				
 			}
-			else if(map[h.getPos()[1]+1][h.getPos()[0]] == 'S')
+			else if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == 'S')
 			{
-				if (h.getPos()[1] + 2 > 10 && gameMode == 1) {
+				if (h.getPos()[1] + 2 > this.mapa.getMap().length && gameMode == 1) {
 					System.out.println("TOP KEK. LV1. YOU HAPPY?");
 					this.victory = true;
 					return false;
 					
 				}
-				else if (h.getPos()[1] + 2 > 10 && gameMode == 2) {
+				else if (h.getPos()[1] + 2 > this.mapa.getMap().length && gameMode == 2) {
 					this.victory = true;
 					return true;
 					
 				}
-				else if (map[h.getPos()[1] + 2][h.getPos()[0]] == ' ') {
+				else if (this.mapa.getMap()[h.getPos()[1] + 2][h.getPos()[0]] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
 					h.getPos()[1] = h.getPos()[1] + 2;
 					return true;
@@ -726,20 +597,26 @@ public class GameState {
 				}
 			}
 			
-			else if(map[h.getPos()[1]+1][h.getPos()[0]] == l.getImage())
+			else if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == l.getImage() && gameMode == 1)
 			{
-				if(gameMode == 2)
-				{
-					h.setIm('k');
-				}
 				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
+				this.mapa.changeDoors();
 				l.setPressed(true);
-				h.setKey(true);
 				return false;			
+			}
+			else if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == k.getImage() && gameMode == 2)
+			{
+				Key test = (Key) k.clone();
+				h.setIm(test.getImage());
+				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
+				k.setPickedUp(true);
+				System.out.println("You can now open doors.Magnificent. The actual doors, not the band. Jesus Christ superstar..");
+				return false;
 			}
 			else
 			{
 				System.out.println("Wow fascinating...You just moved..");
+				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 				h.getPos()[1] = h.getPos()[1] + 1;
 				return true;				
 			}
@@ -748,17 +625,19 @@ public class GameState {
 		else if(order == 'd')
 		{
 			System.out.println(order);
-			if(map[h.getPos()[1]][h.getPos()[0]+1] == 'X')
+			if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == 'X')
 			{
 				System.out.println("You triggered feminist.. Only men can do that");
 				return false;
 				
 			}
-			else if(map[h.getPos()[1]][h.getPos()[0]+1] == 'I')
+			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == 'I')
 			{
-				if(gameMode == 2 && h.getKey())
+				if(gameMode == 2 && k.isPickedUp())
 				{
-					l.setDoorOpen(true);
+					k.setUsed(true);
+					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] = 'S';
+					System.out.println("You used the key!");
 					return true;
 				}
 				
@@ -771,19 +650,19 @@ public class GameState {
 				
 				
 			}
-			else if(map[h.getPos()[1]][h.getPos()[0]+1] == 'S')
+			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == 'S')
 			{
-				if (h.getPos()[0] + 2 > 10 && gameMode == 1) {
+				if (h.getPos()[0] + 2 > this.mapa.getMap().length && gameMode == 1) {
 					System.out.println("TOP KEK. LV1. YOU HAPPY?");
 					this.victory = true;
 					return false;
 					
 				} 
-				else if (h.getPos()[0] + 2 > 10 && gameMode == 2) {
+				else if (h.getPos()[0] + 2 > this.mapa.getMap().length && gameMode == 2) {
 					this.victory = true;
 					return true;
 					
-				} else if (map[h.getPos()[1]][h.getPos()[0]+2] == ' ') {
+				} else if (this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+2] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
 					h.getPos()[0] = h.getPos()[0] + 2;
 					return true;
@@ -794,21 +673,28 @@ public class GameState {
 				}
 			}
 			
-			else if(map[h.getPos()[1]][h.getPos()[0]+1] == l.getImage())
+			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == l.getImage()&& gameMode == 1)
 			{
-				if(gameMode == 2)
-				{
-					h.setIm('k');
-				}
 				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
+				this.mapa.changeDoors();
 				l.setPressed(true);
-				h.setKey(true);
+				return false;	
+			}
+			
+			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == k.getImage() && gameMode == 2)
+			{
+				Key test = (Key) k.clone();
+				h.setIm(test.getImage());
+				//k.setIm(' ');
+				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
+				k.setPickedUp(true);
+				System.out.println("You can now open doors!Magnificent. The actual doors, not the band. Jesus Christ superstar..");
 				return false;
-				
 			}
 			else
 			{
 				System.out.println("Wow fascinating...You just moved..");
+				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 				h.getPos()[0] = h.getPos()[0] + 1;
 				return true;
 			}
@@ -821,12 +707,28 @@ public class GameState {
 		}
 	}
 	
+	public GameMap getMapa() {
+		return mapa;
+	}
+
+	public void setMapa(GameMap mapa) {
+		this.mapa = mapa;
+	}
+
 	public boolean getDefeat() {
 		return defeat;
 	}
 
 	public void setDefeat(boolean defeat) {
 		this.defeat = defeat;
+	}
+
+	public Key getK() {
+		return k;
+	}
+
+	public void setK(Key k) {
+		this.k = k;
 	}
 	
 }

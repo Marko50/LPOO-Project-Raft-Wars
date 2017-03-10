@@ -6,12 +6,12 @@ public class Lever extends Character {
 	private char image;
 	*/
     private boolean pressed;
-    private boolean DoorOpen;
+   // private boolean DoorOpen;
 	public Lever(int x, int y, char im)
 	{
 		super(x,y,im);
 		this.pressed = false;
-		this.DoorOpen = false;
+		//this.DoorOpen = false;
 		
 	}
 	/*
@@ -20,22 +20,22 @@ public class Lever extends Character {
 		this.image = im;
 	}
 	*/
-	
+	/*
 	public boolean getDoorOpen()
 	{
 		return this.DoorOpen;
 	}
-	
+	*/
 	public boolean getPressed()
 	{
 		return this.pressed;
 	}
-	
+	/*
 	public void setDoorOpen(boolean set)
 	{
 		this.DoorOpen = set;
 	}
-	
+	*/
 	public void setPressed(boolean set)
 	{
 		this.pressed = set;
