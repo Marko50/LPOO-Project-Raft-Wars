@@ -11,11 +11,13 @@ import dkeep.logic.GameState;
 import dkeep.logic.CellPosition;
 
 public class TestDungeonGameLogic {
-	char[][] mapa = {{'X','X','X','X','X'},
+	char[][] mapa = {
+			{'X','X','X','X','X'},
 			{'X',' ',' ',' ','X'},
 			{'I',' ',' ',' ','X'},
 			{'I','k',' ',' ','X'},
-            {'X','X','X','X','X'}};
+            {'X','X','X','X','X'}
+			};
 	
 
 	@Test
@@ -64,43 +66,36 @@ public class TestDungeonGameLogic {
 		game.moveHero('a');
 		assertFalse(game.getK().getUsed());	 
 	}
-	
+
 	@Test
 	public void SuccessOpenDoor() throws CloneNotSupportedException
 	{
 		GameState game = new GameState(2,1,1,1,mapa,1,3);
 		game.moveHero('s');
 		game.moveHero('s');
-		game.moveHero('w');
 		game.moveHero('a');
 		assertTrue(game.getK().getUsed());	 
 	}
-	/*
+	
+	
 	@Test
-	public void Victory()
+	public void Victory() throws CloneNotSupportedException
 	{
-		GameState game = new GameState(2,1,1,1);
-		game.mapSet(mapa);
+		GameState game = new GameState(2,1,1,1,mapa,1,3);
 		game.moveHero('s');
-		game.mapSet(mapa);
 		game.moveHero('s');
-		game.mapSet(mapa);
 		game.moveHero('a');
-		game.mapSet(mapa);
 		game.moveHero('a');
-		game.mapSet(mapa);
-		game.showmap();
 		assertTrue(game.getVictory());	 
 	}
-	*/
-	/*
+	
+	
 	@Test(timeout = 1000)
 	public void OgreRandomMovement()
 	{
 		int c = 1;
 		boolean random = false;
-	    GameState game = new GameState(2,1,1,1);
-	    game.mapSet(mapa);
+	    GameState game = new GameState(2,1,1,3,mapa,1,3);
 	    int[] temp = game.getOgres()[0].getPos();
 	    while(true)
 	    {
@@ -108,9 +103,7 @@ public class TestDungeonGameLogic {
 	    	{
 	    		break;
 	    	}
-	    	System.out.println(c);
-	    	game.moveOgres();
-	    //	game.mapSet(mapa);	
+	    	game.moveOgres();	
 	    	for(int i = 1; i < game.getOgres().length; i++)
 	    	{
 	            if(temp != game.getOgres()[i].getPos())
@@ -135,7 +128,31 @@ public class TestDungeonGameLogic {
 	    
 	    assertTrue(random);
 	}
-	*/
+	
+	@Test
+	public void OgreStunned() throws CloneNotSupportedException
+	{
+		GameState game = new GameState(2,1,1,1,mapa,1,3);
+		game.moveHero('d');
+		assertTrue(game.stunOgre(0));
+	}
 	
 	
+	@Test
+	public void HeroKilledByOgre() throws CloneNotSupportedException
+	{
+		GameState game = new GameState(2,1,1,3,mapa,1,3);
+		game.moveHero('d');
+		game.moveHero('d');
+		game.heroNearOgre();
+		assertTrue(game.getDefeat());		
+	}
+	
+	 @Test public void OgreOnKey()
+	 {
+		 
+	 }
+	
+	
+		
 }

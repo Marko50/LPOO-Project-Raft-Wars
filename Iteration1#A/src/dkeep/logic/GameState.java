@@ -27,33 +27,56 @@ public class GameState {
 			}
 		}
 	}
+	
+	public boolean stunOgre(int i)
+	{
+		int[] oPos = o[i].getPos();
+		int[] hPos = h.getPos();
+		if (((oPos[0] == hPos[0] - 1 || oPos[0] == hPos[0] + 1) && oPos[1] == hPos[1]) // Near
+				// Ogre
+				|| ((oPos[1] == hPos[1] - 1 || oPos[1] == hPos[1] + 1) && oPos[0] == hPos[0] || oPos[1] == hPos[1])
+						&& oPos[0] == hPos[0]) {
+			return true;
+		}
+		
+		else return false;
+		
+	}
+	
+	public boolean ogreKillsHero(int i) {
+		int[] oPos = o[i].getPos();
+		int[] hPos = h.getPos();
+		int[] cPos = o[i].getClub().getPos();
+				
+		if (((cPos[0] == hPos[0] - 1 || cPos[0] == hPos[0] + 1) && cPos[1] == hPos[1])
+				|| ((cPos[1] == hPos[1] - 1 || cPos[1] == hPos[1] + 1) && cPos[0] == hPos[0])
+				|| (cPos[0] == hPos[0] && cPos[1] == hPos[1])) {
+			return true;
+		}
+
+		else if (oPos[0] == hPos[0] && oPos[1] == hPos[1]) {
+			return true;
+		}
+		
+		else return false;
+
+	}
 		
 	public boolean heroNearOgre()
 	{
-		int[] hPos = h.getPos();
-		int[] oPos;
-		int[] cPos;
+		boolean ret = false;
 		for (int i = 0; i <o.length; i++) {
-			oPos = o[i].getPos();
-			cPos = o[i].getClub().getPos();
-			if ((((oPos[0] == hPos[0] - 1 || oPos[0] == hPos[0] + 1) && oPos[1] == hPos[1]) // Near
-																							// Ogre
-					|| ((oPos[1] == hPos[1] - 1 || oPos[1] == hPos[1] + 1) && oPos[0] == hPos[0] || oPos[1] == hPos[1])
-							&& oPos[0] == hPos[0])|| oPos[0] == hPos[0] && oPos[1] == hPos[1]) {
-				// this.defeat = true;
+			//System.out.println("HERO NEAR OGRE");
+			if (this.stunOgre(i)) {
 				o[i].setStun(3);
-				return false;
-			} else if ((((cPos[0] == hPos[0] - 1 || cPos[0] == hPos[0] + 1) && cPos[1] == hPos[1]) // Near
-					// Ogre stick
-					|| ((cPos[1] == hPos[1] - 1 || cPos[1] == hPos[1] + 1) && cPos[0] == hPos[0] || cPos[1] == hPos[1])
-							&& cPos[0] == hPos[0] ) || cPos[0] == hPos[0] && cPos[1] == hPos[1]) {
+				ret =  false;
+			} 
+			if (ogreKillsHero(i)) {
 				this.defeat = true;
-				return true;
+				ret = true;
 			}
 		}
-		
-		return false;
-
+		return ret;
 	}
 	
 	public boolean heroNearGuard() {
@@ -381,7 +404,6 @@ public class GameState {
 	}
 	
 	public void moveOgres() {
-		
 		for (int i = 0; i < o.length; i++) {
 			if (o[i].getStun() > 0) {
 				o[i].setStun(o[i].getStun() - 1);
