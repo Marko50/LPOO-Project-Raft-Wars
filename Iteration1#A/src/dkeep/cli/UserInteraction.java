@@ -97,7 +97,7 @@ public class UserInteraction {
 		char[] l9a = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
 		char[][] map2 = {l0a,l1a,l2a,l3a,l4a,l5a,l6a,l7a,l8a,l9a};
 		
-		GameState game2 = new GameState(2,1,8,3, map2,7,8);
+		GameState game2 = new GameState(1,8,3,3,1,map2,2,1);
 		while(game2.getVictory() == false)
 		{
 			game2.getMapa().mapSetGameMode2(game2.getHero(), game2.getOgres(), game2.getK());
@@ -109,6 +109,7 @@ public class UserInteraction {
 				continue;
 		
 			game2.moveOgres();
+			game2.ogreOnKey();
 			game2.heroNearOgre();
 			if (game2.getDefeat()) {
 				game2.getMapa().mapSetGameMode2(game2.getHero(), game2.getOgres(), game2.getK());

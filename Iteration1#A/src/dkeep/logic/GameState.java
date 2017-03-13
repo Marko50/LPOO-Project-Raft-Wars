@@ -6,7 +6,7 @@ public class GameState {
 	GameMap mapa;
 	private Hero h;
 	private Guard g;
-	private Ogre[] o = new Ogre[3];
+	private Ogre[] o;
 	private Lever l;
 	private Key k;
 	private int gameMode;
@@ -17,14 +17,30 @@ public class GameState {
 		return this.victory;
 	}
 	
+	public boolean isOgreOnKey(Ogre o)
+	{
+		if(o.getPos()[0] == k.getPos()[0] && o.getPos()[1] == k.getPos()[1])
+			return true;
+		
+		else 
+			return false;
+	}
+	
 	public void ogreOnKey()
 	{
 		for(int i = 0; i < o.length; i++)
 		{
-			if(o[i].getOnTheKey())
+			if(isOgreOnKey(o[i]))
 			{
+				o[i].setOnTheKey(true);
 				o[i].setIm('*');
 			}
+			
+			else{
+				o[i].setIm('O');
+				o[i].setOnTheKey(false);
+			}
+			  	
 		}
 	}
 	
@@ -177,7 +193,7 @@ public class GameState {
         }		
 	}
 	
-	public GameState(int gMode, int hx, int hy, int nOgres, char[][] map, int kx, int ky)
+	public GameState(int hx, int hy, int nOgres, int ox, int oy, char[][] map, int kx, int ky)
 	{
 		this.l = new Lever(0, 0, 'k');
 	
@@ -186,12 +202,13 @@ public class GameState {
 		this.k = new Key(kx,ky,'k');
 		this.defeat = false;
 		this.victory = false;
-		this.gameMode = gMode;
+		this.gameMode = 2;
         Hero h1 = new Hero(hx, hy, 'H', '*');
         this.h = h1;
+        o = new Ogre[nOgres];
         for(int i = 0; i < nOgres; i++)
         {
-        	Ogre o1 = new Ogre(3, 1, 'O', '*');
+        	Ogre o1 = new Ogre(ox, oy, 'O', '*');//3 1
         	o[i] = o1;
         }
 	}
@@ -221,14 +238,6 @@ public class GameState {
 					continue;
 				}
 				
-				else if(map[oPos[1]-1][oPos[0]] == l.getImage())
-				{
-					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setY(o.getPos()[1]-1);
-					o.setOnTheKey(true);
-					
-				}
-				
 				else
 				{
 					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
@@ -244,44 +253,26 @@ public class GameState {
 					continue;
 				}
 				
-				else if(map[oPos[1]][oPos[0]+1] == l.getImage())
-				{
-					o.setOnTheKey(true);
-					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setX(o.getPos()[0] + 1);
-				}
-			
 				else
 				{
 					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setX(o.getPos()[0] + 1);
-					//oPos[0] = oPos[0]+1;
 					break;
 				}
 				
 			}
 			else if(randomNum == 3)//s
 			{
-				if(map[oPos[1]+1][oPos[0]] == 'X' || map[oPos[1]+1][oPos[0]] == 'I')
-				{
+				if (map[oPos[1] + 1][oPos[0]] == 'X' || map[oPos[1] + 1][oPos[0]] == 'I') {
 					continue;
 				}
-			    
-				else if(map[oPos[1]+1][oPos[0]] == l.getImage())
-				{
+
+				else {
 					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setOnTheKey(true);
-					o.setY(o.getPos()[1]+1);
-				}
-				
-				else
-				{
-					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setY(o.getPos()[1]+1);
-					//oPos[1] = oPos[1]+1;
+					o.setY(o.getPos()[1] + 1);
 					break;
 				}
-				
+
 			}
 			else if(randomNum == 4)//a
 			{
@@ -290,19 +281,10 @@ public class GameState {
 					continue;
 				}
 				
-				else if(map[oPos[1]][oPos[0]-1] == l.getImage()) 
-				{
-					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setOnTheKey(true);
-					o.setX(o.getPos()[0]-1);
-					continue;
-				}
-				
 				else
 				{
 					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setX(o.getPos()[0]-1);
-					//oPos[0] = oPos[0]-1;
 					break;
 				}
 				
@@ -325,7 +307,7 @@ public class GameState {
 					continue;
 				}
 				
-				else if(map[oPos[1]-1][oPos[0]] == l.getImage())
+				else if(map[oPos[1]-1][oPos[0]] == k.getImage())
 				{
 					o.setY(o.getPos()[1]-1);
 					//oPos[1] = oPos[1]-1;
@@ -345,7 +327,7 @@ public class GameState {
 					continue;
 				}
 				
-				else if(map[oPos[1]][oPos[0]+1] == l.getImage())
+				else if(map[oPos[1]][oPos[0]+1] == k.getImage())
 				{
 					o.setX(o.getPos()[0] + 1);
 				}
@@ -365,7 +347,7 @@ public class GameState {
 					continue;
 				}
 			    
-				else if(map[oPos[1]+1][oPos[0]] == l.getImage())
+				else if(map[oPos[1]+1][oPos[0]] == k.getImage())
 				{
 					o.setY(o.getPos()[1]+1);
 				}
@@ -385,7 +367,7 @@ public class GameState {
 					continue;
 				}
 				
-				else if(map[oPos[1]][oPos[0]-1] == l.getImage()) 
+				else if(map[oPos[1]][oPos[0]-1] == k.getImage()) 
 				{
 					o.setX(o.getPos()[0]-1);
 					continue;

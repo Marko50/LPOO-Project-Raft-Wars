@@ -26,7 +26,34 @@ public class TestDungeonGameLogic {
 		GameState game = new GameState(1,1,1,3,1, 2, mapa,1,3);
 		game.moveHero('s');
 		assertEquals(2, game.getHero().getPos()[1]);
-		assertEquals(1, game.getHero().getPos()[0]);	
+		assertEquals(1, game.getHero().getPos()[0]);
+		game.moveHero('w');
+		game.moveHero('d');
+		game.moveHero('a');
+		assertEquals(1, game.getHero().getPos()[1]);
+		assertEquals(1, game.getHero().getPos()[0]);
+		
+	}
+	
+	@Test public void HeroMoveFailed() throws CloneNotSupportedException
+	{
+		GameState game = new GameState(1,1,1,3,1, 2, mapa,1,3);
+		game.moveHero('a');
+		assertEquals(1, game.getHero().getPos()[1]);
+		assertEquals(1, game.getHero().getPos()[0]);
+		game.moveHero('w');
+		assertEquals(1, game.getHero().getPos()[1]);
+		assertEquals(1, game.getHero().getPos()[0]);
+		game.moveHero('s');
+		game.moveHero('a');
+		assertEquals(2, game.getHero().getPos()[1]);
+		assertEquals(1, game.getHero().getPos()[0]);
+		game.moveHero('w');
+		game.moveHero('d');
+		game.moveHero('d');
+		game.moveHero('d');
+		assertEquals(1, game.getHero().getPos()[1]);
+		assertEquals(3, game.getHero().getPos()[0]);
 	}
 	
 	@Test
@@ -41,7 +68,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void TestHeroIsCapturedByOgre() throws CloneNotSupportedException
 	{
-		GameState game = new GameState(2,1,1,1,mapa,1,3);
+		GameState game = new GameState(1,1,1,3,1,mapa,1,3);
 		game.moveHero('d');
 		game.heroNearOgreSimple();
 		assertTrue(game.getDefeat());
@@ -51,7 +78,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void PickUpKey() throws CloneNotSupportedException
 	{
-		GameState game2 = new GameState(2,1,1,1, mapa,1,3);
+		GameState game2 = new GameState(1,1,1,3,1, mapa,1,3);
 		game2.moveHero('s');
 		game2.moveHero('s');
 		assertEquals(game2.getK().getImage(), game2.getHero().getImage());
@@ -61,7 +88,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void FailOpenDoor() throws CloneNotSupportedException
 	{
-		GameState game = new GameState(2,1,1,1,mapa,1,3);
+		GameState game = new GameState(1,1,1,3,1,mapa,1,3);
 		game.moveHero('s');
 		game.moveHero('a');
 		assertFalse(game.getK().getUsed());	 
@@ -70,7 +97,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void SuccessOpenDoor() throws CloneNotSupportedException
 	{
-		GameState game = new GameState(2,1,1,1,mapa,1,3);
+		GameState game = new GameState(1,1,1,3,1,mapa,1,3);
 		game.moveHero('s');
 		game.moveHero('s');
 		game.moveHero('a');
@@ -81,7 +108,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void Victory() throws CloneNotSupportedException
 	{
-		GameState game = new GameState(2,1,1,1,mapa,1,3);
+		GameState game = new GameState(1,1,1,3,1,mapa,1,3);
 		game.moveHero('s');
 		game.moveHero('s');
 		game.moveHero('a');
@@ -95,7 +122,7 @@ public class TestDungeonGameLogic {
 	{
 		int c = 1;
 		boolean random = false;
-	    GameState game = new GameState(2,1,1,3,mapa,1,3);
+	    GameState game = new GameState(1,1,3,3,1,mapa,1,3);
 	    int[] temp = game.getOgres()[0].getPos();
 	    while(true)
 	    {
@@ -132,7 +159,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void OgreStunned() throws CloneNotSupportedException
 	{
-		GameState game = new GameState(2,1,1,1,mapa,1,3);
+		GameState game = new GameState(1,1,1,3,1,mapa,1,3);
 		game.moveHero('d');
 		assertTrue(game.stunOgre(0));
 	}
@@ -141,7 +168,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void HeroKilledByOgre() throws CloneNotSupportedException
 	{
-		GameState game = new GameState(2,1,1,3,mapa,1,3);
+		GameState game = new GameState(1,1,3,3,1,mapa,1,3);
 		game.moveHero('d');
 		game.moveHero('d');
 		game.heroNearOgre();
@@ -150,7 +177,9 @@ public class TestDungeonGameLogic {
 	
 	 @Test public void OgreOnKey()
 	 {
-		 
+		 GameState game = new GameState(1,1,1,1,3,mapa,1,3);
+		 game.ogreOnKey();
+		 assertEquals('*', game.getOgres()[0].getImage());
 	 }
 	
 	
