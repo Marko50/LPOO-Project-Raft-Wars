@@ -13,6 +13,16 @@ public class GameState {
 	private boolean defeat;
 	private boolean victory;
 	
+	
+	public GameState()
+	{
+		
+	}
+	public void setVictory (boolean vic)
+	{
+		victory = vic;
+	}
+	
 	public boolean getVictory(){
 		return this.victory;
 	}
@@ -151,6 +161,11 @@ public class GameState {
 		this.g = g1;
 	}
 	
+	public void setO(Ogre[] og)
+	{
+		this.o = og;
+	}
+	
 	public Ogre[] getOgres()
 	{
 		return this.o;
@@ -170,7 +185,6 @@ public class GameState {
 	{
 		this.k = new Key(0,0,'k');
 		this.mapa = new GameMap(map);
-		//this.l = new Lever(7, 8, 'k');
 		this.l = new Lever(lx, ly, 'k');
 		this.defeat = false;
 		this.victory = false;
@@ -178,7 +192,7 @@ public class GameState {
 				{ 3, 5 }, { 2, 5 }, { 1, 5 }, { 1, 6 }, { 2, 6 }, { 3, 6 }, { 4, 6 }, { 5, 6 }, { 6, 6 }, { 7, 6 },
 				{ 8, 6 }, { 8, 5 }, { 8, 4 }, { 8, 3 }, { 8, 2 } };
 		this.gameMode = gMode;
-		Hero h1 = new Hero(hx, hy, 'H', '*');
+		Hero h1 = new Hero(hx, hy, 'H');
 		this.h = h1;
 		if (dif == 1) {
 			Drunken d = new Drunken(gx, gy, 'D', movs);
@@ -203,7 +217,7 @@ public class GameState {
 		this.defeat = false;
 		this.victory = false;
 		this.gameMode = 2;
-        Hero h1 = new Hero(hx, hy, 'H', '*');
+        Hero h1 = new Hero(hx, hy, 'H');
         this.h = h1;
         o = new Ogre[nOgres];
         for(int i = 0; i < nOgres; i++)

@@ -22,6 +22,9 @@ import dkeep.cli.*;
 import dkeep.logic.Drunken;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
+import dkeep.logic.Hero;
+import dkeep.logic.Key;
+import dkeep.logic.Lever;
 import dkeep.logic.Rookie;
 import dkeep.logic.Suspicious;
 
@@ -33,7 +36,8 @@ public class GraphicalInterface {
 
 	private JFrame frame;
 	private JTextField textField;
-	private final JLabel lblNewLabel_2 = new JLabel("CENAS");
+	
+	public int contador = 0;
 
 	/**
 	 * Launch the application.
@@ -58,32 +62,7 @@ public class GraphicalInterface {
 		initialize();
 	}
 	
-	public void CreateGame1(String difficulty, GameState game)
-	{
-		int diff = 0;
-		if (difficulty == "Drunken") {
-			diff = 1;
-		} else if (difficulty == "Rookie") {
-			diff = 2;
-		}
-		else if (difficulty == "Suspicious") {
-			diff = 3;
-        }
-		char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-		char[] l1 = {'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
-		char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-		char[] l3 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
-		char[] l4 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-		char[] l5 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l6 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
-		char[] l8 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'};
-		char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-		char[][] map = {l0,l1,l2,l3,l4,l5,l6,l7,l8,l9};
 
-		game = new GameState(1,1,1,8,1, diff, map, 7,8);
-	}
-	
 	
 	String retMap(GameState game)
 	{
@@ -106,16 +85,17 @@ public class GraphicalInterface {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(){
-		GameState game = null;
+		GameState game = new GameState();
+		GameState game2 = null;
+		
+		
 		frame = new JFrame();
 		frame.setBounds(0, 0, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, -10, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().setLayout(springLayout);
 		
 		JLabel lblNewLabel = new JLabel("Number of Ogres");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 0, SpringLayout.WEST, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 10, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 10, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(lblNewLabel);
@@ -138,32 +118,193 @@ public class GraphicalInterface {
 		springLayout.putConstraint(SpringLayout.SOUTH, comboBox, 0, SpringLayout.SOUTH, lblNewLabel_1);
 		frame.getContentPane().add(comboBox);
 		
+		
+		
 		JTextPane textPane = new JTextPane();
 		springLayout.putConstraint(SpringLayout.NORTH, textPane, 27, SpringLayout.SOUTH, lblNewLabel_1);
 		springLayout.putConstraint(SpringLayout.WEST, textPane, 10, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, textPane, -6, SpringLayout.NORTH, lblNewLabel_2);
+		springLayout.putConstraint(SpringLayout.SOUTH, textPane, -30, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, textPane, 251, SpringLayout.WEST, frame.getContentPane());
 		textPane.setEditable(false);
 		frame.getContentPane().add(textPane);
 		
+		JLabel lblTextoVarivel = new JLabel("Texto Variavel");
+		springLayout.putConstraint(SpringLayout.NORTH, lblTextoVarivel, 6, SpringLayout.SOUTH, textPane);
+		springLayout.putConstraint(SpringLayout.WEST, lblTextoVarivel, 22, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, lblTextoVarivel, 20, SpringLayout.SOUTH, textPane);
+		springLayout.putConstraint(SpringLayout.EAST, lblTextoVarivel, 0, SpringLayout.EAST, lblNewLabel_1);
+		frame.getContentPane().add(lblTextoVarivel);
+		
 		StyledDocument doc = textPane.getStyledDocument();
 		
+		JButton btnUp = new JButton("Up");
+		btnUp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				try {
+
+					if (game.moveHero('w')) {
+						game.getMapa().getMap()[game.getGuard().getPos()[1]][game.getGuard().getPos()[0]] = ' ';
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						if (contador == 23 && game.getGuard().getDirection() == 1)
+							contador = 0;
+						else if (contador == 0 && game.getGuard().getDirection() == -1) {
+							contador = 23;
+						} else if (game.getGuard().getSleep() == 0)
+							contador = contador + game.getGuard().getDirection();
+
+						game.getGuard().gMove(contador);
+						game.heroNearGuard();
+					}
+					textPane.setText(retMap(game));
+					if (game.getDefeat()) {
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						textPane.setText(retMap(game));
+						System.exit(1);
+					}
+				} catch (CloneNotSupportedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		frame.getContentPane().add(btnUp);
+		
+		JButton btnExitGame = new JButton("Exit Game");
+		btnExitGame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {		
+				System.exit(0);
+			}
+		});
 		JButton btnStartGame = new JButton("Start Game");
-		btnStartGame.addMouseListener(new MouseAdapter() {
+		
+		springLayout.putConstraint(SpringLayout.SOUTH, btnExitGame, -22, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnExitGame, 0, SpringLayout.EAST, btnStartGame);
+		frame.getContentPane().add(btnExitGame);
+		
+		JButton btnDown = new JButton("Down");
+		btnDown.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("null")
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				String numberOgres = textField.getText();
-				int numOgres = Integer.parseInt(numberOgres);
-				String difficulty = (String) comboBox.getSelectedItem();
-				int diff = 0;
-				if (difficulty == "Drunken") {
-					diff = 1;
-				} else if (difficulty == "Rookie") {
-					diff = 2;
+				try {
+
+					if (game.moveHero('s')) {
+						game.getMapa().getMap()[game.getGuard().getPos()[1]][game.getGuard().getPos()[0]] = ' ';
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						if (contador == 23 && game.getGuard().getDirection() == 1)
+							contador = 0;
+						else if (contador == 0 && game.getGuard().getDirection() == -1) {
+							contador = 23;
+						} else if (game.getGuard().getSleep() == 0)
+							contador = contador + game.getGuard().getDirection();
+
+						game.getGuard().gMove(contador);
+						game.heroNearGuard();
+					}
+					textPane.setText(retMap(game));
+					if (game.getDefeat()) {
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						textPane.setText(retMap(game));
+						System.exit(1);
+					}
+				} catch (CloneNotSupportedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				else if (difficulty == "Suspicious") {
-					diff = 3;
-		        }
+			}
+		});
+		springLayout.putConstraint(SpringLayout.EAST, btnUp, 0, SpringLayout.EAST, btnDown);
+		springLayout.putConstraint(SpringLayout.WEST, btnDown, 0, SpringLayout.WEST, btnExitGame);
+		frame.getContentPane().add(btnDown);
+		
+		JButton btnLeft = new JButton("Left");
+		btnLeft.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("null")
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				try {
+
+					if (game.moveHero('a')) {
+						game.getMapa().getMap()[game.getGuard().getPos()[1]][game.getGuard().getPos()[0]] = ' ';
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						if (contador == 23 && game.getGuard().getDirection() == 1)
+							contador = 0;
+						else if (contador == 0 && game.getGuard().getDirection() == -1) {
+							contador = 23;
+						} else if (game.getGuard().getSleep() == 0)
+							contador = contador + game.getGuard().getDirection();
+
+						game.getGuard().gMove(contador);
+						game.heroNearGuard();
+					}
+					textPane.setText(retMap(game));
+					if (game.getDefeat()) {
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						textPane.setText(retMap(game));
+						System.exit(1);
+					}
+				} catch (CloneNotSupportedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		springLayout.putConstraint(SpringLayout.WEST, btnLeft, 57, SpringLayout.EAST, textPane);
+		springLayout.putConstraint(SpringLayout.NORTH, btnLeft, 112, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnUp, -6, SpringLayout.NORTH, btnLeft);
+		springLayout.putConstraint(SpringLayout.NORTH, btnDown, 6, SpringLayout.SOUTH, btnLeft);
+		frame.getContentPane().add(btnLeft);
+		
+		JButton btnRight = new JButton("Right");
+		btnRight.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("null")
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				try {
+
+					if (game.moveHero('d')) {
+						game.getMapa().getMap()[game.getGuard().getPos()[1]][game.getGuard().getPos()[0]] = ' ';
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						if (contador == 23 && game.getGuard().getDirection() == 1)
+							contador = 0;
+						else if (contador == 0 && game.getGuard().getDirection() == -1) {
+							contador = 23;
+						} else if (game.getGuard().getSleep() == 0)
+							contador = contador + game.getGuard().getDirection();
+
+						game.getGuard().gMove(contador);
+						game.heroNearGuard();
+					}
+					textPane.setText(retMap(game));
+					if (game.getDefeat()) {
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						textPane.setText(retMap(game));
+						System.exit(1);
+					}
+				} catch (CloneNotSupportedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, btnRight, 0, SpringLayout.NORTH, btnLeft);
+		springLayout.putConstraint(SpringLayout.WEST, btnRight, 8, SpringLayout.EAST, btnLeft);
+		frame.getContentPane().add(btnRight);
+		
+		
+				
+		btnStartGame.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings({ "deprecation", "null" })
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+				int[][] movs = { { 8, 1 }, { 7, 1 }, { 7, 2 }, { 7, 3 }, { 7, 4 }, { 7, 5 }, { 6, 5 }, { 5, 5 }, { 4, 5 },
+						{ 3, 5 }, { 2, 5 }, { 1, 5 }, { 1, 6 }, { 2, 6 }, { 3, 6 }, { 4, 6 }, { 5, 6 }, { 6, 6 }, { 7, 6 },
+						{ 8, 6 }, { 8, 5 }, { 8, 4 }, { 8, 3 }, { 8, 2 } };
+		
 				char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
 				char[] l1 = {'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
 				char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
@@ -175,14 +316,40 @@ public class GraphicalInterface {
 				char[] l8 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'};
 				char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
 				char[][] map = {l0,l1,l2,l3,l4,l5,l6,l7,l8,l9};
-
-				GameState game2 = new GameState(1,1,1,8,1, diff, map, 7,8);
+				String numberOgres = textField.getText();
+				int numOgres = Integer.parseInt(numberOgres);
+				String difficulty = (String) comboBox.getSelectedItem();
+				Hero h = new Hero(1,1, 'H');
+				game.setHero(h);
+				Key k = new Key(0,0,'k');
+				game.setK(k);
+				Lever l = new Lever(7,8,'k');
+				game.setLever(l);
+				GameMap m = new GameMap(map);
+				game.setMapa(m);
+				game.setDefeat(false);
+				if (difficulty == "Drunken") {
+					Drunken d = new Drunken(8, 1, 'D', movs);
+					game.setGuard(d);
+				} else if (difficulty == "Rookie") {
+					Rookie r = new Rookie(8, 1, 'R', movs);
+					game.setGuard(r);
+				}
+				else if (difficulty == "Suspicious") {
+					Suspicious s = new Suspicious(8, 1, 'S', movs);
+					game.setGuard(s);
+		        }
+					
 				try {
-					doc.insertString(0, retMap(game2), null);
+					
+					doc.insertString(0, retMap(game), null);
 				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+	
 			}
+			
 			
 		});
 		
@@ -190,44 +357,12 @@ public class GraphicalInterface {
 		springLayout.putConstraint(SpringLayout.EAST, btnStartGame, -24, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnStartGame);
 		
-		JButton btnExitGame = new JButton("Exit Game");
-		btnExitGame.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-				System.exit(0);
-			}
-		});
-	
-		springLayout.putConstraint(SpringLayout.SOUTH, btnExitGame, -22, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnExitGame, 0, SpringLayout.EAST, btnStartGame);
-		frame.getContentPane().add(btnExitGame);
 		
 		
-		JButton btnUp = new JButton("Up");
-		btnUp.setEnabled(false);
-		frame.getContentPane().add(btnUp);
 		
-		JButton btnDown = new JButton("Down");
-		btnDown.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.EAST, btnUp, 0, SpringLayout.EAST, btnDown);
-		springLayout.putConstraint(SpringLayout.WEST, btnDown, 0, SpringLayout.WEST, btnExitGame);
-		frame.getContentPane().add(btnDown);
 		
-		JButton btnLeft = new JButton("Left");
-		springLayout.putConstraint(SpringLayout.WEST, btnLeft, 57, SpringLayout.EAST, textPane);
-		btnLeft.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, btnLeft, 112, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnUp, -6, SpringLayout.NORTH, btnLeft);
-		springLayout.putConstraint(SpringLayout.NORTH, btnDown, 6, SpringLayout.SOUTH, btnLeft);
-		frame.getContentPane().add(btnLeft);
 		
-		JButton btnRight = new JButton("Right");
-		btnRight.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, btnRight, 0, SpringLayout.NORTH, btnLeft);
-		springLayout.putConstraint(SpringLayout.WEST, btnRight, 8, SpringLayout.EAST, btnLeft);
-		frame.getContentPane().add(btnRight);
-		frame.getContentPane().add(lblNewLabel_2);
+
 	}
 	public JTextField getTextField() {
 		return textField;
