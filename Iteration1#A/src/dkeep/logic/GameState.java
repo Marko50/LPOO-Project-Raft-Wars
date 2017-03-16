@@ -182,7 +182,7 @@ public class GameState {
 	}
 	
 	public GameState(int gMode, int hx, int hy, int gx, int gy, int dif, char[][] map, int lx, int ly)
-	{
+	{ 
 		this.k = new Key(0,0,'k');
 		this.mapa = new GameMap(map);
 		this.l = new Lever(lx, ly, 'k');
