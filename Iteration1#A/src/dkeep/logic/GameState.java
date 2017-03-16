@@ -209,10 +209,9 @@ public class GameState {
 	
 	public GameState(int hx, int hy, int nOgres, int ox, int oy, char[][] map, int kx, int ky)
 	{
-		this.l = new Lever(0, 0, 'k');
-	
+		
+		this.l = new Lever(0, 0, 'k');	
 		this.mapa = new GameMap(map);
-		//this.k = new Key(7,8,'k');
 		this.k = new Key(kx,ky,'k');
 		this.defeat = false;
 		this.victory = false;
