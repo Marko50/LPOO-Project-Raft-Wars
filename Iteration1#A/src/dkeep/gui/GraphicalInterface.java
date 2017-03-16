@@ -134,7 +134,7 @@ public class GraphicalInterface {
 		springLayout.putConstraint(SpringLayout.SOUTH, lblTextoVarivel, 20, SpringLayout.SOUTH, textPane);
 		springLayout.putConstraint(SpringLayout.EAST, lblTextoVarivel, 0, SpringLayout.EAST, lblNewLabel_1);
 		frame.getContentPane().add(lblTextoVarivel);
-		
+				
 		StyledDocument doc = textPane.getStyledDocument();
 		
 		JButton btnUp = new JButton("Up");
@@ -144,8 +144,7 @@ public class GraphicalInterface {
 				try {
 
 					if (game.moveHero('w')) {
-						game.getMapa().getMap()[game.getGuard().getPos()[1]][game.getGuard().getPos()[0]] = ' ';
-						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						game.getMapa().setPos(game.getGuard().getPos()[0], game.getGuard().getPos()[1], ' ');
 						if (contador == 23 && game.getGuard().getDirection() == 1)
 							contador = 0;
 						else if (contador == 0 && game.getGuard().getDirection() == -1) {
@@ -154,6 +153,7 @@ public class GraphicalInterface {
 							contador = contador + game.getGuard().getDirection();
 
 						game.getGuard().gMove(contador);
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
 						game.heroNearGuard();
 					}
 					textPane.setText(retMap(game));
@@ -191,8 +191,7 @@ public class GraphicalInterface {
 				try {
 
 					if (game.moveHero('s')) {
-						game.getMapa().getMap()[game.getGuard().getPos()[1]][game.getGuard().getPos()[0]] = ' ';
-						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						game.getMapa().setPos(game.getGuard().getPos()[0], game.getGuard().getPos()[1], ' ');
 						if (contador == 23 && game.getGuard().getDirection() == 1)
 							contador = 0;
 						else if (contador == 0 && game.getGuard().getDirection() == -1) {
@@ -201,6 +200,7 @@ public class GraphicalInterface {
 							contador = contador + game.getGuard().getDirection();
 
 						game.getGuard().gMove(contador);
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
 						game.heroNearGuard();
 					}
 					textPane.setText(retMap(game));
@@ -227,8 +227,7 @@ public class GraphicalInterface {
 				try {
 
 					if (game.moveHero('a')) {
-						game.getMapa().getMap()[game.getGuard().getPos()[1]][game.getGuard().getPos()[0]] = ' ';
-						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						game.getMapa().setPos(game.getGuard().getPos()[0], game.getGuard().getPos()[1], ' ');
 						if (contador == 23 && game.getGuard().getDirection() == 1)
 							contador = 0;
 						else if (contador == 0 && game.getGuard().getDirection() == -1) {
@@ -237,6 +236,7 @@ public class GraphicalInterface {
 							contador = contador + game.getGuard().getDirection();
 
 						game.getGuard().gMove(contador);
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
 						game.heroNearGuard();
 					}
 					textPane.setText(retMap(game));
@@ -264,10 +264,8 @@ public class GraphicalInterface {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				try {
-
 					if (game.moveHero('d')) {
-						game.getMapa().getMap()[game.getGuard().getPos()[1]][game.getGuard().getPos()[0]] = ' ';
-						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
+						game.getMapa().setPos(game.getGuard().getPos()[0], game.getGuard().getPos()[1], ' ');
 						if (contador == 23 && game.getGuard().getDirection() == 1)
 							contador = 0;
 						else if (contador == 0 && game.getGuard().getDirection() == -1) {
@@ -276,6 +274,7 @@ public class GraphicalInterface {
 							contador = contador + game.getGuard().getDirection();
 
 						game.getGuard().gMove(contador);
+						game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
 						game.heroNearGuard();
 					}
 					textPane.setText(retMap(game));
@@ -294,7 +293,7 @@ public class GraphicalInterface {
 		springLayout.putConstraint(SpringLayout.WEST, btnRight, 8, SpringLayout.EAST, btnLeft);
 		frame.getContentPane().add(btnRight);
 		
-		
+		lblTextoVarivel.setText("Select the number of Ogees and the type of Guard and hit Start Game\n");
 				
 		btnStartGame.addMouseListener(new MouseAdapter() {
 			@SuppressWarnings({ "deprecation", "null" })
@@ -338,8 +337,8 @@ public class GraphicalInterface {
 				else if (difficulty == "Suspicious") {
 					Suspicious s = new Suspicious(8, 1, 'S', movs);
 					game.setGuard(s);
-		        }
-					
+		        }				
+				game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());					
 				try {
 					
 					doc.insertString(0, retMap(game), null);

@@ -17,6 +17,11 @@ public class GameMap {
 		this.map = map;
 	}
 	
+	public void setPos(int x, int y, char im)
+	{
+		map[y][x] = im;
+	}
+	
 	public void changeDoors()
 	{
 		for(int i  = 0; i < map.length; i++)

@@ -31,6 +31,7 @@ public class Rookie extends Guard {
 			//gPos[0] = gPos[0] + 1;
 		}
 		*/
+		
 		this.setX(movs[contador][0]); 
 		this.setY(movs[contador][1]);
 		
