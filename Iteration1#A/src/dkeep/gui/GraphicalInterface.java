@@ -57,6 +57,22 @@ public class GraphicalInterface {
 	String difficulty;
 	
 	
+	public int parseInt(String text)
+	{
+		int num;
+		
+		try
+		{
+			num = Integer.parseInt(text);
+			return num;
+		}
+		
+		catch(NumberFormatException e){
+			return 6;
+		}
+	}
+	
+	
 	public void disabelButtons()
 	{
 		btnRight.setEnabled(false);
@@ -313,9 +329,7 @@ public class GraphicalInterface {
 				textPane.setText(retMap(game));
 			}
 		});
-		
-		
-		
+				
 		springLayout.putConstraint(SpringLayout.NORTH, btnRight, 6, SpringLayout.SOUTH, btnUp);
 		springLayout.putConstraint(SpringLayout.NORTH, btnLeft, 6, SpringLayout.SOUTH, btnUp);
 		springLayout.putConstraint(SpringLayout.WEST, btnLeft, -100, SpringLayout.EAST, btnUp);
@@ -328,7 +342,12 @@ public class GraphicalInterface {
 				btnRight.setEnabled(true);
 				btnLeft.setEnabled(true);
 				String numberOgres = textField.getText();
-				numOgres = Integer.parseInt(numberOgres);
+				numOgres = parseInt(numberOgres);
+				if(numOgres > 5)
+				{
+					lblTextoVarivel.setText("Number of Ogres has to be and integer less and than 5!");
+					actionPerformed(arg0);
+				}
 				difficulty = (String) comboBox.getSelectedItem();
 				CreatGameMode1(difficulty);
 				textPane.setText(retMap(game));
@@ -422,8 +441,7 @@ public class GraphicalInterface {
 		
 		frame.getContentPane().add(btnRight);
 		
-				
-		
+					
 		
 		springLayout.putConstraint(SpringLayout.WEST, btnStartGame, 0, SpringLayout.WEST, btnExitGame);
         springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 31, SpringLayout.NORTH, lblNewLabel);
