@@ -33,17 +33,38 @@ import javax.swing.JTextPane;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GraphicalInterface {
 
 	private JFrame frame;
+	private	JLabel lblNewLabel;
+	private SpringLayout springLayout;
+	private JButton btnLeft;
+	private JButton btnRight;
+	private JButton btnUp;
+	private JButton btnDown;
+	private JButton btnStartGame;
 	private JTextField textField;
+	private JLabel lblNewLabel_1 ;
+	private JComboBox comboBox;
+	private JTextPane textPane;
+	private JLabel lblTextoVarivel;
 	private	GameState game = new GameState();
 	public int contador = 0;
-	
-	
 	int numOgres;
 	String difficulty;
+	
+	
+	public void disabelButtons()
+	{
+		btnRight.setEnabled(false);
+		btnLeft.setEnabled(false);
+		btnUp.setEnabled(false);
+		btnDown.setEnabled(false);
+		btnStartGame.setEnabled(true);
+	}
 
 	/**
 	 * Launch the application.
@@ -165,7 +186,7 @@ public class GraphicalInterface {
 			}
 			if (game.getDefeat()) {
 				game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
-				System.exit(1);
+				lblTextoVarivel.setText("Ups you lost!");
 				return false;
 			}
 			
@@ -188,7 +209,11 @@ public class GraphicalInterface {
 			}
 			if (game.getDefeat() || game.getVictory()) {
 				game.getMapa().mapSetGameMode2(game.getHero(), game.getOgres(), game.getK());
-				System.exit(1);
+				if(game.getDefeat())
+					lblTextoVarivel.setText("Ups you lost!");
+				
+				else
+					lblTextoVarivel.setText("Congratulations! You won!");
 				return false;
 			}
 			
@@ -220,25 +245,101 @@ public class GraphicalInterface {
 		frame.setBounds(0, 0, 450, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		SpringLayout springLayout = new SpringLayout();
-		JButton btnLeft = new JButton("Left");
+		
+		springLayout = new SpringLayout();
+		
+		btnLeft = new JButton("Left");
+		btnLeft.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (game.getGMode() == 1) {
+					if (MoveGameMode1('a') == false) {
+						disabelButtons();
+					}
+				} else if (game.getGMode() == 2) {
+					if (MoveGameMode2('a') == false) {
+						disabelButtons();
+					}
+				}
+				textPane.setText(retMap(game));
+			}
+		});
 		springLayout.putConstraint(SpringLayout.SOUTH, btnLeft, -110, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnLeft, -83, SpringLayout.EAST, frame.getContentPane());
-		JButton btnDown = new JButton("Down");
+		btnDown = new JButton("Down");
+		btnDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (game.getGMode() == 1) {
+					if (MoveGameMode1('s') == false) {
+						disabelButtons();
+					}
+				} else if (game.getGMode() == 2) {
+					if (MoveGameMode2('s') == false) {
+						disabelButtons();
+					}
+				}
+				textPane.setText(retMap(game));
+			}
+		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnDown, 6, SpringLayout.SOUTH, btnLeft);
-		JButton btnRight = new JButton("Right");
+		btnRight = new JButton("Right");
+		btnRight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (game.getGMode() == 1) {
+					if (MoveGameMode1('d') == false) {
+						disabelButtons();
+					}
+				} else if (game.getGMode() == 2) {
+					if (MoveGameMode2('d') == false) {
+						disabelButtons();
+					}
+				}
+				textPane.setText(retMap(game));}
+		});
 		springLayout.putConstraint(SpringLayout.WEST, btnRight, 6, SpringLayout.EAST, btnLeft);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnRight, -6, SpringLayout.NORTH, btnDown);
 		springLayout.putConstraint(SpringLayout.EAST, btnRight, -10, SpringLayout.EAST, frame.getContentPane());
-		JButton btnUp = new JButton(" Up ");
+		btnUp = new JButton(" Up ");
+		btnUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (game.getGMode() == 1) {
+					if (MoveGameMode1('w') == false) {
+						disabelButtons();
+					}
+				} else if (game.getGMode() == 2) {
+					if (MoveGameMode2('w') == false) {
+						disabelButtons();
+					}
+				}
+				textPane.setText(retMap(game));
+			}
+		});
+		
+		
+		
 		springLayout.putConstraint(SpringLayout.NORTH, btnRight, 6, SpringLayout.SOUTH, btnUp);
 		springLayout.putConstraint(SpringLayout.NORTH, btnLeft, 6, SpringLayout.SOUTH, btnUp);
 		springLayout.putConstraint(SpringLayout.WEST, btnLeft, -100, SpringLayout.EAST, btnUp);
-		JButton btnStartGame = new JButton("Start Game");
+		btnStartGame = new JButton("Start Game");
+		btnStartGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				contador = 0;
+				btnUp.setEnabled(true);
+				btnDown.setEnabled(true);
+				btnRight.setEnabled(true);
+				btnLeft.setEnabled(true);
+				String numberOgres = textField.getText();
+				numOgres = Integer.parseInt(numberOgres);
+				difficulty = (String) comboBox.getSelectedItem();
+				CreatGameMode1(difficulty);
+				textPane.setText(retMap(game));
+				btnStartGame.setEnabled(false);
+				lblTextoVarivel.setText("Click on Up/Down/Left/Right to move!");
+			}
+		});
 		springLayout.putConstraint(SpringLayout.EAST, btnStartGame, -24, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().setLayout(springLayout);
 		
-		JLabel lblNewLabel = new JLabel("Number of Ogres");
+		lblNewLabel = new JLabel("Number of Ogres");
 		springLayout.putConstraint(SpringLayout.NORTH, btnStartGame, 0, SpringLayout.NORTH, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 10, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 10, SpringLayout.WEST, frame.getContentPane());
@@ -251,66 +352,41 @@ public class GraphicalInterface {
 		textField.setColumns(10);
 		
 		
-		JLabel lblNewLabel_1 = new JLabel("Guard Level");
+		lblNewLabel_1 = new JLabel("Guard Level");
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 19, SpringLayout.SOUTH, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 0, SpringLayout.WEST, lblNewLabel);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Rookie", "Drunken", "Suspicious"}));
 		springLayout.putConstraint(SpringLayout.WEST, comboBox, 0, SpringLayout.WEST, textField);
 		springLayout.putConstraint(SpringLayout.SOUTH, comboBox, 0, SpringLayout.SOUTH, lblNewLabel_1);
 		frame.getContentPane().add(comboBox);
 				
-		JTextPane textPane = new JTextPane();
-		springLayout.putConstraint(SpringLayout.SOUTH, textPane, 240, SpringLayout.SOUTH, lblNewLabel_1);
-		textPane.setFont(new Font("Consolas", Font.PLAIN, 16));
-		springLayout.putConstraint(SpringLayout.NORTH, textPane, 27, SpringLayout.SOUTH, lblNewLabel_1);
-		springLayout.putConstraint(SpringLayout.WEST, textPane, 10, SpringLayout.WEST, frame.getContentPane());
+		textPane = new JTextPane();
+		springLayout.putConstraint(SpringLayout.NORTH, textPane, 23, SpringLayout.SOUTH, lblNewLabel_1);
+		springLayout.putConstraint(SpringLayout.WEST, textPane, 0, SpringLayout.WEST, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.EAST, textPane, 251, SpringLayout.WEST, frame.getContentPane());
+		textPane.setFont(new Font("Consolas", Font.PLAIN, 16));
 		textPane.setEditable(false);
 		frame.getContentPane().add(textPane);
 		
-		JLabel lblTextoVarivel = new JLabel("Texto Variavel");
+		lblTextoVarivel = new JLabel("Texto Variavel");
+		lblTextoVarivel.setFont(new Font("Calibri", Font.PLAIN, 10));
 		springLayout.putConstraint(SpringLayout.NORTH, lblTextoVarivel, 6, SpringLayout.SOUTH, textPane);
-		springLayout.putConstraint(SpringLayout.WEST, lblTextoVarivel, 22, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblTextoVarivel, 20, SpringLayout.SOUTH, textPane);
-		springLayout.putConstraint(SpringLayout.EAST, lblTextoVarivel, 0, SpringLayout.EAST, lblNewLabel_1);
+		springLayout.putConstraint(SpringLayout.WEST, lblTextoVarivel, 0, SpringLayout.WEST, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblTextoVarivel, -8, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblTextoVarivel, 0, SpringLayout.EAST, textPane);
 		frame.getContentPane().add(lblTextoVarivel);
-				
-		StyledDocument doc = textPane.getStyledDocument();
-				
+		
+		lblTextoVarivel.setText("Select the guard and ogres and press Start!");
+		
 		btnUp.setEnabled(false);
-			
-		MouseAdapter btnUpMouseListener = new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				
-				if (game.getGMode() == 1) {
-					if (MoveGameMode1('w') == false) {
-						btnRight.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnStartGame.setEnabled(false);
-					}
-				} else if (game.getGMode() == 2) {
-					if (MoveGameMode2('w') == false) {
-						btnRight.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnStartGame.setEnabled(false);
-					}
-				}
-				textPane.setText(retMap(game));
-			}
-		};
-		
-		
+					
 		frame.getContentPane().add(btnUp);
 		
 		JButton btnExitGame = new JButton("Exit Game");
+		springLayout.putConstraint(SpringLayout.SOUTH, textPane, 0, SpringLayout.SOUTH, btnExitGame);
 		springLayout.putConstraint(SpringLayout.WEST, btnExitGame, -50, SpringLayout.EAST, btnLeft);
 		
 		
@@ -326,30 +402,7 @@ public class GraphicalInterface {
 		
 		
 		btnDown.setEnabled(false);
-		btnDown.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("null")
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (game.getGMode() == 1) {
-					if (MoveGameMode1('s') == false) {
-						btnRight.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnStartGame.setEnabled(false);
-					}
-				} else if (game.getGMode() == 2) {
-					if (MoveGameMode2('s') == false) {
-						btnRight.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnStartGame.setEnabled(false);
-					}
-				}
-				textPane.setText(retMap(game));
-			}
-		});
+	
 		
 		springLayout.putConstraint(SpringLayout.NORTH, btnUp, -178, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnUp, -115, SpringLayout.EAST, frame.getContentPane());
@@ -358,31 +411,7 @@ public class GraphicalInterface {
 		frame.getContentPane().add(btnDown);
 
 		btnLeft.setEnabled(false);
-		btnLeft.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("null")
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (game.getGMode() == 1) {
-					if (MoveGameMode1('a') == false) {
-						btnRight.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnStartGame.setEnabled(false);
-					}
-				} else if (game.getGMode() == 2) {
-					if (MoveGameMode2('a') == false) {
-						btnRight.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnStartGame.setEnabled(false);
-					}
-				}
-				textPane.setText(retMap(game));
-				
-			}
-		});
+
 		springLayout.putConstraint(SpringLayout.NORTH, btnExitGame, 12, SpringLayout.SOUTH, btnDown);
         springLayout.putConstraint(SpringLayout.SOUTH, btnExitGame, 45, SpringLayout.SOUTH, btnDown);
         springLayout.putConstraint(SpringLayout.SOUTH, btnDown, -73, SpringLayout.SOUTH, frame.getContentPane());
@@ -390,55 +419,11 @@ public class GraphicalInterface {
 		frame.getContentPane().add(btnLeft);
 		
 		btnRight.setEnabled(false);
-		btnRight.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("null")
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (game.getGMode() == 1) {
-					if (MoveGameMode1('d') == false) {
-						btnRight.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnStartGame.setEnabled(false);
-					}
-				} else if (game.getGMode() == 2) {
-					if (MoveGameMode2('d') == false) {
-						btnRight.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnStartGame.setEnabled(false);
-					}
-				}
-				textPane.setText(retMap(game));
-			}
-		});
+		
 		frame.getContentPane().add(btnRight);
 		
 				
-		btnStartGame.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings({ "deprecation", "null" })
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				btnUp.setEnabled(true);
-				btnUp.addMouseListener(btnUpMouseListener);
-				btnDown.setEnabled(true);
-				btnRight.setEnabled(true);
-				btnLeft.setEnabled(true);
-				String numberOgres = textField.getText();
-				numOgres = Integer.parseInt(numberOgres);
-				difficulty = (String) comboBox.getSelectedItem();
-				CreatGameMode1(difficulty);
-				try {
-					
-					doc.insertString(0, retMap(game), null);
-				} catch (BadLocationException e1) {
-					e1.printStackTrace();
-				}
-
-			}			
-		});
+		
 		
 		springLayout.putConstraint(SpringLayout.WEST, btnStartGame, 0, SpringLayout.WEST, btnExitGame);
         springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 31, SpringLayout.NORTH, lblNewLabel);

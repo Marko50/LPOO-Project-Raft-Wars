@@ -58,8 +58,7 @@ public class GameState {
 	{
 		int[] oPos = o[i].getPos();
 		int[] hPos = h.getPos();
-		if (((oPos[0] == hPos[0] - 1 || oPos[0] == hPos[0] + 1) && oPos[1] == hPos[1]) // Near
-				// Ogre
+		if (((oPos[0] == hPos[0] - 1 || oPos[0] == hPos[0] + 1) && oPos[1] == hPos[1])
 				|| ((oPos[1] == hPos[1] - 1 || oPos[1] == hPos[1] + 1) && oPos[0] == hPos[0] || oPos[1] == hPos[1])
 						&& oPos[0] == hPos[0]) {
 			return true;
@@ -73,8 +72,13 @@ public class GameState {
 		int[] oPos = o[i].getPos();
 		int[] hPos = h.getPos();
 		int[] cPos = o[i].getClub().getPos();
-				
-		if (((cPos[0] == hPos[0] - 1 || cPos[0] == hPos[0] + 1) && cPos[1] == hPos[1])
+		
+		if(o[i].getStun() > 0)
+		{
+			return false;
+		}
+		
+		else if (((cPos[0] == hPos[0] - 1 || cPos[0] == hPos[0] + 1) && cPos[1] == hPos[1])
 				|| ((cPos[1] == hPos[1] - 1 || cPos[1] == hPos[1] + 1) && cPos[0] == hPos[0])
 				|| (cPos[0] == hPos[0] && cPos[1] == hPos[1])) {
 			return true;
@@ -92,7 +96,6 @@ public class GameState {
 	{
 		boolean ret = false;
 		for (int i = 0; i <o.length; i++) {
-			//System.out.println("HERO NEAR OGRE");
 			if (this.stunOgre(i)) {
 				o[i].setStun(3);
 				ret =  false;
@@ -323,7 +326,6 @@ public class GameState {
 				else if(map[oPos[1]-1][oPos[0]] == k.getImage())
 				{
 					o.setY(o.getPos()[1]-1);
-					//oPos[1] = oPos[1]-1;
 				}
 				
 				else
@@ -453,6 +455,7 @@ public class GameState {
 				}
 				else if (this.mapa.getMap()[h.getPos()[1] - 2][h.getPos()[0]] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
+					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 					h.getPos()[1] = h.getPos()[1] - 2;
 					return true;
 					
@@ -531,6 +534,7 @@ public class GameState {
 					
 				}else if (this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-2] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
+					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 					h.getPos()[0] = h.getPos()[0] - 2;
 					return true;
 				} else {
@@ -605,6 +609,7 @@ public class GameState {
 				}
 				else if (this.mapa.getMap()[h.getPos()[1] + 2][h.getPos()[0]] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
+					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 					h.getPos()[1] = h.getPos()[1] + 2;
 					return true;
 					
@@ -681,6 +686,7 @@ public class GameState {
 					
 				} else if (this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+2] == ' ') {
 					System.out.println("You opened the door. Congratz. ");
+					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 					h.getPos()[0] = h.getPos()[0] + 2;
 					return true;
 					
