@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Scanner;
@@ -36,6 +37,8 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.*; 
+
 public class GraphicalInterface {
 
 	private JFrame frame;
@@ -51,6 +54,7 @@ public class GraphicalInterface {
 	private JComboBox comboBox;
 	private JTextPane textPane;
 	private JLabel lblTextoVarivel;
+	private JPanel gp;
 	private	GameState game = new GameState();
 	public int contador = 0;
 	int numOgres;
@@ -130,13 +134,6 @@ public class GraphicalInterface {
 		game.setVictory(false);
         Hero h1 = new Hero(1, 8, 'H');
         game.setHero(h1);
-        Ogre[] o = new Ogre[n];
-        for(int i = 0; i < n; i++)
-        {
-        	Ogre o1 = new Ogre(3, 1, 'O', '*');//3 1
-        	o[i] = o1;
-        }
-        game.setO(o);
         game.getMapa().mapSetGameMode2(game.getHero(), game.getOgres(), game.getK());
 	}
 	
@@ -177,7 +174,13 @@ public class GraphicalInterface {
 		else if (difficulty == "Suspicious") {
 			Suspicious s = new Suspicious(8, 1, 'S', movs);
 			game.setGuard(s);
-        }		
+        }
+		Ogre[] o = new Ogre[numOgres];
+		for (int i = 0; i < numOgres; i++) {
+			Ogre o1 = new Ogre(3, 1, 'O', '*');// 3 1
+			o[i] = o1;
+		}
+		game.setO(o);
 		game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());					
 	}
 	
@@ -260,6 +263,8 @@ public class GraphicalInterface {
 		frame = new JFrame();
 		frame.setBounds(0, 0, 450, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(450, 350));
+		frame.pack();
 		frame.setResizable(false);
 		
 		springLayout = new SpringLayout();
@@ -276,7 +281,8 @@ public class GraphicalInterface {
 						disabelButtons();
 					}
 				}
-				textPane.setText(retMap(game));
+				frame.repaint();
+				//textPane.setText(retMap(game));
 			}
 		});
 		springLayout.putConstraint(SpringLayout.SOUTH, btnLeft, -110, SpringLayout.SOUTH, frame.getContentPane());
@@ -293,7 +299,8 @@ public class GraphicalInterface {
 						disabelButtons();
 					}
 				}
-				textPane.setText(retMap(game));
+				frame.repaint();
+				//textPane.setText(retMap(game));
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnDown, 6, SpringLayout.SOUTH, btnLeft);
@@ -309,7 +316,9 @@ public class GraphicalInterface {
 						disabelButtons();
 					}
 				}
-				textPane.setText(retMap(game));}
+				frame.repaint();
+				//textPane.setText(retMap(game));
+			}
 		});
 		springLayout.putConstraint(SpringLayout.WEST, btnRight, 6, SpringLayout.EAST, btnLeft);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnRight, -6, SpringLayout.NORTH, btnDown);
@@ -326,7 +335,8 @@ public class GraphicalInterface {
 						disabelButtons();
 					}
 				}
-				textPane.setText(retMap(game));
+				frame.repaint();
+				//textPane.setText(retMap(game));
 			}
 		});
 				
@@ -350,9 +360,13 @@ public class GraphicalInterface {
 				}
 				difficulty = (String) comboBox.getSelectedItem();
 				CreatGameMode1(difficulty);
-				textPane.setText(retMap(game));
+				gp = new GraphicsPanel(game);
+				gp.requestFocusInWindow();	
+				frame.getContentPane().add(gp);
+				//textPane.setText(retMap(game));
 				btnStartGame.setEnabled(false);
 				lblTextoVarivel.setText("Click on Up/Down/Left/Right to move!");
+				frame.repaint();
 			}
 		});
 		springLayout.putConstraint(SpringLayout.EAST, btnStartGame, -24, SpringLayout.EAST, frame.getContentPane());
@@ -381,14 +395,15 @@ public class GraphicalInterface {
 		springLayout.putConstraint(SpringLayout.WEST, comboBox, 0, SpringLayout.WEST, textField);
 		springLayout.putConstraint(SpringLayout.SOUTH, comboBox, 0, SpringLayout.SOUTH, lblNewLabel_1);
 		frame.getContentPane().add(comboBox);
-				
+		
+		
 		textPane = new JTextPane();
 		springLayout.putConstraint(SpringLayout.NORTH, textPane, 23, SpringLayout.SOUTH, lblNewLabel_1);
 		springLayout.putConstraint(SpringLayout.WEST, textPane, 0, SpringLayout.WEST, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.EAST, textPane, 251, SpringLayout.WEST, frame.getContentPane());
 		textPane.setFont(new Font("Consolas", Font.PLAIN, 16));
 		textPane.setEditable(false);
-		frame.getContentPane().add(textPane);
+		//frame.getContentPane().add(textPane);
 		
 		lblTextoVarivel = new JLabel("Texto Variavel");
 		lblTextoVarivel.setFont(new Font("Calibri", Font.PLAIN, 10));
@@ -446,6 +461,13 @@ public class GraphicalInterface {
 		springLayout.putConstraint(SpringLayout.WEST, btnStartGame, 0, SpringLayout.WEST, btnExitGame);
         springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 31, SpringLayout.NORTH, lblNewLabel);
 		frame.getContentPane().add(btnStartGame);
+		
+		
+		gp = new JPanel();
+		springLayout.putConstraint(SpringLayout.NORTH, gp, 32, SpringLayout.SOUTH, lblNewLabel_1);
+		springLayout.putConstraint(SpringLayout.WEST, gp, 0, SpringLayout.WEST, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.SOUTH, gp, -49, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, gp, 264, SpringLayout.WEST, frame.getContentPane());
 	}
 	public JTextField getTextField() {
 		return textField;

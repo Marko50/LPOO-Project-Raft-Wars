@@ -425,6 +425,7 @@ public class GameState {
 				return false;
 				
 			}
+			
 			else if(this.mapa.getMap()[h.getPos()[1]-1][h.getPos()[0]] == 'I')
 			{
 				if(gameMode == 2 && k.isPickedUp())
@@ -439,10 +440,10 @@ public class GameState {
 				{
 					System.out.println("You shall not pass!");
 					return false;
-				}
-				
-				
-			} else if (this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] == 'S') {
+				}				
+			} 
+					
+			else if (this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] == 'S') {
 				if (h.getPos()[1] - 2 < 0 && gameMode == 1) {
 					System.out.println("TOP KEK. LV1. YOU HAPPY?");
 					this.victory = true;
