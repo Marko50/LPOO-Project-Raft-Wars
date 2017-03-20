@@ -18,6 +18,7 @@ public class GraphicsPanel extends JPanel {
 	
 	public GraphicsPanel(GameState game2)
 	{
+		this.setFocusable(true);
 		this.game = game2;
 	}
 	
@@ -82,4 +83,5 @@ public class GraphicsPanel extends JPanel {
 
 	}
 
+	
 }

@@ -37,9 +37,12 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.*; 
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener; 
 
-public class GraphicalInterface {
+public class GraphicalInterface{
 
 	private JFrame frame;
 	private	JLabel lblNewLabel;
@@ -259,8 +262,42 @@ public class GraphicalInterface {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(){							
+	
+	public void move(char dir)
+	{
+		if (game.getGMode() == 1) {
+			if (MoveGameMode1(dir) == false) {
+				disabelButtons();
+			}
+		} else if (game.getGMode() == 2) {
+			if (MoveGameMode2(dir) == false) {
+				disabelButtons();
+			}
+		}
+	}
+	
+	
+	private void initialize(){	
+		
 		frame = new JFrame();
+		frame.setFocusable(true);
+		frame.setFocusableWindowState(true);
+		frame.requestFocus();
+		frame.getContentPane().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				System.out.print("yo\n");
+				switch(arg0.getKeyCode())
+				{
+				case KeyEvent.VK_RIGHT:
+					move('a');
+					break;
+				
+				}	
+				frame.repaint();
+			}
+		});
+		
 		frame.setBounds(0, 0, 450, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(450, 350));
@@ -272,15 +309,7 @@ public class GraphicalInterface {
 		btnLeft = new JButton("Left");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (game.getGMode() == 1) {
-					if (MoveGameMode1('a') == false) {
-						disabelButtons();
-					}
-				} else if (game.getGMode() == 2) {
-					if (MoveGameMode2('a') == false) {
-						disabelButtons();
-					}
-				}
+				move('a');
 				frame.repaint();
 				//textPane.setText(retMap(game));
 			}
@@ -290,15 +319,7 @@ public class GraphicalInterface {
 		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (game.getGMode() == 1) {
-					if (MoveGameMode1('s') == false) {
-						disabelButtons();
-					}
-				} else if (game.getGMode() == 2) {
-					if (MoveGameMode2('s') == false) {
-						disabelButtons();
-					}
-				}
+				move('s');
 				frame.repaint();
 				//textPane.setText(retMap(game));
 			}
@@ -307,15 +328,7 @@ public class GraphicalInterface {
 		btnRight = new JButton("Right");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (game.getGMode() == 1) {
-					if (MoveGameMode1('d') == false) {
-						disabelButtons();
-					}
-				} else if (game.getGMode() == 2) {
-					if (MoveGameMode2('d') == false) {
-						disabelButtons();
-					}
-				}
+				move('d');
 				frame.repaint();
 				//textPane.setText(retMap(game));
 			}
@@ -326,20 +339,11 @@ public class GraphicalInterface {
 		btnUp = new JButton(" Up ");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (game.getGMode() == 1) {
-					if (MoveGameMode1('w') == false) {
-						disabelButtons();
-					}
-				} else if (game.getGMode() == 2) {
-					if (MoveGameMode2('w') == false) {
-						disabelButtons();
-					}
-				}
+				move('w');
 				frame.repaint();
 				//textPane.setText(retMap(game));
 			}
-		});
-				
+		});				
 		springLayout.putConstraint(SpringLayout.NORTH, btnRight, 6, SpringLayout.SOUTH, btnUp);
 		springLayout.putConstraint(SpringLayout.NORTH, btnLeft, 6, SpringLayout.SOUTH, btnUp);
 		springLayout.putConstraint(SpringLayout.WEST, btnLeft, -100, SpringLayout.EAST, btnUp);
@@ -361,11 +365,14 @@ public class GraphicalInterface {
 				difficulty = (String) comboBox.getSelectedItem();
 				CreatGameMode1(difficulty);
 				gp = new GraphicsPanel(game);
-				gp.requestFocusInWindow();	
 				frame.getContentPane().add(gp);
 				//textPane.setText(retMap(game));
+				frame.requestFocusInWindow();
 				btnStartGame.setEnabled(false);
 				lblTextoVarivel.setText("Click on Up/Down/Left/Right to move!");
+				frame.setFocusable(true);
+				frame.setFocusableWindowState(true);
+				frame.requestFocus();
 				frame.repaint();
 			}
 		});
@@ -472,4 +479,7 @@ public class GraphicalInterface {
 	public JTextField getTextField() {
 		return textField;
 	}
+
+
+
 }
