@@ -5,9 +5,11 @@ import java.awt.event.*;
 import javax.swing.*; 
 import dkeep.logic.*;
 
-public class GraphicsPanel extends JPanel {
+public class GraphicsPanel extends JPanel implements KeyListener {
+	private GraphicalInterface g;
 	private GameState game;
-
+	
+	
 	public GameState getGame() {
 		return game;
 	}
@@ -16,8 +18,10 @@ public class GraphicsPanel extends JPanel {
 		this.game = game;
 	}
 	
-	public GraphicsPanel(GameState game2)
+	public GraphicsPanel(GameState game2, GraphicalInterface gi)
 	{
+		this.g = gi;
+		addKeyListener(this);
 		this.setFocusable(true);
 		this.game = game2;
 	}
@@ -80,7 +84,40 @@ public class GraphicsPanel extends JPanel {
 			}
 		}
 		
+	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			g.move('a');
+			repaint();
+			break;
+		case KeyEvent.VK_RIGHT:
+			g.move('d');
+			repaint();
+			break;
+		case KeyEvent.VK_UP:
+			g.move('w');
+			repaint();
+			break;
+		case KeyEvent.VK_DOWN:
+			g.move('s');
+			repaint();
+			break;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

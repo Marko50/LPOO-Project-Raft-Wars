@@ -413,82 +413,135 @@ public class GameState {
 			}
 		}
 	}
+	
+	
+	
+	public boolean checkClosedDoor(int posy, int posx)
+	{
+		if(this.getMapa().getMap()[posy][posx] == 'I')
+		{
+			return true;						
+		}
+		return false;		
+	}
+	
+	public boolean checkVictory(int posy, int posx)
+	{
+		for(int i = 0; i < this.mapa.getMap().length; i++)
+		{
+			for(int j = 0 ; j < this.mapa.getMap()[i].length; j++)
+			{
+				if(posx + 1 > this.mapa.getMap()[i].length)
+					return true;
+			}
+		}
+		
+		if(posx - 1 < 0 || posy - 1 < 0 || posy + 1 > mapa.getMap().length)
+			return true;
+		
+		else return false;
+	}
+	
+	
+	
+	public boolean checkOpenDoor(int posy, int posx) {
+		if (this.mapa.getMap()[posy][posx] == 'S') {
+			if (checkVictory(posx, posy)) {
+				this.victory = true;
+				return true;
+			}
 
+			else if (this.mapa.getMap()[posy - 1][posx] == ' ' || this.mapa.getMap()[posy + 1][posx] == ' '
+					|| this.mapa.getMap()[posy][posx - 1] == ' ' || this.mapa.getMap()[posy][posx + 1] == ' ') {
+				return true;
+
+			} else {
+				return false;
+			}
+		}
+
+		else
+			return false;
+	}
+	
+
+	public boolean checkWall(int posy, int posx)
+	{
+		if(this.mapa.getMap()[posy][posx] == 'X')
+		{
+			return true;	
+		}
+		
+		else return false;
+	}
+	
+	
+	public boolean checkLever(int posy, int posx)
+	{
+		if (this.mapa.getMap()[posy][posx] == l.getImage() && gameMode == 1) {
+			return true;
+		}
+		
+		else return false;
+		
+	}
+	
+	
+	public boolean checkKey(int posy, int posx)
+	{
+		if (this.mapa.getMap()[posy][posx] == k.getImage() && gameMode == 2) {
+			return true;
+		}
+		
+		else return false;
+	}
+	
 	public boolean moveHero(char order) throws CloneNotSupportedException
 	{
 		if(order == 'w')
 		{
-			System.out.println(order);
-			if(this.mapa.getMap()[h.getPos()[1]-1][h.getPos()[0]] == 'X')
+			if(checkWall(h.getPos()[1]-1,h.getPos()[0]))
 			{
-				System.out.println("You triggered feminist.. Only men can do that");
-				return false;
-				
+				return false;	
 			}
 			
-			else if(this.mapa.getMap()[h.getPos()[1]-1][h.getPos()[0]] == 'I')
+			else if(checkClosedDoor(h.getPos()[1]-1, h.getPos()[0]))
 			{
 				if(gameMode == 2 && k.isPickedUp())
 				{
 					k.setUsed(true);
-					System.out.println("You used the key!");
 					this.mapa.getMap()[h.getPos()[1]-1][h.getPos()[0]] = 'S';
-					return false;
-				}
-		
-				else
-				{
-					System.out.println("You shall not pass!");
-					return false;
-				}				
-			} 
-					
-			else if (this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] == 'S') {
-				if (h.getPos()[1] - 2 < 0 && gameMode == 1) {
-					System.out.println("TOP KEK. LV1. YOU HAPPY?");
-					this.victory = true;
-					return false;
-					
-				}
-				else if (h.getPos()[1] - 2 < 0 && gameMode == 2) {
-					this.victory = true;
-					return true;
-				}
-				else if (this.mapa.getMap()[h.getPos()[1] - 2][h.getPos()[0]] == ' ') {
-					System.out.println("You opened the door. Congratz. ");
-					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-					h.getPos()[1] = h.getPos()[1] - 2;
-					return true;
-					
-				} else {
-					System.out.println("You triggered feminist.. Only men can do that");
-					return false;
-				}
+				}		
+				return false;							
 			}
 			
-			else if (this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] == l.getImage() && gameMode == 1) {
-				System.out.println(
-						"The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
+			else if(checkOpenDoor(h.getPos()[1] - 1, h.getPos()[0]))
+			{
+				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
+				h.getPos()[1] = h.getPos()[1] - 2;
+				return true;
+			}
+									
+			
+			else if(checkLever(h.getPos()[1] - 1, h.getPos()[0]))
+			{
 				l.setPressed(true);
 				this.mapa.changeDoors();
 				return false;
-
 			}
-
-			else if (this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] == k.getImage() && gameMode == 2) {
+			
+			else if(checkKey(h.getPos()[1] - 1, h.getPos()[0]))
+			{
 				Key test = (Key) k.clone();
 				h.setIm(test.getImage());
-				//k.setIm(' ');
 				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
 				k.setPickedUp(true);
-				System.out.println(
-						"You can now open doors!Magnificent. The actual doors, not the band. Jesus Christ superstar..");
 				return false;
 			}
 			
+			
 			else
 			{
-				System.out.println("Wow fascinating...You just moved..");
 				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 				h.getPos()[1] = h.getPos()[1] - 1;
 				return true;
@@ -497,72 +550,51 @@ public class GameState {
 		}
 		else if(order == 'a')
 		{
-			System.out.println(order);
-			if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == 'X')
+			if(checkWall(h.getPos()[1],h.getPos()[0]-1))
 			{
-				System.out.println("You triggered feminist.. Only men can do that");
-				return false;
+				return false;	
 			}
-			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == 'I')
+			
+			else if(checkClosedDoor(h.getPos()[1], h.getPos()[0]- 1))
 			{
 				if(gameMode == 2 && k.isPickedUp())
 				{
 					k.setUsed(true);
-					System.out.println("You used the key!");
 					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] = 'S';
-					return true;
-				}
-					
-				else
-				{
-					System.out.println("You shall not pass!");
-					return false;
-				}				
-				
-			}
-			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == 'S')
-			{
-				if (h.getPos()[0] - 2 < 0 && gameMode == 1) {
-					System.out.println("TOP KEK. LV1. YOU HAPPY?");
-					this.victory = true;
-					return false;
-					
-				}
-				else if (h.getPos()[0] - 2 < 0 && gameMode == 2) {
-					System.out.println("Ok. Nice cheats bruh");
-					this.victory = true;
-					return false;
-					
-				}else if (this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-2] == ' ') {
-					System.out.println("You opened the door. Congratz. ");
-					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-					h.getPos()[0] = h.getPos()[0] - 2;
-					return true;
-				} else {
-					System.out.println("You triggered feminist.. Only men can do that");
-					return false;
-				}
+	
+				}		
+				return false;							
 			}
 			
-			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == l.getImage() && gameMode == 1)
+			else if(checkOpenDoor(h.getPos()[1], h.getPos()[0]- 1))
 			{
-				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
+				if(this.getVictory())
+					return false;
+				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
+				h.getPos()[0] = h.getPos()[0] - 2;
+				return true;
+			}
+									
+			
+			else if(checkLever(h.getPos()[1], h.getPos()[0]- 1))
+			{
+				l.setPressed(true);
 				this.mapa.changeDoors();
-				l.setPressed(true);			
 				return false;
 			}
-			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]-1] == k.getImage() && gameMode == 2)
+			
+			else if(checkKey(h.getPos()[1], h.getPos()[0]- 1))
 			{
 				Key test = (Key) k.clone();
-				h.setIm(test.getImage());	
-			    k.setIm(' ');
-			    k.setPickedUp(true);
-			    System.out.println("You can now open doors! The actual doors, not the band. Jesus Christ superstar..");
-			    return true;
+				h.setIm(test.getImage());
+				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
+				k.setPickedUp(true);
+				return false;
 			}
+			
+			
 			else
 			{
-				System.out.println("Wow fascinating...You just moved..");
 				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 				h.getPos()[0] = h.getPos()[0] - 1;
 				return true;
@@ -571,164 +603,107 @@ public class GameState {
 		}
 		else if(order == 's')
 		{
-			System.out.println(order);
-			if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == 'X')
+			if(checkWall(h.getPos()[1]+1,h.getPos()[0]))
 			{
-				System.out.println("You triggered feminist.. Only men can do that");
-				return false;
-				
+				return false;	
 			}
-			else if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == 'I')
+			
+			else if(checkClosedDoor(h.getPos()[1]+1, h.getPos()[0]))
 			{
 				if(gameMode == 2 && k.isPickedUp())
 				{
-					k.setUsed(true); 
+					k.setUsed(true);
 					this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] = 'S';
-					System.out.println("You used the key!");
-					return true;
-				}
-				else
-				{
-					System.out.println("You shall not pass!");
-					return false;
-				}
-					
-				
-			}
-			else if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == 'S')
-			{
-				if (h.getPos()[1] + 2 > this.mapa.getMap().length && gameMode == 1) {
-					System.out.println("TOP KEK. LV1. YOU HAPPY?");
-					this.victory = true;
-					return false;
-					
-				}
-				else if (h.getPos()[1] + 2 > this.mapa.getMap().length && gameMode == 2) {
-					this.victory = true;
-					return true;
-					
-				}
-				else if (this.mapa.getMap()[h.getPos()[1] + 2][h.getPos()[0]] == ' ') {
-					System.out.println("You opened the door. Congratz. ");
-					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-					h.getPos()[1] = h.getPos()[1] + 2;
-					return true;
-					
-				} else {
-					System.out.println("You triggered feminist.. Only men can do that");
-					return false;					
-				}
+				}		
+				return false;							
 			}
 			
-			else if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == l.getImage() && gameMode == 1)
+			else if(checkOpenDoor(h.getPos()[1] + 1, h.getPos()[0]))
 			{
-				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
-				this.mapa.changeDoors();
-				l.setPressed(true);
-				return false;			
+				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
+				h.getPos()[1] = h.getPos()[1] + 2;
+				return true;
 			}
-			else if(this.mapa.getMap()[h.getPos()[1]+1][h.getPos()[0]] == k.getImage() && gameMode == 2)
+									
+			
+			else if(checkLever(h.getPos()[1] + 1, h.getPos()[0]))
+			{
+				l.setPressed(true);
+				this.mapa.changeDoors();
+				return false;
+			}
+			
+			else if(checkKey(h.getPos()[1] + 1, h.getPos()[0]))
 			{
 				Key test = (Key) k.clone();
 				h.setIm(test.getImage());
 				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
 				k.setPickedUp(true);
-				System.out.println("You can now open doors.Magnificent. The actual doors, not the band. Jesus Christ superstar..");
 				return false;
 			}
+			
+			
 			else
 			{
-				System.out.println("Wow fascinating...You just moved..");
 				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 				h.getPos()[1] = h.getPos()[1] + 1;
-				return true;				
+				return true;
 			}
 			
 		}
 		else if(order == 'd')
 		{
-			System.out.println(order);
-			if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == 'X')
+			if(checkWall(h.getPos()[1],h.getPos()[0]+1))
 			{
-				System.out.println("You triggered feminist.. Only men can do that");
-				return false;
-				
+				return false;	
 			}
-			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == 'I')
+			
+			else if(checkClosedDoor(h.getPos()[1], h.getPos()[0]+ 1))
 			{
 				if(gameMode == 2 && k.isPickedUp())
 				{
 					k.setUsed(true);
 					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] = 'S';
-					System.out.println("You used the key!");
-					return true;
-				}
-				
-				else
-				{
-					System.out.println("You shall not pass!");
-					return false;
-				}
-					
-				
-				
-			}
-			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == 'S')
-			{
-				if (h.getPos()[0] + 2 > this.mapa.getMap().length && gameMode == 1) {
-					System.out.println("TOP KEK. LV1. YOU HAPPY?");
-					this.victory = true;
-					return false;
-					
-				} 
-				else if (h.getPos()[0] + 2 > this.mapa.getMap().length && gameMode == 2) {
-					this.victory = true;
-					return true;
-					
-				} else if (this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+2] == ' ') {
-					System.out.println("You opened the door. Congratz. ");
-					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-					h.getPos()[0] = h.getPos()[0] + 2;
-					return true;
-					
-				} else {
-					System.out.println("You triggered feminist.. Only men can do that");
-					return false;
-				}
+				}		
+				return false;							
 			}
 			
-			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == l.getImage()&& gameMode == 1)
+			else if(checkOpenDoor(h.getPos()[1], h.getPos()[0]+ 1))
 			{
-				System.out.println("The doors will now be unlocked. The actual doors, not the band. Jesus Christ superstar..");
-				this.mapa.changeDoors();
+				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
+				h.getPos()[0] = h.getPos()[0] + 2;
+				return true;
+			}
+									
+			
+			else if(checkLever(h.getPos()[1], h.getPos()[0] + 1))
+			{
 				l.setPressed(true);
-				return false;	
+				this.mapa.changeDoors();
+				return false;
 			}
 			
-			else if(this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]+1] == k.getImage() && gameMode == 2)
+			else if(checkKey(h.getPos()[1], h.getPos()[0] + 1))
 			{
 				Key test = (Key) k.clone();
 				h.setIm(test.getImage());
-				//k.setIm(' ');
 				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
 				k.setPickedUp(true);
-				System.out.println("You can now open doors!Magnificent. The actual doors, not the band. Jesus Christ superstar..");
 				return false;
 			}
+			
+			
 			else
 			{
-				System.out.println("Wow fascinating...You just moved..");
 				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
 				h.getPos()[0] = h.getPos()[0] + 1;
 				return true;
 			}
+		}
+		
+		else return false;
+		
 			
-		}
-		else
-		{
-			System.out.print("INVALID COMMAND \n");
-			return false;
-		}
 	}
 	
 	public GameMap getMapa() {

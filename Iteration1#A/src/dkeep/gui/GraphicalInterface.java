@@ -44,21 +44,21 @@ import java.awt.event.KeyListener;
 
 public class GraphicalInterface{
 
-	private JFrame frame;
-	private	JLabel lblNewLabel;
-	private SpringLayout springLayout;
-	private JButton btnLeft;
-	private JButton btnRight;
-	private JButton btnUp;
-	private JButton btnDown;
-	private JButton btnStartGame;
-	private JTextField textField;
-	private JLabel lblNewLabel_1 ;
-	private JComboBox comboBox;
-	private JTextPane textPane;
-	private JLabel lblTextoVarivel;
-	private JPanel gp;
-	private	GameState game = new GameState();
+	public JFrame frame;
+	public	JLabel lblNewLabel;
+	public SpringLayout springLayout;
+	public JButton btnLeft;
+	public JButton btnRight;
+	public JButton btnUp;
+	public JButton btnDown;
+	public JButton btnStartGame;
+	public JTextField textField;
+	public JLabel lblNewLabel_1 ;
+	public JComboBox comboBox;
+	public JTextPane textPane;
+	public JLabel lblTextoVarivel;
+	public	GameState game = new GameState();
+	public JPanel gp;
 	public int contador = 0;
 	int numOgres;
 	String difficulty;
@@ -155,7 +155,7 @@ public class GraphicalInterface{
 		char[] l5 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
 		char[] l6 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
 		char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
-		char[] l8 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'};
+		char[] l8 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' };
 		char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
 		char[][] map = {l0,l1,l2,l3,l4,l5,l6,l7,l8,l9};	
 		Hero h = new Hero(1,1, 'H');
@@ -187,13 +187,17 @@ public class GraphicalInterface{
 		game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());					
 	}
 	
-	public boolean MoveGameMode1(char order)
+	boolean MoveGameMode1(char order)
 	{
 		
 		try {
 			if(game.getVictory())
+			{
 				CreateGameMode2(numOgres);
-			if (game.moveHero(order)) {
+				game.getMapa().mapSetGameMode2(game.getHero(), game.getOgres(), game.getK());
+			}
+			
+			else if (game.moveHero(order)) {
 				game.getMapa().setPos(game.getGuard().getPos()[0], game.getGuard().getPos()[1], ' ');
 				if (contador == 23 && game.getGuard().getDirection() == 1)
 					contador = 0;
@@ -219,7 +223,7 @@ public class GraphicalInterface{
 		return true;
 	}
 	
-	public boolean MoveGameMode2(char order)
+	boolean MoveGameMode2(char order)
 	{
 		try {
 			if(game.moveHero(order))
@@ -236,6 +240,7 @@ public class GraphicalInterface{
 				
 				else
 					lblTextoVarivel.setText("Congratulations! You won!");
+				disabelButtons();
 				return false;
 			}
 			
@@ -263,7 +268,7 @@ public class GraphicalInterface{
 	 * Initialize the contents of the frame.
 	 */
 	
-	public void move(char dir)
+	void move(char dir)
 	{
 		if (game.getGMode() == 1) {
 			if (MoveGameMode1(dir) == false) {
@@ -280,24 +285,6 @@ public class GraphicalInterface{
 	private void initialize(){	
 		
 		frame = new JFrame();
-		frame.setFocusable(true);
-		frame.setFocusableWindowState(true);
-		frame.requestFocus();
-		frame.getContentPane().addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				System.out.print("yo\n");
-				switch(arg0.getKeyCode())
-				{
-				case KeyEvent.VK_RIGHT:
-					move('a');
-					break;
-				
-				}	
-				frame.repaint();
-			}
-		});
-		
 		frame.setBounds(0, 0, 450, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(450, 350));
@@ -307,8 +294,10 @@ public class GraphicalInterface{
 		springLayout = new SpringLayout();
 		
 		btnLeft = new JButton("Left");
+		btnLeft.setFocusable(false);
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				move('a');
 				frame.repaint();
 				//textPane.setText(retMap(game));
@@ -319,6 +308,7 @@ public class GraphicalInterface{
 		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnDown.setFocusable(false);
 				move('s');
 				frame.repaint();
 				//textPane.setText(retMap(game));
@@ -326,8 +316,10 @@ public class GraphicalInterface{
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnDown, 6, SpringLayout.SOUTH, btnLeft);
 		btnRight = new JButton("Right");
+		btnRight.setFocusable(false);
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				move('d');
 				frame.repaint();
 				//textPane.setText(retMap(game));
@@ -337,8 +329,10 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.SOUTH, btnRight, -6, SpringLayout.NORTH, btnDown);
 		springLayout.putConstraint(SpringLayout.EAST, btnRight, -10, SpringLayout.EAST, frame.getContentPane());
 		btnUp = new JButton(" Up ");
+		btnUp.setFocusable(false);
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				move('w');
 				frame.repaint();
 				//textPane.setText(retMap(game));
@@ -348,6 +342,8 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.NORTH, btnLeft, 6, SpringLayout.SOUTH, btnUp);
 		springLayout.putConstraint(SpringLayout.WEST, btnLeft, -100, SpringLayout.EAST, btnUp);
 		btnStartGame = new JButton("Start Game");
+		btnStartGame.setFocusable(false);
+		GraphicalInterface i = this;
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				contador = 0;
@@ -364,16 +360,13 @@ public class GraphicalInterface{
 				}
 				difficulty = (String) comboBox.getSelectedItem();
 				CreatGameMode1(difficulty);
-				gp = new GraphicsPanel(game);
+				gp = new GraphicsPanel(game, i);
 				frame.getContentPane().add(gp);
 				//textPane.setText(retMap(game));
-				frame.requestFocusInWindow();
+				gp.requestFocusInWindow();
 				btnStartGame.setEnabled(false);
 				lblTextoVarivel.setText("Click on Up/Down/Left/Right to move!");
-				frame.setFocusable(true);
-				frame.setFocusableWindowState(true);
-				frame.requestFocus();
-				frame.repaint();
+				frame.repaint();		
 			}
 		});
 		springLayout.putConstraint(SpringLayout.EAST, btnStartGame, -24, SpringLayout.EAST, frame.getContentPane());
@@ -439,37 +432,24 @@ public class GraphicalInterface{
 				System.exit(0);
 			}
 		});
-		frame.getContentPane().add(btnExitGame);
-		
-		
-		btnDown.setEnabled(false);
-	
-		
+		frame.getContentPane().add(btnExitGame);		
+		btnDown.setEnabled(false);		
 		springLayout.putConstraint(SpringLayout.NORTH, btnUp, -178, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnUp, -115, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnUp, -147, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnUp, -48, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnDown);
-
 		btnLeft.setEnabled(false);
-
 		springLayout.putConstraint(SpringLayout.NORTH, btnExitGame, 12, SpringLayout.SOUTH, btnDown);
         springLayout.putConstraint(SpringLayout.SOUTH, btnExitGame, 45, SpringLayout.SOUTH, btnDown);
         springLayout.putConstraint(SpringLayout.SOUTH, btnDown, -73, SpringLayout.SOUTH, frame.getContentPane());
         springLayout.putConstraint(SpringLayout.EAST, btnDown, -48, SpringLayout.EAST, frame.getContentPane());
-		frame.getContentPane().add(btnLeft);
-		
-		btnRight.setEnabled(false);
-		
-		frame.getContentPane().add(btnRight);
-		
-					
-		
+		frame.getContentPane().add(btnLeft);		
+		btnRight.setEnabled(false);		
+		frame.getContentPane().add(btnRight);		
 		springLayout.putConstraint(SpringLayout.WEST, btnStartGame, 0, SpringLayout.WEST, btnExitGame);
         springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 31, SpringLayout.NORTH, lblNewLabel);
-		frame.getContentPane().add(btnStartGame);
-		
-		
+		frame.getContentPane().add(btnStartGame);	
 		gp = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, gp, 32, SpringLayout.SOUTH, lblNewLabel_1);
 		springLayout.putConstraint(SpringLayout.WEST, gp, 0, SpringLayout.WEST, lblNewLabel);
