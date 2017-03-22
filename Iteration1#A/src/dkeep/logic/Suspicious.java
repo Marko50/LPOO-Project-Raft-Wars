@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Suspicious extends Guard {
 
-	public Suspicious(int x, int y, char im, int[][] m) {
-		super(x, y, im, m);
+	public Suspicious(int x, int y, char im) {
+		super(x, y, im);
 	}
 
 	@Override

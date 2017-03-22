@@ -1,20 +1,25 @@
 package dkeep.logic;
 
 public abstract class Guard   extends Character{
-	/*
-	private int[] gPos;
-	private char image;
-	*/
+	public int[][] movsPossibility = { { 8, 1 }, { 7, 1 }, { 7, 2 }, { 7, 3 }, { 7, 4 }, { 7, 5 }, { 6, 5 }, { 5, 5 }, { 4, 5 },
+			{ 3, 5 }, { 2, 5 }, { 1, 5 }, { 1, 6 }, { 2, 6 }, { 3, 6 }, { 4, 6 }, { 5, 6 }, { 6, 6 }, { 7, 6 },
+			{ 8, 6 }, { 8, 5 }, { 8, 4 }, { 8, 3 }, { 8, 2 } };
+	
 	private int direction;
 	private int asleep;
-	protected int[][] movs = new int[24][2];
-	public Guard(int x, int y, char im, int[][] m)
+	protected int[][] movs; //= new int[24][2];
+	public Guard(int x, int y, char im)
 	{
 		super(x,y,im);
-		this.movs = m;
 		direction = 1;
 		asleep = 0;
 	}
+	
+	public void setMovs(int [][] m)
+	{
+		this.movs = m;
+	}
+	
 	public int[][] getMovs()
 	{
 		return this.movs;
@@ -40,21 +45,6 @@ public abstract class Guard   extends Character{
 		this.asleep = 3;
 		this.setIm('g');
 	}
-	
-	
+		
 	public abstract void gMove(int contador);
-	/*
-	public void setIm(char im)
-	{
-		this.image = im;
-	}
-	public char getImage()
-	{
-		return this.image;
-	}
-	public int[] getGpos()
-	{
-		return this.gPos;
-	}
-    */
 }

@@ -2,8 +2,8 @@ package dkeep.logic;
 
 public class Rookie extends Guard {
 
-	public Rookie(int x, int y, char im, int[][] m) {
-		super(x, y, im, m);
+	public Rookie(int x, int y, char im) {
+		super(x, y, im);
 		
 	}
 

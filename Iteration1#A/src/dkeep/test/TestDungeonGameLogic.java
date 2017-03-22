@@ -9,7 +9,7 @@ import org.junit.Test;
 import dkeep.logic.GameMap;
 import dkeep.logic.GameState;
 import dkeep.logic.CellPosition;
-
+/*
 public class TestDungeonGameLogic {
 	char[][] mapa = {
 			{'X','X','X','X','X'},
@@ -185,3 +185,4 @@ public class TestDungeonGameLogic {
 	
 		
 }
+*/

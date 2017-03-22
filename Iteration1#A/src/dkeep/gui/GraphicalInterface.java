@@ -57,13 +57,12 @@ public class GraphicalInterface{
 	public JComboBox comboBox;
 	public JTextPane textPane;
 	public JLabel lblTextoVarivel;
-	public	GameState game = new GameState();
+	private	GameState game = new GameState();
 	public JPanel gp;
 	public int contador = 0;
 	int numOgres;
-	String difficulty;
-	
-	
+	int difficulty;
+		
 	public int parseInt(String text)
 	{
 		int num;
@@ -112,144 +111,6 @@ public class GraphicalInterface{
 		initialize();
 	}
 	
-	public void CreateGameMode2(int n)
-	{
-		game.setGMode(2);
-		char[] l0a = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-		char[] l1a = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l2a = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l3a = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l4a = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l5a = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l6a = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l7a = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l8a = {'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' };
-		char[] l9a = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-		char[][] map2 = {l0a,l1a,l2a,l3a,l4a,l5a,l6a,l7a,l8a,l9a};
-		
-		Lever l = new Lever(0, 0, 'k');
-		game.setLever(l);
-		GameMap map = new GameMap(map2);
-		game.setMapa(map);
-		Key k = new Key(2,1,'k');
-		game.setK(k);
-		game.setDefeat(false);
-		game.setVictory(false);
-        Hero h1 = new Hero(1, 8, 'H');
-        game.setHero(h1);
-        game.getMapa().mapSetGameMode2(game.getHero(), game.getOgres(), game.getK());
-	}
-	
-	public void CreatGameMode1(String difficulty)
-	{
-		game.setGMode(1);
-		int[][] movs = { { 8, 1 }, { 7, 1 }, { 7, 2 }, { 7, 3 }, { 7, 4 }, { 7, 5 }, { 6, 5 }, { 5, 5 }, { 4, 5 },
-				{ 3, 5 }, { 2, 5 }, { 1, 5 }, { 1, 6 }, { 2, 6 }, { 3, 6 }, { 4, 6 }, { 5, 6 }, { 6, 6 }, { 7, 6 },
-				{ 8, 6 }, { 8, 5 }, { 8, 4 }, { 8, 3 }, { 8, 2 } };
- 
-		char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-		char[] l1 = {'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
-		char[] l2 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-		char[] l3 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
-		char[] l4 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ' ,' ', 'X' };
-		char[] l5 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l6 = {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ,' ', 'X' };
-		char[] l7 = {'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X' ,' ', 'X' };
-		char[] l8 = {'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' };
-		char[] l9 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
-		char[][] map = {l0,l1,l2,l3,l4,l5,l6,l7,l8,l9};	
-		Hero h = new Hero(1,1, 'H');
-		game.setHero(h);
-		Key k = new Key(0,0,'k');
-		game.setK(k);
-		Lever l = new Lever(7,8,'k');
-		game.setLever(l);
-		GameMap m = new GameMap(map);
-		game.setMapa(m);
-		game.setDefeat(false);
-		if (difficulty == "Drunken") {
-			Drunken d = new Drunken(8, 1, 'D', movs);
-			game.setGuard(d);
-		} else if (difficulty == "Rookie") {
-			Rookie r = new Rookie(8, 1, 'R', movs);
-			game.setGuard(r);
-		}
-		else if (difficulty == "Suspicious") {
-			Suspicious s = new Suspicious(8, 1, 'S', movs);
-			game.setGuard(s);
-        }
-		Ogre[] o = new Ogre[numOgres];
-		for (int i = 0; i < numOgres; i++) {
-			Ogre o1 = new Ogre(3, 1, 'O', '*');// 3 1
-			o[i] = o1;
-		}
-		game.setO(o);
-		game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());					
-	}
-	
-	boolean MoveGameMode1(char order)
-	{
-		
-		try {
-			if(game.getVictory())
-			{
-				CreateGameMode2(numOgres);
-				game.getMapa().mapSetGameMode2(game.getHero(), game.getOgres(), game.getK());
-			}
-			
-			else if (game.moveHero(order)) {
-				game.getMapa().setPos(game.getGuard().getPos()[0], game.getGuard().getPos()[1], ' ');
-				if (contador == 23 && game.getGuard().getDirection() == 1)
-					contador = 0;
-				else if (contador == 0 && game.getGuard().getDirection() == -1) {
-					contador = 23;
-				} else if (game.getGuard().getSleep() == 0)
-					contador = contador + game.getGuard().getDirection();
-
-				game.getGuard().gMove(contador);
-				game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
-				game.heroNearGuard();
-			}
-			if (game.getDefeat()) {
-				game.getMapa().mapSetGameMode1(game.getLever(), game.getHero(), game.getGuard());
-				lblTextoVarivel.setText("Ups you lost!");
-				return false;
-			}
-			
-			
-		} catch (CloneNotSupportedException e1) {
-			e1.printStackTrace();
-		}
-		return true;
-	}
-	
-	boolean MoveGameMode2(char order)
-	{
-		try {
-			if(game.moveHero(order))
-			{
-				game.moveOgres();
-				game.ogreOnKey();
-				game.getMapa().mapSetGameMode2(game.getHero(), game.getOgres(), game.getK());
-				game.heroNearOgre();
-			}
-			if (game.getDefeat() || game.getVictory()) {
-				game.getMapa().mapSetGameMode2(game.getHero(), game.getOgres(), game.getK());
-				if(game.getDefeat())
-					lblTextoVarivel.setText("Ups you lost!");
-				
-				else
-					lblTextoVarivel.setText("Congratulations! You won!");
-				disabelButtons();
-				return false;
-			}
-			
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}	
-		return true;
-	}
-	
 	String retMap(GameState game)
 	{
 		String res = "   ";
@@ -270,17 +131,25 @@ public class GraphicalInterface{
 	
 	void move(char dir)
 	{
-		if (game.getGMode() == 1) {
-			if (MoveGameMode1(dir) == false) {
+		if (getGame().getGMode() == 1) {
+			if (getGame().updateGameMode1(dir) == false) {
+				lblTextoVarivel.setText("Ups you lost!");
 				disabelButtons();
 			}
-		} else if (game.getGMode() == 2) {
-			if (MoveGameMode2(dir) == false) {
+		} else if (getGame().getGMode() == 2) {
+			if (getGame().updateGameMode2(dir) == false) {
+				lblTextoVarivel.setText("Ups you lost!");
 				disabelButtons();
 			}
+			if(getGame().getVictory())
+			{
+				lblTextoVarivel.setText("Congratulations! You won!");
+				disabelButtons();
+			}
+			
 		}
 	}
-	
+		
 	
 	private void initialize(){	
 		
@@ -296,11 +165,9 @@ public class GraphicalInterface{
 		btnLeft = new JButton("Left");
 		btnLeft.setFocusable(false);
 		btnLeft.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) {			
 				move('a');
 				frame.repaint();
-				//textPane.setText(retMap(game));
 			}
 		});
 		springLayout.putConstraint(SpringLayout.SOUTH, btnLeft, -110, SpringLayout.SOUTH, frame.getContentPane());
@@ -311,18 +178,15 @@ public class GraphicalInterface{
 				btnDown.setFocusable(false);
 				move('s');
 				frame.repaint();
-				//textPane.setText(retMap(game));
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnDown, 6, SpringLayout.SOUTH, btnLeft);
 		btnRight = new JButton("Right");
 		btnRight.setFocusable(false);
 		btnRight.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) {		
 				move('d');
 				frame.repaint();
-				//textPane.setText(retMap(game));
 			}
 		});
 		springLayout.putConstraint(SpringLayout.WEST, btnRight, 6, SpringLayout.EAST, btnLeft);
@@ -331,11 +195,9 @@ public class GraphicalInterface{
 		btnUp = new JButton(" Up ");
 		btnUp.setFocusable(false);
 		btnUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) {		
 				move('w');
 				frame.repaint();
-				//textPane.setText(retMap(game));
 			}
 		});				
 		springLayout.putConstraint(SpringLayout.NORTH, btnRight, 6, SpringLayout.SOUTH, btnUp);
@@ -358,11 +220,10 @@ public class GraphicalInterface{
 					lblTextoVarivel.setText("Number of Ogres has to be and integer less and than 5!");
 					actionPerformed(arg0);
 				}
-				difficulty = (String) comboBox.getSelectedItem();
-				CreatGameMode1(difficulty);
-				gp = new GraphicsPanel(game, i);
+				difficulty = comboBox.getSelectedIndex() + 1;
+				setGame(new GameState(1,1,8,1, difficulty,7,8,2,1,3,1,numOgres));
+				gp = new GraphicsPanel(i);
 				frame.getContentPane().add(gp);
-				//textPane.setText(retMap(game));
 				gp.requestFocusInWindow();
 				btnStartGame.setEnabled(false);
 				lblTextoVarivel.setText("Click on Up/Down/Left/Right to move!");
@@ -391,7 +252,7 @@ public class GraphicalInterface{
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Rookie", "Drunken", "Suspicious"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Drunken", "Rookie", "Suspicious"}));
 		springLayout.putConstraint(SpringLayout.WEST, comboBox, 0, SpringLayout.WEST, textField);
 		springLayout.putConstraint(SpringLayout.SOUTH, comboBox, 0, SpringLayout.SOUTH, lblNewLabel_1);
 		frame.getContentPane().add(comboBox);
@@ -458,6 +319,16 @@ public class GraphicalInterface{
 	}
 	public JTextField getTextField() {
 		return textField;
+	}
+
+
+	public GameState getGame() {
+		return game;
+	}
+
+
+	public void setGame(GameState game) {
+		this.game = game;
 	}
 
 

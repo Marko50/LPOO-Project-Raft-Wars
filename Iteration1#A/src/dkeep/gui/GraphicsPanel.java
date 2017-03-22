@@ -6,24 +6,14 @@ import javax.swing.*;
 import dkeep.logic.*;
 
 public class GraphicsPanel extends JPanel implements KeyListener {
-	private GraphicalInterface g;
-	private GameState game;
+	private GraphicalInterface Gi;
 	
-	
-	public GameState getGame() {
-		return game;
-	}
 
-	public void setGame(GameState game) {
-		this.game = game;
-	}
-	
-	public GraphicsPanel(GameState game2, GraphicalInterface gi)
+	public GraphicsPanel(GraphicalInterface gi)
 	{
-		this.g = gi;
+		this.Gi = gi;
 		addKeyListener(this);
 		this.setFocusable(true);
-		this.game = game2;
 	}
 	
 	@Override
@@ -35,48 +25,48 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		for(int i = 0; i < game.getMapa().getMap().length; i++)
+		for(int i = 0; i < Gi.getGame().getMapa().getMap().length; i++)
 		{
-			for(int j = 0 ; j < game.getMapa().getMap()[i].length; j++)
+			for(int j = 0 ; j < Gi.getGame().getMapa().getMap()[i].length; j++)
 			{
-				if(game.getMapa().getMap()[i][j] == ' ')
+				if(Gi.getGame().getMapa().getMap()[i][j] == ' ')
 				{
 					g.setColor(Color.WHITE);
 				}
-				else if(game.getMapa().getMap()[i][j] == 'I')
+				else if(Gi.getGame().getMapa().getMap()[i][j] == 'I')
 				{
 					g.setColor(Color.gray);
 				}
-				else if(game.getMapa().getMap()[i][j] == 'S')
+				else if(Gi.getGame().getMapa().getMap()[i][j] == 'S')
 				{
 					g.setColor(Color.ORANGE);
 				}
-				else if(game.getMapa().getMap()[i][j] == 'X')
+				else if(Gi.getGame().getMapa().getMap()[i][j] == 'X')
 				{
 					g.setColor(Color.BLACK);
 				}
-				else if(game.getMapa().getMap()[i][j] == game.getLever().getImage())
+				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getLever().getImage())
 				{
 					g.setColor(Color.YELLOW);
 				}
-				else if(game.getMapa().getMap()[i][j] == game.getHero().getImage())
+				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getHero().getImage())
 				{
 					g.setColor(Color.RED);
 				}
-				else if(game.getMapa().getMap()[i][j] == game.getOgres()[0].getImage())
+				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getOgres()[0].getImage())
 				{
 					g.setColor(Color.GREEN);
 				}
-				else if(game.getMapa().getMap()[i][j] == game.getOgres()[0].getClub().getImage())
+				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getOgres()[0].getClub().getImage())
 				{
 					Color c = new Color(22, 75, 44);
 					g.setColor(c);
 				}
-				else if(game.getMapa().getMap()[i][j] == game.getGuard().getImage())
+				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getGuard().getImage())
 				{
 					g.setColor(Color.BLUE);
 				}
-				else if(game.getMapa().getMap()[i][j] == game.getK().getImage())
+				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getK().getImage())
 				{
 					g.setColor(Color.PINK);
 				}	
@@ -90,19 +80,19 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			g.move('a');
+			Gi.move('a');
 			repaint();
 			break;
 		case KeyEvent.VK_RIGHT:
-			g.move('d');
+			Gi.move('d');
 			repaint();
 			break;
 		case KeyEvent.VK_UP:
-			g.move('w');
+			Gi.move('w');
 			repaint();
 			break;
 		case KeyEvent.VK_DOWN:
-			g.move('s');
+			Gi.move('s');
 			repaint();
 			break;
 		}

@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Drunken extends Guard{
 
-	public Drunken(int x, int y, char im, int[][] m) {
-		super(x, y, im, m);
+	public Drunken(int x, int y, char im) {
+		super(x, y, im);
 
 	}
 
