@@ -175,7 +175,6 @@ public class GraphicalInterface{
 		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnDown.setFocusable(false);
 				move('s');
 				frame.repaint();
 			}

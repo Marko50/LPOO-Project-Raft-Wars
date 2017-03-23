@@ -81,21 +81,22 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			Gi.move('a');
-			repaint();
+			Gi.frame.repaint();
 			break;
 		case KeyEvent.VK_RIGHT:
 			Gi.move('d');
-			repaint();
+			Gi.frame.repaint();
 			break;
 		case KeyEvent.VK_UP:
 			Gi.move('w');
-			repaint();
+			Gi.frame.repaint();
 			break;
 		case KeyEvent.VK_DOWN:
 			Gi.move('s');
-			repaint();
+			Gi.frame.repaint();
 			break;
 		}
+		
 	}
 
 	@Override

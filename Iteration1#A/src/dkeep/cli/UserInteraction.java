@@ -37,7 +37,7 @@ public class UserInteraction {
 		Scanner s = new Scanner(System.in);
 		char order;
 		game.showmap();
-		while(game.getDefeat() == false)
+		while(game.isVictoryGuard() == false)
 		{
 			order = s.next().charAt(0);
 			if(order == 'p')
@@ -54,8 +54,8 @@ public class UserInteraction {
 			}
 			game.showmap();
 		}
-		game.setDefeat(false);
-		while(game.getVictory() == false)
+		
+		while(game.isVictoryOgre() == false)
 		{
 			System.out.println("Your move. Choose wisely");
 			order = s.next().charAt(0);

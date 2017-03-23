@@ -12,6 +12,8 @@ public class GameState {
 	private int gameMode;
 	private boolean defeat;
 	private boolean victory;
+	private boolean victoryGuard;
+	private boolean victoryOgre;
 
 	public GameState() {
 
@@ -198,6 +200,8 @@ public class GameState {
 			o[i] = o1;
 		}
 		this.mapa.mapSetGameMode1(l, h, g);
+		this.victoryGuard = false;
+		this.victoryOgre = false;
 	}
 
 	public void showmap() {
@@ -378,6 +382,8 @@ public class GameState {
 		else
 			return false;
 	}
+	
+	
 
 	public boolean checkOpenDoor(int posy, int posx) {
 		if (this.mapa.getMap()[posy][posx] == 'S') {
@@ -400,7 +406,8 @@ public class GameState {
 	}
 
 	public boolean checkWall(int posy, int posx) {
-		if (this.mapa.getMap()[posy][posx] == 'X') {
+		if (this.mapa.getMap()[posy][posx] == 'X' || this.mapa.getMap()[posy][posx] == g.getImage()
+				|| this.mapa.getMap()[posy][posx] == o[0].getImage()) {
 			return true;
 		}
 
@@ -677,7 +684,8 @@ public class GameState {
 		if(this.getVictory())
 		{
 			this.victory = false;
-			this.defeat = true;
+			this.defeat = false;
+			this.victoryGuard = true;
 			this.mapa.setMap(this.mapa.mapOgre);
 			this.setGMode(2);
 			this.h.setX(1);
@@ -715,6 +723,7 @@ public class GameState {
 		this.heroNearOgre();
 		if(this.getVictory())
 		{
+			this.victoryOgre = true;
 			return true;
 		}
 		if (this.getDefeat()) {
@@ -725,6 +734,22 @@ public class GameState {
 		this.getMapa().mapSetGameMode2(this.getHero(), this.getOgres(), this.getK());
 		//this.showmap();
 		return true;
+	}
+
+	public boolean isVictoryGuard() {
+		return victoryGuard;
+	}
+
+	public void setVictoryGuard(boolean victoryGuard) {
+		this.victoryGuard = victoryGuard;
+	}
+
+	public boolean isVictoryOgre() {
+		return victoryOgre;
+	}
+
+	public void setVictoryOgre(boolean victoryOgre) {
+		this.victoryOgre = victoryOgre;
 	}
 	
 }
