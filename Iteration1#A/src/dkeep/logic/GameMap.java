@@ -28,6 +28,8 @@ public class GameMap {
 	
 	
 	private char[][] map;
+	private Character[][] mapChar;
+	
 	
 	public GameMap()
 	{
@@ -36,6 +38,8 @@ public class GameMap {
 	public GameMap(char[][] map1)
 	{
 		this.map = map1;
+		mapChar =   new Character[map.length][map[0].length];
+		this.setMapChar();
 	}
 
 	public char[][] getMap() {
@@ -44,11 +48,14 @@ public class GameMap {
 
 	public void setMap(char[][] map) {
 		this.map = map;
+		mapChar = new Character[map.length][map[0].length];
+		this.setMapChar();
 	}
 	
 	public void setPos(int x, int y, char im)
 	{
 		map[y][x] = im;
+		this.setMapChar();
 	}
 	
 	public void changeDoors()
@@ -63,6 +70,7 @@ public class GameMap {
 				}
 			}
 		}
+		this.setMapChar();
 	}
 
 	public void mapSetGameMode1(Lever l, Hero h, Guard g) {
@@ -80,5 +88,42 @@ public class GameMap {
 			map[o[i].getPos()[1]][o[i].getPos()[0]] = o[i].getImage();
 			map[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = o[i].getClub().getImage();
 		}
+		
+	}
+	public Character[][] getMapChar() {
+		return mapChar;
+	}
+	public void setMapChar() {
+		for(int i = 0; i < map.length; i++)
+		{
+			for(int j = 0; j < map[i].length; j++)
+			{
+				if(map[i][j] == 'X')
+				{
+					Wall w = new Wall(j,i,'X');
+					mapChar[i][j] = w;
+				}
+				
+				else if(map[i][j] == 'I')
+				{
+					Door w = new Door(j,i,'X',false);
+					mapChar[i][j] = w;
+				}
+				
+				else if(map[i][j] == 'S')
+				{
+					Door w = new Door(j,i,'X',true);
+					mapChar[i][j] = w;
+				}
+						
+				else if(map[i][j] == ' ')
+				{
+					Floor w = new Floor(j,i,' ');
+					mapChar[i][j] = w;
+				}
+			}
+		}
+		
+		
 	}
 }

@@ -21,4 +21,6 @@ public class Suspicious extends Guard {
 			else this.setDirection(1);
 	}
 
+	
+
 }

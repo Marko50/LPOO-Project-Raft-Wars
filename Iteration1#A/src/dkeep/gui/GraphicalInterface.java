@@ -58,7 +58,7 @@ public class GraphicalInterface{
 	public JTextPane textPane;
 	public JLabel lblTextoVarivel;
 	private	GameState game = new GameState();
-	public JPanel gp;
+	public GraphicsPanel gp;
 	public int contador = 0;
 	int numOgres;
 	int difficulty;
@@ -135,6 +135,7 @@ public class GraphicalInterface{
 			if (getGame().updateGameMode1(dir) == false) {
 				lblTextoVarivel.setText("Ups you lost!");
 				disabelButtons();
+				gp.removeListener();
 			}
 		} else if (getGame().getGMode() == 2) {
 			if (getGame().updateGameMode2(dir) == false) {
@@ -154,15 +155,16 @@ public class GraphicalInterface{
 	private void initialize(){	
 		
 		frame = new JFrame();
-		frame.setBounds(0, 0, 450, 350);
+		frame.setBounds(0, 0, 450, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(450, 350));
+		frame.setPreferredSize(new Dimension(450, 450));
 		frame.pack();
 		frame.setResizable(false);
 		
 		springLayout = new SpringLayout();
 		
 		btnLeft = new JButton("Left");
+		springLayout.putConstraint(SpringLayout.SOUTH, btnLeft, -210, SpringLayout.SOUTH, frame.getContentPane());
 		btnLeft.setFocusable(false);
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
@@ -170,9 +172,9 @@ public class GraphicalInterface{
 				frame.repaint();
 			}
 		});
-		springLayout.putConstraint(SpringLayout.SOUTH, btnLeft, -110, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnLeft, -83, SpringLayout.EAST, frame.getContentPane());
 		btnDown = new JButton("Down");
+		springLayout.putConstraint(SpringLayout.SOUTH, btnDown, -173, SpringLayout.SOUTH, frame.getContentPane());
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				move('s');
@@ -192,6 +194,8 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.SOUTH, btnRight, -6, SpringLayout.NORTH, btnDown);
 		springLayout.putConstraint(SpringLayout.EAST, btnRight, -10, SpringLayout.EAST, frame.getContentPane());
 		btnUp = new JButton(" Up ");
+		springLayout.putConstraint(SpringLayout.NORTH, btnUp, -278, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnUp, -247, SpringLayout.SOUTH, frame.getContentPane());
 		btnUp.setFocusable(false);
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
@@ -266,11 +270,11 @@ public class GraphicalInterface{
 		//frame.getContentPane().add(textPane);
 		
 		lblTextoVarivel = new JLabel("Texto Variavel");
+		springLayout.putConstraint(SpringLayout.NORTH, lblTextoVarivel, -22, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblTextoVarivel, 0, SpringLayout.EAST, frame.getContentPane());
 		lblTextoVarivel.setFont(new Font("Calibri", Font.PLAIN, 10));
-		springLayout.putConstraint(SpringLayout.NORTH, lblTextoVarivel, 6, SpringLayout.SOUTH, textPane);
 		springLayout.putConstraint(SpringLayout.WEST, lblTextoVarivel, 0, SpringLayout.WEST, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblTextoVarivel, -8, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblTextoVarivel, 0, SpringLayout.EAST, textPane);
 		frame.getContentPane().add(lblTextoVarivel);
 		
 		lblTextoVarivel.setText("Select the guard and ogres and press Start!");
@@ -294,15 +298,12 @@ public class GraphicalInterface{
 		});
 		frame.getContentPane().add(btnExitGame);		
 		btnDown.setEnabled(false);		
-		springLayout.putConstraint(SpringLayout.NORTH, btnUp, -178, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnUp, -115, SpringLayout.EAST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnUp, -147, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnUp, -48, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnDown);
 		btnLeft.setEnabled(false);
 		springLayout.putConstraint(SpringLayout.NORTH, btnExitGame, 12, SpringLayout.SOUTH, btnDown);
         springLayout.putConstraint(SpringLayout.SOUTH, btnExitGame, 45, SpringLayout.SOUTH, btnDown);
-        springLayout.putConstraint(SpringLayout.SOUTH, btnDown, -73, SpringLayout.SOUTH, frame.getContentPane());
         springLayout.putConstraint(SpringLayout.EAST, btnDown, -48, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnLeft);		
 		btnRight.setEnabled(false);		
@@ -310,7 +311,7 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.WEST, btnStartGame, 0, SpringLayout.WEST, btnExitGame);
         springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 31, SpringLayout.NORTH, lblNewLabel);
 		frame.getContentPane().add(btnStartGame);	
-		gp = new JPanel();
+		gp = new GraphicsPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, gp, 32, SpringLayout.SOUTH, lblNewLabel_1);
 		springLayout.putConstraint(SpringLayout.WEST, gp, 0, SpringLayout.WEST, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.SOUTH, gp, -49, SpringLayout.SOUTH, frame.getContentPane());
@@ -329,7 +330,4 @@ public class GraphicalInterface{
 	public void setGame(GameState game) {
 		this.game = game;
 	}
-
-
-
 }

@@ -1,7 +1,12 @@
 package dkeep.gui;
 
 import java.awt.*;
-import java.awt.event.*; 
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*; 
 import dkeep.logic.*;
 
@@ -9,6 +14,16 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 	private GraphicalInterface Gi;
 	
 
+	public GraphicsPanel()
+	{
+		
+	}
+	
+	public void removeListener()
+	{
+		removeKeyListener(this);
+	}
+	
 	public GraphicsPanel(GraphicalInterface gi)
 	{
 		this.Gi = gi;
@@ -18,7 +33,7 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 	
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(450, 350);
+		return new Dimension(450, 450);
 	}
  
 	@Override
@@ -29,51 +44,30 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 		{
 			for(int j = 0 ; j < Gi.getGame().getMapa().getMap()[i].length; j++)
 			{
-				if(Gi.getGame().getMapa().getMap()[i][j] == ' ')
-				{
-					g.setColor(Color.WHITE);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == 'I')
-				{
-					g.setColor(Color.gray);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == 'S')
-				{
-					g.setColor(Color.ORANGE);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == 'X')
-				{
-					g.setColor(Color.BLACK);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getLever().getImage())
-				{
-					g.setColor(Color.YELLOW);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getHero().getImage())
-				{
-					g.setColor(Color.RED);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getOgres()[0].getImage())
-				{
-					g.setColor(Color.GREEN);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getOgres()[0].getClub().getImage())
-				{
-					Color c = new Color(22, 75, 44);
-					g.setColor(c);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getGuard().getImage())
-				{
-					g.setColor(Color.BLUE);
-				}
-				else if(Gi.getGame().getMapa().getMap()[i][j] == Gi.getGame().getK().getImage())
-				{
-					g.setColor(Color.PINK);
-				}	
-				g.fillRect(10 + 20*j, 75 + 20*i, 20, 20);
-			}
+				g.drawImage(Gi.getGame().getMapa().getMapChar()[i][j].getIm(), 10 + 25*j, 75+30*i, 25, 30, null);
+			}	
 		}
+		g.drawImage(Gi.getGame().getHero().getIm(), 10 + 25 * Gi.getGame().getHero().getPos()[0],
+				75 + 30 * Gi.getGame().getHero().getPos()[1], 25, 30, null);
 		
+		
+		if (Gi.getGame().getGMode() == 1)
+			g.drawImage(Gi.getGame().getGuard().getIm(), 10 + 25 * Gi.getGame().getGuard().getPos()[0],
+					75 + 30 * Gi.getGame().getGuard().getPos()[1], 25, 30, null);
+		
+		if(Gi.getGame().getGMode() == 2)
+		{
+			for (int i = 0; i < Gi.getGame().getOgres().length; i++) {
+				g.drawImage(Gi.getGame().getOgres()[i].getIm(), 10 + 25 * Gi.getGame().getOgres()[i].getPos()[0],
+						75 + 30 * Gi.getGame().getOgres()[i].getPos()[1], 25, 30, null);
+
+				g.drawImage(Gi.getGame().getOgres()[i].getClub().getIm(),
+						10 + 25 * Gi.getGame().getOgres()[i].getClub().getPos()[0],
+						75 + 30 * Gi.getGame().getOgres()[i].getClub().getPos()[1], 25, 30, null);
+			}
+
+		}
+
 	}
 
 	@Override

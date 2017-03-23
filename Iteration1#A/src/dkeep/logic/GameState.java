@@ -1,6 +1,10 @@
 package dkeep.logic;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.imageio.ImageIO;
 
 public class GameState {
 	GameMap mapa;
@@ -106,8 +110,7 @@ public class GameState {
 	public boolean heroNearGuard() {
 		int[] gPos = g.getPos();
 		int[] hPos = h.getPos();
-		if ((((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) // Near
-																						// Guard
+		if ((((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1])
 				|| ((gPos[1] == hPos[1] - 1 || gPos[1] == hPos[1] + 1) && gPos[0] == hPos[0]))
 				&& this.g.getSleep() == 0) {
 			this.defeat = true;
@@ -215,7 +218,7 @@ public class GameState {
 		}
 	}
 
-	public void action(Ogre o, char[][] map) {
+	public void action(Character o, char[][] map) {
 		int[] oPos = o.getPos();
 		int randomNum;
 		while (true) {
@@ -229,6 +232,7 @@ public class GameState {
 				else {
 					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setY(o.getPos()[1] - 1);
+					o.changeBuffImage('w');
 					break;
 				}
 
@@ -241,6 +245,7 @@ public class GameState {
 				else {
 					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setX(o.getPos()[0] + 1);
+					o.changeBuffImage('d');
 					break;
 				}
 
@@ -253,6 +258,7 @@ public class GameState {
 				else {
 					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setY(o.getPos()[1] + 1);
+					o.changeBuffImage('s');
 					break;
 				}
 
@@ -265,80 +271,7 @@ public class GameState {
 				else {
 					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
 					o.setX(o.getPos()[0] - 1);
-					break;
-				}
-
-			}
-		}
-
-	}
-
-	public void action2(Club o, char[][] map) {
-		int[] oPos = o.getPos();
-		int randomNum;
-		while (true) {
-			randomNum = ThreadLocalRandom.current().nextInt(1, 5);
-			if (randomNum == 1)// w
-			{
-				if (map[oPos[1] - 1][oPos[0]] == 'X' || map[oPos[1] - 1][oPos[0]] == 'I') {
-					continue;
-				}
-
-				else if (map[oPos[1] - 1][oPos[0]] == k.getImage()) {
-					o.setY(o.getPos()[1] - 1);
-				}
-
-				else {
-					o.setY(o.getPos()[1] - 1);
-					break;
-				}
-
-			} else if (randomNum == 2)// d
-			{
-				if (map[oPos[1]][oPos[0] + 1] == 'X' || map[oPos[1]][oPos[0] + 1] == 'I') {
-					continue;
-				}
-
-				else if (map[oPos[1]][oPos[0] + 1] == k.getImage()) {
-					o.setX(o.getPos()[0] + 1);
-				}
-
-				else {
-					o.setX(o.getPos()[0] + 1);
-					// oPos[0] = oPos[0]+1;
-					break;
-				}
-
-			} else if (randomNum == 3)// s
-			{
-				if (map[oPos[1] + 1][oPos[0]] == 'X' || map[oPos[1] + 1][oPos[0]] == 'I') {
-					continue;
-				}
-
-				else if (map[oPos[1] + 1][oPos[0]] == k.getImage()) {
-					o.setY(o.getPos()[1] + 1);
-				}
-
-				else {
-					o.setY(o.getPos()[1] + 1);
-					// oPos[1] = oPos[1]+1;
-					break;
-				}
-
-			} else if (randomNum == 4)// a
-			{
-				if (map[oPos[1]][oPos[0] - 1] == 'X' || map[oPos[1]][oPos[0] - 1] == 'I') {
-					continue;
-				}
-
-				else if (map[oPos[1]][oPos[0] - 1] == k.getImage()) {
-					o.setX(o.getPos()[0] - 1);
-					continue;
-				}
-
-				else {
-					o.setX(o.getPos()[0] - 1);
-					// oPos[0] = oPos[0]-1;
+					o.changeBuffImage('a');
 					break;
 				}
 
@@ -356,7 +289,7 @@ public class GameState {
 				this.mapa.getMap()[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = ' ';
 				o[i].getClub().getPos()[0] = o[i].getPos()[0];
 				o[i].getClub().getPos()[1] = o[i].getPos()[1];
-				action2(o[i].getClub(), this.mapa.getMap());
+				action(o[i].getClub(), this.mapa.getMap());
 			}
 		}
 	}
@@ -450,6 +383,7 @@ public class GameState {
 	
 	public boolean moveHero(char order) throws CloneNotSupportedException {
 		if (order == 'w') {
+			h.changeBuffImage('w');
 			if (checkWall(h.getPos()[1] - 1, h.getPos()[0])) {
 				return false;
 			}
@@ -494,6 +428,7 @@ public class GameState {
 			}
 
 		} else if (order == 'a') {
+			h.changeBuffImage('a');
 			if (checkWall(h.getPos()[1], h.getPos()[0] - 1)) {
 				return false;
 			}
@@ -540,6 +475,7 @@ public class GameState {
 			}
 
 		} else if (order == 's') {
+			h.changeBuffImage('s');
 			if (checkWall(h.getPos()[1] + 1, h.getPos()[0])) {
 				return false;
 			}
@@ -585,6 +521,7 @@ public class GameState {
 			}
 
 		} else if (order == 'd') {
+			h.changeBuffImage('d');
 			if (checkWall(h.getPos()[1], h.getPos()[0] + 1)) {
 				return false;
 			}
@@ -717,7 +654,7 @@ public class GameState {
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-	
+		
 		this.moveOgres();
 		this.ogreOnKey();
 		this.heroNearOgre();
@@ -731,6 +668,7 @@ public class GameState {
 			//this.showmap();
 			return false;
 		}
+	
 		this.getMapa().mapSetGameMode2(this.getHero(), this.getOgres(), this.getK());
 		//this.showmap();
 		return true;

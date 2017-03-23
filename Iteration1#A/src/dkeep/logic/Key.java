@@ -35,4 +35,10 @@ public class Key extends Character  implements Cloneable{
 		return super.clone();
 	}
 
+	@Override
+	public void changeBuffImage(char order) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

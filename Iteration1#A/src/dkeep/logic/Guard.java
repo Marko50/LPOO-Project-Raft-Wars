@@ -1,5 +1,10 @@
 package dkeep.logic;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public abstract class Guard   extends Character{
 	public int[][] movsPossibility = { { 8, 1 }, { 7, 1 }, { 7, 2 }, { 7, 3 }, { 7, 4 }, { 7, 5 }, { 6, 5 }, { 5, 5 }, { 4, 5 },
 			{ 3, 5 }, { 2, 5 }, { 1, 5 }, { 1, 6 }, { 2, 6 }, { 3, 6 }, { 4, 6 }, { 5, 6 }, { 6, 6 }, { 7, 6 },
@@ -47,4 +52,24 @@ public abstract class Guard   extends Character{
 	}
 		
 	public abstract void gMove(int contador);
+	
+	public void changeBuffImage(char order)
+	{
+		if(order == 'w' || order == 'd')
+    	{
+    		try {
+				this.setIm(ImageIO.read(new File("images/GuardMoveUp.png")));
+			} catch (IOException e) {
+			}
+    	}
+    	
+      	
+    	else if(order == 's' || order == 'a')
+    	{
+    		try {
+    			this.setIm(ImageIO.read(new File("images/GuardMoveRight.png")));
+    		} catch (IOException e) {
+    		}		
+    	}
+	}
 }
