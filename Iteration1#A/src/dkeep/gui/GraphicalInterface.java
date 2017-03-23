@@ -141,6 +141,7 @@ public class GraphicalInterface{
 			if (getGame().updateGameMode2(dir) == false) {
 				lblTextoVarivel.setText("Ups you lost!");
 				disabelButtons();
+				gp.removeListener();
 			}
 			if(getGame().getVictory())
 			{

@@ -71,6 +71,16 @@ public class GameMap {
 			}
 		}
 		this.setMapChar();
+		for(int i  = 0; i < mapChar.length; i++)
+		{
+			for(int j = 0; j < mapChar[i].length; j++)
+			{
+				if(mapChar[i][j].getImage() == 'S')
+				{
+					mapChar[i][j].changeBuffImage('a');
+				}
+			}
+		}
 	}
 
 	public void mapSetGameMode1(Lever l, Hero h, Guard g) {
@@ -106,13 +116,13 @@ public class GameMap {
 				
 				else if(map[i][j] == 'I')
 				{
-					Door w = new Door(j,i,'X',false);
+					Door w = new Door(j,i,'I',false);
 					mapChar[i][j] = w;
 				}
 				
 				else if(map[i][j] == 'S')
 				{
-					Door w = new Door(j,i,'X',true);
+					Door w = new Door(j,i,'S',true);
 					mapChar[i][j] = w;
 				}
 						

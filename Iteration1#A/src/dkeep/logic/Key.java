@@ -1,5 +1,10 @@
 package dkeep.logic;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class Key extends Character  implements Cloneable{
 
     private boolean Used;
@@ -8,6 +13,10 @@ public class Key extends Character  implements Cloneable{
 		super(x, y, im);
 		this.Used = false;
 		this.pickedUp = false;
+		try {
+			this.setIm(ImageIO.read(new File("images/key.png")));
+		} catch (IOException e) {
+		}
 	}
 	
 	public Key (Key k)
@@ -37,8 +46,13 @@ public class Key extends Character  implements Cloneable{
 
 	@Override
 	public void changeBuffImage(char order) {
-		// TODO Auto-generated method stub
-		
+		if (pickedUp)
+			this.setIm(null);
+		else
+			try {
+				this.setIm(ImageIO.read(new File("images/key.png")));
+			} catch (IOException e) {
+			}
 	}
 
 }

@@ -52,8 +52,14 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 		
 		
 		if (Gi.getGame().getGMode() == 1)
+		{
 			g.drawImage(Gi.getGame().getGuard().getIm(), 10 + 25 * Gi.getGame().getGuard().getPos()[0],
 					75 + 30 * Gi.getGame().getGuard().getPos()[1], 25, 30, null);
+			
+			g.drawImage(Gi.getGame().getLever().getIm(), 10 + 25 * Gi.getGame().getLever().getPos()[0],
+					75 + 30 * Gi.getGame().getLever().getPos()[1], 25, 30, null);
+		}
+			
 		
 		if(Gi.getGame().getGMode() == 2)
 		{
@@ -65,6 +71,8 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 						10 + 25 * Gi.getGame().getOgres()[i].getClub().getPos()[0],
 						75 + 30 * Gi.getGame().getOgres()[i].getClub().getPos()[1], 25, 30, null);
 			}
+			g.drawImage(Gi.getGame().getK().getIm(), 10 + 25 * Gi.getGame().getK().getPos()[0],
+					75 + 30 * Gi.getGame().getK().getPos()[1], 25, 30, null);
 
 		}
 

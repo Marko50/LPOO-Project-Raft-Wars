@@ -350,6 +350,8 @@ public class GameState {
 
 	public boolean checkLever(int posy, int posx) {
 		if (this.mapa.getMap()[posy][posx] == l.getImage() && gameMode == 1) {
+			l.setPressed(true);
+			l.changeBuffImage('a');
 			return true;
 		}
 
@@ -360,6 +362,10 @@ public class GameState {
 
 	public boolean checkKey(int posy, int posx) {
 		if (this.mapa.getMap()[posy][posx] == k.getImage() && gameMode == 2) {
+			k.setPickedUp(true);
+			k.changeBuffImage('a');
+			h.setHasKey(true);
+			h.changeBuffImage('k');
 			return true;
 		}
 
@@ -397,6 +403,9 @@ public class GameState {
 				if (gameMode == 2 && k.isPickedUp()) {
 					k.setUsed(true);
 					this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] = 'S';
+					this.mapa.getMapChar()[h.getPos()[1] - 1][h.getPos()[0]].setIm('S');
+					this.mapa.setMapChar();
+					this.mapa.getMapChar()[h.getPos()[1] - 1][h.getPos()[0]].changeBuffImage('a');
 				}
 				return false;
 			}
@@ -408,7 +417,6 @@ public class GameState {
 			}
 
 			else if (checkLever(h.getPos()[1] - 1, h.getPos()[0])) {
-				l.setPressed(true);
 				this.mapa.changeDoors();
 				return false;
 			}
@@ -417,7 +425,6 @@ public class GameState {
 				Key test = (Key) k.clone();
 				h.setIm(test.getImage());
 				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
-				k.setPickedUp(true);
 				return false;
 			}
 
@@ -443,7 +450,9 @@ public class GameState {
 				if (gameMode == 2 && k.isPickedUp()) {
 					k.setUsed(true);
 					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0] - 1] = 'S';
-
+					this.mapa.getMapChar()[h.getPos()[1]][h.getPos()[0]-1].setIm('S');
+					this.mapa.setMapChar();
+					this.mapa.getMapChar()[h.getPos()[1]][h.getPos()[0]-1].changeBuffImage('a');
 				}
 				return false;
 			}
@@ -455,7 +464,6 @@ public class GameState {
 			}
 
 			else if (checkLever(h.getPos()[1], h.getPos()[0] - 1)) {
-				l.setPressed(true);
 				this.mapa.changeDoors();
 				return false;
 			}
@@ -464,7 +472,6 @@ public class GameState {
 				Key test = (Key) k.clone();
 				h.setIm(test.getImage());
 				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
-				k.setPickedUp(true);
 				return false;
 			}
 
@@ -490,6 +497,8 @@ public class GameState {
 				if (gameMode == 2 && k.isPickedUp()) {
 					k.setUsed(true);
 					this.mapa.getMap()[h.getPos()[1] + 1][h.getPos()[0]] = 'S';
+					this.mapa.getMapChar()[h.getPos()[1] + 1][h.getPos()[0]].setIm('S');
+					this.mapa.getMapChar()[h.getPos()[1] + 1][h.getPos()[0]].changeBuffImage('a');
 				}
 				return false;
 			}
@@ -501,7 +510,6 @@ public class GameState {
 			}
 
 			else if (checkLever(h.getPos()[1] + 1, h.getPos()[0])) {
-				l.setPressed(true);
 				this.mapa.changeDoors();
 				return false;
 			}
@@ -510,7 +518,6 @@ public class GameState {
 				Key test = (Key) k.clone();
 				h.setIm(test.getImage());
 				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
-				k.setPickedUp(true);
 				return false;
 			}
 
@@ -536,6 +543,9 @@ public class GameState {
 				if (gameMode == 2 && k.isPickedUp()) {
 					k.setUsed(true);
 					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0] + 1] = 'S';
+					this.mapa.getMapChar()[h.getPos()[1]][h.getPos()[0]+1].setIm('S');
+					this.mapa.setMapChar();
+					this.mapa.getMapChar()[h.getPos()[1]][h.getPos()[0]+1].changeBuffImage('a');
 				}
 				return false;
 			}
@@ -547,7 +557,6 @@ public class GameState {
 			}
 
 			else if (checkLever(h.getPos()[1], h.getPos()[0] + 1)) {
-				l.setPressed(true);
 				this.mapa.changeDoors();
 				return false;
 			}
@@ -556,7 +565,6 @@ public class GameState {
 				Key test = (Key) k.clone();
 				h.setIm(test.getImage());
 				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
-				k.setPickedUp(true);
 				return false;
 			}
 
@@ -665,7 +673,6 @@ public class GameState {
 		}
 		if (this.getDefeat()) {
 			this.getMapa().mapSetGameMode2(this.getHero(), this.getOgres(), this.getK());
-			//this.showmap();
 			return false;
 		}
 	

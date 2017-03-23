@@ -18,6 +18,10 @@ public abstract class Guard   extends Character{
 		super(x,y,im);
 		direction = 1;
 		asleep = 0;
+		try {
+			this.setIm(ImageIO.read(new File("images/GuardMoveLeft.png")));
+		} catch (IOException e) {
+		}
 	}
 	
 	public void setMovs(int [][] m)
@@ -58,7 +62,7 @@ public abstract class Guard   extends Character{
 		if(order == 'w' || order == 'd')
     	{
     		try {
-				this.setIm(ImageIO.read(new File("images/GuardMoveUp.png")));
+				this.setIm(ImageIO.read(new File("images/GuardMoveLeft.png")));
 			} catch (IOException e) {
 			}
     	}
