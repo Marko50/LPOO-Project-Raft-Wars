@@ -10,14 +10,14 @@ import javax.imageio.ImageIO;
 import javax.swing.*; 
 import dkeep.logic.*;
 
-public class GraphicsPanel extends JPanel implements KeyListener {
+public class GraphicsPanel extends JPanel implements KeyListener{
 	private GraphicalInterface Gi;
-	
 
 	public GraphicsPanel()
 	{
 		
 	}
+	
 	
 	public void removeListener()
 	{
@@ -100,18 +100,9 @@ public class GraphicsPanel extends JPanel implements KeyListener {
 		}
 		
 	}
+	@Override
+	public void keyReleased(KeyEvent arg0) {}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
+	public void keyTyped(KeyEvent arg0) {}	
 }

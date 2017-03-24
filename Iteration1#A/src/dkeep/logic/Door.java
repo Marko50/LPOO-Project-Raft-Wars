@@ -10,10 +10,7 @@ public class Door extends Character{
 	public Door(int x, int y, char im, boolean op) {
 		super(x, y, im);
 		open = op;
-		try {
-			this.setIm(ImageIO.read(new File("images/ClosedDoor.png")));
-		} catch (IOException e) {
-		}
+		changeBuffImage('a');
 	}
 	public boolean isOpen() {
 		return open;
@@ -33,9 +30,7 @@ public class Door extends Character{
 			try {
 				this.setIm(ImageIO.read(new File("images/ClosedDoor.png")));
 			} catch (IOException e) {
-			}
-		
-		
+			}		
 	}
 
 }

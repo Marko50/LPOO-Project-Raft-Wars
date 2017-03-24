@@ -43,7 +43,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener; 
 
 public class GraphicalInterface{
-
+	public MapEditor me;
 	public JFrame frame;
 	public	JLabel lblNewLabel;
 	public SpringLayout springLayout;
@@ -52,6 +52,7 @@ public class GraphicalInterface{
 	public JButton btnUp;
 	public JButton btnDown;
 	public JButton btnStartGame;
+	public JButton btnCreateAMap;
 	public JTextField textField;
 	public JLabel lblNewLabel_1 ;
 	public JComboBox comboBox;
@@ -86,6 +87,7 @@ public class GraphicalInterface{
 		btnUp.setEnabled(false);
 		btnDown.setEnabled(false);
 		btnStartGame.setEnabled(true);
+		btnCreateAMap.setEnabled(false);
 	}
 
 	/**
@@ -147,6 +149,7 @@ public class GraphicalInterface{
 			{
 				lblTextoVarivel.setText("Congratulations! You won!");
 				disabelButtons();
+				gp.removeListener();
 			}
 			
 		}
@@ -213,10 +216,7 @@ public class GraphicalInterface{
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				contador = 0;
-				btnUp.setEnabled(true);
-				btnDown.setEnabled(true);
-				btnRight.setEnabled(true);
-				btnLeft.setEnabled(true);
+				disabelButtons();
 				String numberOgres = textField.getText();
 				numOgres = parseInt(numberOgres);
 				if(numOgres > 5)
@@ -229,7 +229,6 @@ public class GraphicalInterface{
 				gp = new GraphicsPanel(i);
 				frame.getContentPane().add(gp);
 				gp.requestFocusInWindow();
-				btnStartGame.setEnabled(false);
 				lblTextoVarivel.setText("Click on Up/Down/Left/Right to move!");
 				frame.repaint();		
 			}
@@ -317,6 +316,18 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.WEST, gp, 0, SpringLayout.WEST, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.SOUTH, gp, -49, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, gp, 264, SpringLayout.WEST, frame.getContentPane());
+		
+		btnCreateAMap = new JButton("Create a Map");
+		btnCreateAMap.setEnabled(true);
+		btnCreateAMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, btnCreateAMap, -70, SpringLayout.NORTH, btnUp);
+		springLayout.putConstraint(SpringLayout.WEST, btnCreateAMap, 0, SpringLayout.WEST, btnExitGame);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnCreateAMap, -31, SpringLayout.NORTH, btnUp);
+		springLayout.putConstraint(SpringLayout.EAST, btnCreateAMap, 0, SpringLayout.EAST, btnExitGame);
+		frame.getContentPane().add(btnCreateAMap);
 	}
 	public JTextField getTextField() {
 		return textField;
