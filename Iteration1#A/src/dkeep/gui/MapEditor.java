@@ -43,6 +43,11 @@ public class MapEditor {
 	public boolean WallSelected;
 	public boolean FloorSelected;
 	
+	public boolean ogreUsed = false;
+	public boolean heroUsed = false;
+	public boolean keyUsed = false;
+	public boolean leverUsed = false;
+	
 	
 	/**
 	 * Launch the application.
@@ -290,9 +295,12 @@ public class MapEditor {
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				getGi().frame.setVisible(true);
-				getGi().numOgres = getGi().getGame().getOgres().size();
-				frame.setVisible(false);
+				if(ogreUsed && leverUsed && keyUsed && heroUsed)
+				{
+					getGi().frame.setVisible(true);
+					getGi().numOgres = getGi().getGame().getOgres().size();
+					frame.setVisible(false);
+				}
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnStartGame, 10, SpringLayout.NORTH, frame.getContentPane());

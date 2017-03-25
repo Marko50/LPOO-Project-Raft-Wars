@@ -93,14 +93,15 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 			Hero h = new Hero(x, y, 'H');
 			Gi.getGi().getGame().setHero(h);
 			Gi.getGi().getGame().getMapa().setPos(x, y, h.getImage());
+			Gi.heroUsed = true;
 			Gi.frame.repaint();
 		}
-		
 		else if(this.Gi.KeySelected)
 		{
 			Key k = new Key(x, y, 'k');
 			Gi.getGi().getGame().setK(k);
 			Gi.getGi().getGame().getMapa().setPos(x, y, k.getImage());
+			Gi.keyUsed = true;
 			Gi.frame.repaint();
 		}
 		else if(this.Gi.OgreSelected)
@@ -109,6 +110,7 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 			Gi.getGi().getGame().addOgre(o);
 			Gi.getGi().getGame().getMapa().setPos(x, y, o.getImage());
 			Gi.getGi().getGame().getMapa().setPos(x, y, o.getClub().getImage());
+			Gi.ogreUsed = true;
 			Gi.frame.repaint();
 		}
 		else if(this.Gi.LeverSelected)
@@ -116,6 +118,7 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 			Lever l = new Lever(x, y, 'K');
 			Gi.getGi().getGame().setLever(l);
 			Gi.getGi().getGame().getMapa().setPos(x, y, l.getImage());
+			Gi.leverUsed = true;
 			Gi.frame.repaint();
 		}
 		else if(this.Gi.FloorSelected)
