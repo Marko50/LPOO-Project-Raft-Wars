@@ -12,9 +12,8 @@ public abstract class Guard   extends Character{
 	
 	private int direction;
 	private int asleep;
-	protected int[][] movs; //= new int[24][2];
-	public Guard(int x, int y, char im)
-	{
+	protected int[][] movs;
+	public Guard(int x, int y, char im) {
 		super(x,y,im);
 		direction = 1;
 		asleep = 0;
@@ -24,13 +23,11 @@ public abstract class Guard   extends Character{
 		}
 	}
 	
-	public void setMovs(int [][] m)
-	{
+	public void setMovs(int [][] m) {
 		this.movs = m;
 	}
 	
-	public int[][] getMovs()
-	{
+	public int[][] getMovs() {
 		return this.movs;
 	}
 	
@@ -59,17 +56,13 @@ public abstract class Guard   extends Character{
 	
 	public void changeBuffImage(char order)
 	{
-		if(order == 'w' || order == 'd')
-    	{
+		if(order == 'w' || order == 'd') {
     		try {
 				this.setIm(ImageIO.read(new File("images/GuardMoveLeft.png")));
 			} catch (IOException e) {
 			}
     	}
-    	
-      	
-    	else if(order == 's' || order == 'a')
-    	{
+    	else if(order == 's' || order == 'a') {
     		try {
     			this.setIm(ImageIO.read(new File("images/GuardMoveRight.png")));
     		} catch (IOException e) {

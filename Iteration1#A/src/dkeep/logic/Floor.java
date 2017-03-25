@@ -18,8 +18,6 @@ public class Floor extends Character {
 
 	@Override
 	public void changeBuffImage(char order) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

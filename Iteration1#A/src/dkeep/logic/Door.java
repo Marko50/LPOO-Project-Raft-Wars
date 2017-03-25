@@ -32,5 +32,4 @@ public class Door extends Character{
 			} catch (IOException e) {
 			}		
 	}
-
 }

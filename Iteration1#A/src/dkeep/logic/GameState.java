@@ -14,27 +14,17 @@ public class GameState {
 	private Lever l;
 	private Key k;
 	private int gameMode;
-	private boolean defeat;
-	private boolean victory;
-	private boolean victoryGuard;
-	private boolean victoryOgre;
+	private boolean victory, victoryGuard, victoryOgre, defeat;
 
-	public GameState() {
+	public GameState() {}
 
-	}
+	public void setVictory(boolean vic) { victory = vic; }
 
-	public void setVictory(boolean vic) {
-		victory = vic;
-	}
-
-	public boolean getVictory() {
-		return this.victory;
-	}
+	public boolean getVictory() { return this.victory; }
 
 	public boolean isOgreOnKey(Ogre o) {
 		if (o.getPos()[0] == k.getPos()[0] && o.getPos()[1] == k.getPos()[1])
 			return true;
-
 		else
 			return false;
 	}
@@ -45,12 +35,10 @@ public class GameState {
 				o[i].setOnTheKey(true);
 				o[i].setIm('*');
 			}
-
 			else {
 				o[i].setIm('O');
 				o[i].setOnTheKey(false);
 			}
-
 		}
 	}
 
@@ -175,31 +163,30 @@ public class GameState {
 		this.l = l1;
 	}
 
-	public GameState(int hx, int hy, int gx, int gy, int dif, int lx, int ly, int kx, int ky, int ox, int oy,
-			int nOgres) {
+	public GameState(int[] hx, int[] gx, int dif, int[] lx, int[] kx, int og[]) {
 		this.mapa = new GameMap();
 		this.mapa.setMap(this.mapa.mapGuard);
-		this.k = new Key(kx, ky, 'k');
-		this.l = new Lever(lx, ly, 'K');
+		this.k = new Key(kx[0], kx[1], 'k');
+		this.l = new Lever(lx[0], lx[1], 'K');
 		this.defeat = false;
 		this.victory = false;		
 		this.gameMode = 1;
-		Hero h1 = new Hero(hx, hy, 'H');
+		Hero h1 = new Hero(hx[0], hx[1], 'H');
 		this.h = h1;
 		if (dif == 1) {
-			Drunken d = new Drunken(gx, gy, 'D');
+			Drunken d = new Drunken(gx[0], gx[1], 'D');
 			this.g = d;
 		} else if (dif == 2) {
-			Rookie d = new Rookie(gx, gy, 'R');
+			Rookie d = new Rookie(gx[0], gx[1], 'R');
 			this.g = d;
 		} else if (dif == 3) {
-			Suspicious d = new Suspicious(gx, gy, 'S');
+			Suspicious d = new Suspicious(gx[0], gx[1], 'S');
 			this.g = d;
 		}
 		this.g.setMovs(this.g.movsPossibility);
-		o = new Ogre[nOgres];
-		for (int i = 0; i < nOgres; i++) {
-			Ogre o1 = new Ogre(ox, oy, 'O', '*');
+		o = new Ogre[(og[2])];
+		for (int i = 0; i < og[2]; i++) {
+			Ogre o1 = new Ogre(og[0], og[1], 'O', '*');
 			o[i] = o1;
 		}
 		this.mapa.mapSetGameMode1(l, h, g);
@@ -219,65 +206,42 @@ public class GameState {
 	}
 
 	public void action(Character o, char[][] map) {
-		int[] oPos = o.getPos();
-		int randomNum;
+		int[] oPos = o.getPos(); int randomNum;
 		while (true) {
 			randomNum = ThreadLocalRandom.current().nextInt(1, 5);
-			if (randomNum == 1)// w
-			{
+			if (randomNum == 1) { //w
 				if (map[oPos[1] - 1][oPos[0]] == 'X' || map[oPos[1] - 1][oPos[0]] == 'I' || map[oPos[1] - 1][oPos[0]] == 'S' || map[oPos[1] - 1][oPos[0]] == h.getImage()) {
-					continue;
-				}
-
+					continue; }
 				else {
-					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setY(o.getPos()[1] - 1);
-					o.changeBuffImage('w');
-					break;
-				}
-
-			} else if (randomNum == 2)// d
-			{
+					clearSpaceMoveChar(o.getPos(), new int[] {0, -1}, o, 'w');
+					break; }
+			} else if (randomNum == 2) { //d
 				if (map[oPos[1]][oPos[0] + 1] == 'X' || map[oPos[1]][oPos[0] + 1] == 'I' || map[oPos[1]][oPos[0]+1] == 'S'||  map[oPos[1] ][oPos[0]+1] == h.getImage()) {
-					continue;
-				}
-
+					continue; }
 				else {
-					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setX(o.getPos()[0] + 1);
-					o.changeBuffImage('d');
-					break;
-				}
-
-			} else if (randomNum == 3)// s
-			{
+					clearSpaceMoveChar(o.getPos(), new int[] {1,0}, o, 'd');
+					break; }
+			} else if (randomNum == 3) { //s
 				if (map[oPos[1] + 1][oPos[0]] == 'X' || map[oPos[1] + 1][oPos[0]] == 'I'|| map[oPos[1] + 1][oPos[0]] == 'S' || map[oPos[1] + 1][oPos[0]] == h.getImage()) {
-					continue;
-				}
-
+					continue; }
 				else {
-					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setY(o.getPos()[1] + 1);
-					o.changeBuffImage('s');
-					break;
-				}
-
-			} else if (randomNum == 4 )// a
-			{
+					clearSpaceMoveChar(o.getPos(), new int[] {0,1}, o, 's');
+					break; }
+			} else if (randomNum == 4 ) { //a
 				if (map[oPos[1]][oPos[0] - 1] == 'X' || map[oPos[1]][oPos[0] - 1] == 'I' || map[oPos[1]][oPos[0]-1] == 'S' || map[oPos[1]][oPos[0] - 1] == h.getImage()) {
-					continue;
-				}
-
+					continue; }
 				else {
-					this.mapa.getMap()[o.getPos()[1]][o.getPos()[0]] = ' ';
-					o.setX(o.getPos()[0] - 1);
-					o.changeBuffImage('a');
-					break;
-				}
-
+					clearSpaceMoveChar(o.getPos(), new int[] {-1,0}, o, 'a');
+					break; }
 			}
 		}
-
+	}
+	
+	public void clearSpaceMoveChar(int[] coord, int[] xy, Character o, char symbol) {
+		this.mapa.getMap()[coord[1]][coord[0]] = ' ';
+		o.setX(o.getPos()[0] + xy[0]);
+		o.setX(o.getPos()[1] + xy[1]);
+		o.changeBuffImage(symbol);
 	}
 
 	public void moveOgres() {
@@ -684,7 +648,6 @@ public class GameState {
 		try {
 			if (this.moveHero(order) == false) {
 				this.getMapa().mapSetGameMode1(l, h, g);
-				//this.showmap();
 				return true;
 			}
 		} catch (CloneNotSupportedException e) {
@@ -711,17 +674,14 @@ public class GameState {
 			this.h.setX(1);
 			this.h.setY(8);
 		    this.getMapa().mapSetGameMode2(h, o, k);
-			//this.showmap();
 			return true;
 		}
 		else if (this.getDefeat())
 		{
 			this.getMapa().mapSetGameMode1(this.getLever(), this.getHero(), this.getGuard());
-			//this.showmap();
 			return false;
 		}	
 		this.getMapa().mapSetGameMode1(l, h, g);
-		//this.showmap();
 		return true;
 	}
 	
@@ -731,7 +691,6 @@ public class GameState {
 			if(this.moveHero(order) == false)
 			{
 				this.getMapa().mapSetGameMode2(this.getHero(), this.getOgres(), this.getK());
-				//this.showmap();
 				return true;
 			}
 		} catch (CloneNotSupportedException e) {
@@ -752,7 +711,6 @@ public class GameState {
 		}
 	
 		this.getMapa().mapSetGameMode2(this.getHero(), this.getOgres(), this.getK());
-		//this.showmap();
 		return true;
 	}
 

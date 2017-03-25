@@ -8,8 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Hero  extends Character {
 	private boolean hasKey;
-	public Hero(int x, int y, char im)
-	{
+	public Hero(int x, int y, char im) {
 		super(x,y,im);
 		try {
 			this.setIm(ImageIO.read(new File("images/HeroMoveRight.png")));
@@ -19,17 +18,13 @@ public class Hero  extends Character {
 
 	}
 	
-    public void changeBuffImage(char order)
-    {
+    public void changeBuffImage(char order) {
 		if (hasKey)
-
 			try {
 				this.setIm(ImageIO.read(new File("images/key.png")));
 			} catch (IOException e) {
-			}	
-        	
-		else
-		{
+			}		
+		else {
 			if(order == 'w')
 	    	{
 	    		try {
@@ -37,27 +32,19 @@ public class Hero  extends Character {
 				} catch (IOException e) {
 				}
 	    	}
-	    	
-	    	else if(order == 'a')
-	    	{
+	    	else if(order == 'a') {
 	    		try {
 					this.setIm(ImageIO.read(new File("images/HeroMoveLeft.png")));
 				} catch (IOException e) {
-				}
-	    		
+				}	
 	    	}
-	    	
-	    	else if(order == 's')
-	    	{
+	    	else if(order == 's') {
 	    		try {
 					this.setIm(ImageIO.read(new File("images/HeroMoveDown.png")));
 				} catch (IOException e) {
 				}
-	    		
 	    	}
-	    	
-	    	else if(order == 'd')
-	    	{
+	    	else if(order == 'd') {
 	    		try {
 	    			this.setIm(ImageIO.read(new File("images/HeroMoveRight.png")));
 	    		} catch (IOException e) {

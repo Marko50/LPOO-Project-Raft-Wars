@@ -110,13 +110,13 @@ public class MapEditor {
 	private void initialize() {
 		frame = new JFrame();
 		frame.pack();
-		frame.setBounds(100, 100, 450, 450);
+		frame.setBounds(100, 100, 492, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 		frame.setPreferredSize(new Dimension(450, 450));
 		btnDoorClosed = new JButton("Door Closed");
-		springLayout.putConstraint(SpringLayout.EAST, btnDoorClosed, 10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnDoorClosed, 420, SpringLayout.WEST, frame.getContentPane());
 		btnDoorClosed.setEnabled(false);
 		btnDoorClosed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -134,8 +134,9 @@ public class MapEditor {
 		frame.getContentPane().add(btnDoorClosed);
 		
 		btnWall = new JButton("Wall");
-		springLayout.putConstraint(SpringLayout.WEST, btnWall, 446, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnWall, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, btnWall, 5, SpringLayout.SOUTH, btnDoorClosed);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnWall, 35, SpringLayout.SOUTH, btnDoorClosed);
+		springLayout.putConstraint(SpringLayout.EAST, btnWall, 0, SpringLayout.EAST, btnDoorClosed);
 		btnWall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
@@ -153,8 +154,7 @@ public class MapEditor {
 		frame.getContentPane().add(btnWall);
 		
 		btnFloor = new JButton("Floor");
-		springLayout.putConstraint(SpringLayout.NORTH, btnFloor, 68, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnFloor, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnFloor, 0, SpringLayout.EAST, btnDoorClosed);
 		btnFloor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
@@ -169,11 +169,12 @@ public class MapEditor {
 			}
 		});
 		btnFloor.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnFloor, -320, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(btnFloor);
 		
 		btnLever = new JButton("Lever");
-		springLayout.putConstraint(SpringLayout.EAST, btnLever, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnFloor, 35, SpringLayout.SOUTH, btnLever);
+		springLayout.putConstraint(SpringLayout.EAST, btnLever, 0, SpringLayout.EAST, btnDoorClosed);
+		springLayout.putConstraint(SpringLayout.NORTH, btnFloor, 5, SpringLayout.SOUTH, btnLever);
 		btnLever.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
@@ -188,13 +189,12 @@ public class MapEditor {
 			}
 		});
 		btnLever.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, btnLever, 6, SpringLayout.SOUTH, btnFloor);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnLever, -291, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(btnLever);
 		
 		btnKey = new JButton("Key");
-		springLayout.putConstraint(SpringLayout.WEST, btnKey, 333, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnKey, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnLever, 35, SpringLayout.SOUTH, btnKey);
+		springLayout.putConstraint(SpringLayout.EAST, btnKey, 0, SpringLayout.EAST, btnDoorClosed);
+		springLayout.putConstraint(SpringLayout.NORTH, btnLever, 5, SpringLayout.SOUTH, btnKey);
 		btnKey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
@@ -209,13 +209,12 @@ public class MapEditor {
 			}
 		});
 		btnKey.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, btnKey, 6, SpringLayout.SOUTH, btnLever);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnKey, -262, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(btnKey);
 		
 		btnOgre = new JButton("Ogre");
-		springLayout.putConstraint(SpringLayout.WEST, btnOgre, 333, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnOgre, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, btnKey, 5, SpringLayout.SOUTH, btnOgre);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnKey, 35, SpringLayout.SOUTH, btnOgre);
+		springLayout.putConstraint(SpringLayout.EAST, btnOgre, 0, SpringLayout.EAST, btnDoorClosed);
 		btnOgre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				HeroSelected = false;
@@ -230,14 +229,21 @@ public class MapEditor {
 			}
 		});
 		btnOgre.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, btnOgre, 6, SpringLayout.SOUTH, btnKey);
 		frame.getContentPane().add(btnOgre);
 		
 		btnHero = new JButton("Hero");
-		springLayout.putConstraint(SpringLayout.NORTH, btnHero, 18, SpringLayout.SOUTH, btnDoorClosed);
-		springLayout.putConstraint(SpringLayout.WEST, btnHero, 363, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnHero, -90, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnHero, 0, SpringLayout.EAST, btnWall);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnOgre, 35, SpringLayout.SOUTH, btnHero);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnHero, 85, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnWall, 0, SpringLayout.WEST, btnHero);
+		springLayout.putConstraint(SpringLayout.NORTH, btnHero, 55, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnHero, 300, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnHero, 0, SpringLayout.EAST, btnDoorClosed);
+		springLayout.putConstraint(SpringLayout.WEST, btnDoorClosed, 0, SpringLayout.WEST, btnHero);
+		springLayout.putConstraint(SpringLayout.WEST, btnFloor, 0, SpringLayout.WEST, btnHero);
+		springLayout.putConstraint(SpringLayout.WEST, btnLever, 0, SpringLayout.WEST, btnHero);
+		springLayout.putConstraint(SpringLayout.WEST, btnKey, 0, SpringLayout.WEST, btnHero);
+		springLayout.putConstraint(SpringLayout.WEST, btnOgre, 0, SpringLayout.WEST, btnHero);
+		springLayout.putConstraint(SpringLayout.NORTH, btnOgre, 5, SpringLayout.SOUTH, btnHero);
 		btnHero.setEnabled(false);
 		btnHero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -256,61 +262,65 @@ public class MapEditor {
 		
 		btnStartGame = new JButton("Start Game");
 		springLayout.putConstraint(SpringLayout.NORTH, btnStartGame, 10, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnStartGame, -107, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 48, SpringLayout.NORTH, frame.getContentPane());
 		btnStartGame.setEnabled(false);
 		frame.getContentPane().add(btnStartGame);
 		
 		btnExitGame = new JButton("Exit Game");
-		springLayout.putConstraint(SpringLayout.NORTH, btnWall, 64, SpringLayout.SOUTH, btnExitGame);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnWall, -87, SpringLayout.NORTH, btnExitGame);
-		springLayout.putConstraint(SpringLayout.EAST, btnExitGame, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, btnExitGame, 19, SpringLayout.SOUTH, btnWall);
+		springLayout.putConstraint(SpringLayout.WEST, btnExitGame, 0, SpringLayout.WEST, btnDoorClosed);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnExitGame, 56, SpringLayout.SOUTH, btnWall);
+		springLayout.putConstraint(SpringLayout.EAST, btnExitGame, 0, SpringLayout.EAST, btnDoorClosed);
 		btnExitGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(1);
 			}
 		});
-		springLayout.putConstraint(SpringLayout.SOUTH, btnExitGame, -10, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(btnExitGame);	
 		
 		JLabel lblHeight = new JLabel("Height");
-		springLayout.putConstraint(SpringLayout.NORTH, lblHeight, 4, SpringLayout.NORTH, btnWall);
+		springLayout.putConstraint(SpringLayout.NORTH, lblHeight, 10, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblHeight, 10, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(lblHeight);
 		
 		JLabel lblWidth = new JLabel("Width");
-		springLayout.putConstraint(SpringLayout.NORTH, lblWidth, 15, SpringLayout.SOUTH, lblHeight);
-		springLayout.putConstraint(SpringLayout.EAST, lblWidth, -199, SpringLayout.EAST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblHeight, 0, SpringLayout.EAST, lblWidth);
+		springLayout.putConstraint(SpringLayout.NORTH, lblWidth, 5, SpringLayout.SOUTH, lblHeight);
+		springLayout.putConstraint(SpringLayout.WEST, lblWidth, 0, SpringLayout.WEST, lblHeight);
+		springLayout.putConstraint(SpringLayout.EAST, lblWidth, 0, SpringLayout.EAST, lblHeight);
 		frame.getContentPane().add(lblWidth);
 		
 		textField = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textField, 7, SpringLayout.SOUTH, btnStartGame);
-		springLayout.putConstraint(SpringLayout.WEST, textField, 234, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, textField, 0, SpringLayout.EAST, btnStartGame);
+		springLayout.putConstraint(SpringLayout.NORTH, textField, 5, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, textField, 6, SpringLayout.EAST, lblHeight);
+		springLayout.putConstraint(SpringLayout.SOUTH, textField, 0, SpringLayout.SOUTH, lblHeight);
+		springLayout.putConstraint(SpringLayout.EAST, textField, -200, SpringLayout.WEST, btnHero);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		springLayout.putConstraint(SpringLayout.SOUTH, textField, -6, SpringLayout.NORTH, textField_1);
-		springLayout.putConstraint(SpringLayout.WEST, btnFloor, 7, SpringLayout.EAST, textField_1);
-		springLayout.putConstraint(SpringLayout.WEST, textField_1, 0, SpringLayout.WEST, textField);
-		springLayout.putConstraint(SpringLayout.EAST, textField_1, 86, SpringLayout.WEST, textField);
-		springLayout.putConstraint(SpringLayout.NORTH, textField_1, 1, SpringLayout.NORTH, btnFloor);
+		springLayout.putConstraint(SpringLayout.NORTH, textField_1, -3, SpringLayout.NORTH, lblWidth);
+		springLayout.putConstraint(SpringLayout.WEST, textField_1, 6, SpringLayout.EAST, lblWidth);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
-		btnDoorOpened = new JButton("Door Opened");
-		springLayout.putConstraint(SpringLayout.WEST, btnDoorClosed, 10, SpringLayout.WEST, btnDoorOpened);
-		springLayout.putConstraint(SpringLayout.EAST, btnDoorOpened, -4, SpringLayout.EAST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, btnDoorClosed, 10, SpringLayout.SOUTH, btnDoorOpened);
+		btnDoorOpened = new JButton("Door Open");
+		springLayout.putConstraint(SpringLayout.SOUTH, btnDoorClosed, 35, SpringLayout.SOUTH, btnDoorOpened);
+		springLayout.putConstraint(SpringLayout.WEST, btnDoorOpened, 0, SpringLayout.WEST, btnHero);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnDoorOpened, 35, SpringLayout.SOUTH, btnFloor);
+		springLayout.putConstraint(SpringLayout.NORTH, btnDoorClosed, 5, SpringLayout.SOUTH, btnDoorOpened);
+		springLayout.putConstraint(SpringLayout.NORTH, btnDoorOpened, 5, SpringLayout.SOUTH, btnFloor);
+		springLayout.putConstraint(SpringLayout.EAST, btnDoorOpened, 0, SpringLayout.EAST, btnDoorClosed);
 		btnDoorOpened.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, btnDoorOpened, 6, SpringLayout.SOUTH, btnOgre);
 		frame.getContentPane().add(btnDoorOpened);
 		MapEditor i = this;
 		btnGenerate = new JButton("Generate");
-		springLayout.putConstraint(SpringLayout.NORTH, btnGenerate, 8, SpringLayout.SOUTH, textField_1);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnGenerate, -291, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnGenerate, -107, SpringLayout.EAST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, btnLever, 6, SpringLayout.EAST, btnGenerate);
+		springLayout.putConstraint(SpringLayout.WEST, btnStartGame, 6, SpringLayout.EAST, btnGenerate);
+		springLayout.putConstraint(SpringLayout.EAST, btnStartGame, 113, SpringLayout.EAST, btnGenerate);
+		springLayout.putConstraint(SpringLayout.EAST, textField_1, -6, SpringLayout.WEST, btnGenerate);
+		springLayout.putConstraint(SpringLayout.WEST, btnGenerate, 106, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnGenerate, 48, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnGenerate, 213, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, btnGenerate, 10, SpringLayout.NORTH, frame.getContentPane());
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int height = parseInt(textField.getText());
@@ -329,7 +339,6 @@ public class MapEditor {
 				frame.repaint();
 			}
 		});
-		springLayout.putConstraint(SpringLayout.WEST, btnGenerate, 0, SpringLayout.WEST, btnStartGame);
 		frame.getContentPane().add(btnGenerate);
 	}
 

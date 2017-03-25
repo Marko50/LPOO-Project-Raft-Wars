@@ -225,7 +225,8 @@ public class GraphicalInterface{
 					actionPerformed(arg0);
 				}
 				difficulty = comboBox.getSelectedIndex() + 1;
-				setGame(new GameState(1,1,8,1, difficulty,7,8,2,1,3,1,numOgres));
+				int[] hx = {1,1}, gx = {8,1}, lx = {7,8}, kx = {2,1}, og = {3,1, numOgres};;
+				setGame(new GameState(hx, gx, difficulty, lx, kx, og));
 				gp = new GraphicsPanel(i);
 				frame.getContentPane().add(gp);
 				gp.requestFocusInWindow();
