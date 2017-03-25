@@ -55,7 +55,6 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 					75 + 30 * Gi.getGi().getGame().getLever().getPos()[1], 25, 30, null);
 
 		for (int i = 0; i < Gi.getGi().getGame().getOgres().size(); i++) {
-			System.out.println("CENAS LEL\n");
 			g.drawImage(Gi.getGi().getGame().getOgres().get(i).getIm(), 10 + 25 * Gi.getGi().getGame().getOgres().get(i).getPos()[0],
 					75 + 30 * Gi.getGi().getGame().getOgres().get(i).getPos()[1], 25, 30, null);
 			g.drawImage(Gi.getGi().getGame().getOgres().get(i).getClub().getIm(),
@@ -89,7 +88,6 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 			x = Gi.getGi().getGame().getMapa().getMap()[0].length-1;
 		if(y == Gi.getGi().getGame().getMapa().getMap().length)
 			y = Gi.getGi().getGame().getMapa().getMap().length-1;	
-		System.out.println("X: " + x + "    Y: " + y);
 		if(this.Gi.HeroSelected)
 		{
 			Hero h = new Hero(x, y, 'H');
@@ -106,8 +104,7 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 			Gi.frame.repaint();
 		}
 		else if(this.Gi.OgreSelected)
-		{
-			System.out.println("Ogre selected!\n");
+		{	
 			Ogre o = new Ogre(x, y, 'O', '*');
 			Gi.getGi().getGame().addOgre(o);
 			Gi.getGi().getGame().getMapa().setPos(x, y, o.getImage());

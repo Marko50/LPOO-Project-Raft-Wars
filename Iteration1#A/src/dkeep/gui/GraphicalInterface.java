@@ -88,7 +88,7 @@ public class GraphicalInterface{
 		btnUp.setEnabled(false);
 		btnDown.setEnabled(false);
 		btnStartGame.setEnabled(true);
-		btnCreateAMap.setEnabled(false);
+		btnCreateAMap.setEnabled(true);
 	}
 	
 	public void enableButtons()
@@ -98,7 +98,7 @@ public class GraphicalInterface{
 		btnUp.setEnabled(true);
 		btnDown.setEnabled(true);
 		btnStartGame.setEnabled(false);
-		btnCreateAMap.setEnabled(true);
+		btnCreateAMap.setEnabled(false);
 	}
 
 	/**
@@ -169,12 +169,15 @@ public class GraphicalInterface{
 				lblTextoVarivel.setText("Ups you lost!");
 				disabelButtons();
 				gp.removeListener();
+				selfMap = false;
+				
 			}
 			if(getGame().getVictory())
 			{
 				lblTextoVarivel.setText("Congratulations! You won!");
 				disabelButtons();
 				gp.removeListener();
+				selfMap = false;
 			}
 		}
 	}
@@ -353,6 +356,7 @@ public class GraphicalInterface{
 		btnCreateAMap.setEnabled(true);
 		btnCreateAMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				setGame(new GameState());
 				selfMap = true;
 				MapEditor m = new MapEditor(i);
 				m.frame.setVisible(true);

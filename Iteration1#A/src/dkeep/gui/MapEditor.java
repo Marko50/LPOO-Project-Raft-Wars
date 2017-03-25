@@ -111,7 +111,10 @@ public class MapEditor {
 		{
 			for(int j = 0; j < x; j++)
 			{
-				aux[i][j] = ' ';
+				if(j == 0 || i == 0 || j == x-1 || i == y-1)
+					aux[i][j] = 'X';
+				else
+					aux[i][j] = ' ';
 			}
 		}
 		
