@@ -1,3 +1,7 @@
+/**  
+* Door.java - Sub-Class of Character for the doors
+*/ 
+
 package dkeep.logic;
 
 import java.io.File;

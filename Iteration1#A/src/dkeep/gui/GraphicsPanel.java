@@ -40,18 +40,39 @@ public class GraphicsPanel extends JPanel implements KeyListener{
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
+		System.out.println("CENAS1\n");
 		for(int i = 0; i < Gi.getGame().getMapa().getMap().length; i++)
 		{
+			System.out.println("CENAS2\n");
 			for(int j = 0 ; j < Gi.getGame().getMapa().getMap()[i].length; j++)
 			{
 				g.drawImage(Gi.getGame().getMapa().getMapChar()[i][j].getIm(), 10 + 25*j, 75+30*i, 25, 30, null);
 			}	
 		}
+		System.out.println("CENAS3\n");
 		g.drawImage(Gi.getGame().getHero().getIm(), 10 + 25 * Gi.getGame().getHero().getPos()[0],
 				75 + 30 * Gi.getGame().getHero().getPos()[1], 25, 30, null);
+		System.out.println("CENAS4\n");
+		if(Gi.selfMap)
+		{
+			System.out.println("CENAS5\n");
+
+			g.drawImage(Gi.getGame().getLever().getIm(), 10 + 25 * Gi.getGame().getLever().getPos()[0],
+					75 + 30 * Gi.getGame().getLever().getPos()[1], 25, 30, null);
+			
+			for (int i = 0; i < Gi.getGame().getOgres().size(); i++) {
+				g.drawImage(Gi.getGame().getOgres().get(i).getIm(), 10 + 25 * Gi.getGame().getOgres().get(i).getPos()[0],
+						75 + 30 * Gi.getGame().getOgres().get(i).getPos()[1], 25, 30, null);
+
+				g.drawImage(Gi.getGame().getOgres().get(i).getClub().getIm(),
+						10 + 25 * Gi.getGame().getOgres().get(i).getClub().getPos()[0],
+						75 + 30 * Gi.getGame().getOgres().get(i).getClub().getPos()[1], 25, 30, null);
+			}
+			g.drawImage(Gi.getGame().getK().getIm(), 10 + 25 * Gi.getGame().getK().getPos()[0],
+					75 + 30 * Gi.getGame().getK().getPos()[1], 25, 30, null);
+		}
 		
-		
-		if (Gi.getGame().getGMode() == 1)
+		else if (Gi.getGame().getGMode() == 1)
 		{
 			g.drawImage(Gi.getGame().getGuard().getIm(), 10 + 25 * Gi.getGame().getGuard().getPos()[0],
 					75 + 30 * Gi.getGame().getGuard().getPos()[1], 25, 30, null);
@@ -61,15 +82,15 @@ public class GraphicsPanel extends JPanel implements KeyListener{
 		}
 			
 		
-		if(Gi.getGame().getGMode() == 2)
+		else if(Gi.getGame().getGMode() == 2)
 		{
-			for (int i = 0; i < Gi.getGame().getOgres().length; i++) {
-				g.drawImage(Gi.getGame().getOgres()[i].getIm(), 10 + 25 * Gi.getGame().getOgres()[i].getPos()[0],
-						75 + 30 * Gi.getGame().getOgres()[i].getPos()[1], 25, 30, null);
+			for (int i = 0; i < Gi.getGame().getOgres().size(); i++) {
+				g.drawImage(Gi.getGame().getOgres().get(i).getIm(), 10 + 25 * Gi.getGame().getOgres().get(i).getPos()[0],
+						75 + 30 * Gi.getGame().getOgres().get(i).getPos()[1], 25, 30, null);
 
-				g.drawImage(Gi.getGame().getOgres()[i].getClub().getIm(),
-						10 + 25 * Gi.getGame().getOgres()[i].getClub().getPos()[0],
-						75 + 30 * Gi.getGame().getOgres()[i].getClub().getPos()[1], 25, 30, null);
+				g.drawImage(Gi.getGame().getOgres().get(i).getClub().getIm(),
+						10 + 25 * Gi.getGame().getOgres().get(i).getClub().getPos()[0],
+						75 + 30 * Gi.getGame().getOgres().get(i).getClub().getPos()[1], 25, 30, null);
 			}
 			g.drawImage(Gi.getGame().getK().getIm(), 10 + 25 * Gi.getGame().getK().getPos()[0],
 					75 + 30 * Gi.getGame().getK().getPos()[1], 25, 30, null);

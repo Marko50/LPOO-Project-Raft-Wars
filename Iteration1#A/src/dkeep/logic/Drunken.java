@@ -1,3 +1,7 @@
+/**  
+* Drunken.java - Sub-Class of Guard for drunken guard
+*/ 
+
 package dkeep.logic;
 
 import java.util.Random;

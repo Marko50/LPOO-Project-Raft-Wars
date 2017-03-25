@@ -1,3 +1,7 @@
+/**  
+* Club.java - Sub-Class of Character for the clubs
+*/ 
+
 package dkeep.logic;
 
 import java.io.File;

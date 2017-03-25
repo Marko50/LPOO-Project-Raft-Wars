@@ -1,3 +1,7 @@
+/**  
+* Character.java - Class for every tile of the game
+*/ 
+
 package dkeep.logic;
 
 import java.awt.image.BufferedImage;

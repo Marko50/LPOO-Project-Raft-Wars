@@ -1,3 +1,7 @@
+/**  
+* Wall.java - Class for walls
+*/ 
+
 package dkeep.logic;
 
 import java.io.File;
@@ -12,16 +16,13 @@ public class Wall extends Character {
 		try {
 			this.setIm(ImageIO.read(new File("images/Wall.png")));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.print("Wall sprite not found\n");
 			e.printStackTrace();
 		}
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void changeBuffImage(char order) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -1,3 +1,7 @@
+/**  
+* Floor.java - Sub-Class of Character for the floor tiles
+*/ 
+
 package dkeep.logic;
 
 import java.io.File;
@@ -14,11 +18,8 @@ public class Floor extends Character {
 		} catch (IOException e) {
 			System.out.print("floor sprite not found\n");
 		}
-		
 	}
-
 	@Override
 	public void changeBuffImage(char order) {
 	}
-	
 }

@@ -58,6 +58,7 @@ public class GraphicalInterface{
 	public JComboBox comboBox;
 	public JTextPane textPane;
 	public JLabel lblTextoVarivel;
+	public boolean selfMap = false;
 	private	GameState game = new GameState();
 	public GraphicsPanel gp;
 	public int contador = 0;
@@ -88,6 +89,16 @@ public class GraphicalInterface{
 		btnDown.setEnabled(false);
 		btnStartGame.setEnabled(true);
 		btnCreateAMap.setEnabled(false);
+	}
+	
+	public void enableButtons()
+	{
+		btnRight.setEnabled(true);
+		btnLeft.setEnabled(true);
+		btnUp.setEnabled(true);
+		btnDown.setEnabled(true);
+		btnStartGame.setEnabled(false);
+		btnCreateAMap.setEnabled(true);
 	}
 
 	/**
@@ -133,7 +144,7 @@ public class GraphicalInterface{
 	
 	void move(char dir)
 	{
-		if (getGame().getGMode() == 1) {
+	    if (getGame().getGMode() == 1) {
 			if (getGame().updateGameMode1(dir) == false) {
 				lblTextoVarivel.setText("Ups you lost!");
 				disabelButtons();
@@ -152,6 +163,19 @@ public class GraphicalInterface{
 				gp.removeListener();
 			}
 			
+		}
+		else if (selfMap) {
+			if (getGame().updateGameMode(dir) == false) {
+				lblTextoVarivel.setText("Ups you lost!");
+				disabelButtons();
+				gp.removeListener();
+			}
+			if(getGame().getVictory())
+			{
+				lblTextoVarivel.setText("Congratulations! You won!");
+				disabelButtons();
+				gp.removeListener();
+			}
 		}
 	}
 		
@@ -173,6 +197,7 @@ public class GraphicalInterface{
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
 				move('a');
+				System.out.println("Hx: "+game.getHero().getPos()[0]+"   Hy: " + game.getHero().getPos()[1]);
 				frame.repaint();
 			}
 		});
@@ -182,6 +207,7 @@ public class GraphicalInterface{
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				move('s');
+				System.out.println("Hx: "+game.getHero().getPos()[0]+"   Hy: " + game.getHero().getPos()[1]);
 				frame.repaint();
 			}
 		});
@@ -191,6 +217,7 @@ public class GraphicalInterface{
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
 				move('d');
+				System.out.println("Hx: "+game.getHero().getPos()[0]+"   Hy: " + game.getHero().getPos()[1]);
 				frame.repaint();
 			}
 		});
@@ -204,6 +231,7 @@ public class GraphicalInterface{
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
 				move('w');
+				System.out.println("Hx: "+game.getHero().getPos()[0]+"   Hy: " + game.getHero().getPos()[1]);
 				frame.repaint();
 			}
 		});				
@@ -216,17 +244,20 @@ public class GraphicalInterface{
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				contador = 0;
-				disabelButtons();
-				String numberOgres = textField.getText();
-				numOgres = parseInt(numberOgres);
-				if(numOgres > 5)
+				if(!selfMap)
 				{
-					lblTextoVarivel.setText("Number of Ogres has to be and integer less and than 5!");
-					actionPerformed(arg0);
+					String numberOgres = textField.getText();
+					numOgres = parseInt(numberOgres);
+					if(numOgres > 5)
+					{
+						lblTextoVarivel.setText("Number of Ogres has to be and integer less and than 5!");
+						actionPerformed(arg0);
+					}
+					difficulty = comboBox.getSelectedIndex() + 1;
+					int[] hx = {1,1}, gx = {8,1}, lx = {7,8}, kx = {2,1}, og = {5,5, numOgres};;
+					setGame(new GameState(hx, gx, difficulty, lx, kx, og));
 				}
-				difficulty = comboBox.getSelectedIndex() + 1;
-				int[] hx = {1,1}, gx = {8,1}, lx = {7,8}, kx = {2,1}, og = {3,1, numOgres};;
-				setGame(new GameState(hx, gx, difficulty, lx, kx, og));
+				enableButtons();
 				gp = new GraphicsPanel(i);
 				frame.getContentPane().add(gp);
 				gp.requestFocusInWindow();
@@ -322,6 +353,10 @@ public class GraphicalInterface{
 		btnCreateAMap.setEnabled(true);
 		btnCreateAMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				selfMap = true;
+				MapEditor m = new MapEditor(i);
+				m.frame.setVisible(true);
+				frame.setVisible(false);
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnCreateAMap, -70, SpringLayout.NORTH, btnUp);

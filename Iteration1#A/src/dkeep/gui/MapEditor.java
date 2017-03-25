@@ -17,7 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class MapEditor {
-	private GameState game;
+	private GraphicalInterface gi;
+	//private GameState game;
 	public GraphicsPanelMapEditor gpme;
 	public JFrame frame;
 	public JButton btnStartGame;
@@ -35,7 +36,6 @@ public class MapEditor {
 	public JButton btnGenerate;
 	public boolean HeroSelected;
 	public boolean OgreSelected;
-	public boolean GuardSelected;
 	public boolean DoorOpenedSelected;
 	public boolean DoorClosedSelected;
 	public boolean KeySelected;
@@ -58,6 +58,34 @@ public class MapEditor {
 				}
 			}
 		});
+	}
+	
+	public void enableButtons()
+	{
+		btnStartGame.setEnabled(true);
+		btnExitGame.setEnabled(true);
+		btnDoorClosed.setEnabled(true);
+		btnDoorOpened.setEnabled(true);
+		btnWall.setEnabled(true);
+		btnFloor.setEnabled(true);
+		btnHero.setEnabled(true);
+		btnOgre.setEnabled(true);
+		btnKey.setEnabled(true);
+		btnLever.setEnabled(true);
+	}
+	
+	public void disableButtons()
+	{
+		btnStartGame.setEnabled(false);
+		btnExitGame.setEnabled(false);
+		btnDoorClosed.setEnabled(false);
+		btnDoorOpened.setEnabled(false);
+		btnWall.setEnabled(false);
+		btnFloor.setEnabled(false);
+		btnHero.setEnabled(false);
+		btnOgre.setEnabled(false);
+		btnKey.setEnabled(false);
+		btnLever.setEnabled(false);
 	}
 	
 	public int parseInt(String text)
@@ -87,23 +115,26 @@ public class MapEditor {
 			}
 		}
 		
-		game.setMapa(new GameMap(aux));
-	}
-
-	
+		getGi().getGame().setMapa(new GameMap(aux));
+	}	
 	/**
 	 * Create the application.
-	 */
-	
-	public MapEditor(GameState g)
+	 */	
+	public MapEditor(GraphicalInterface gg)
 	{
-		this.game = g;
+		this.setGi(gg);
+		initialize(); 	
 	}
 	
 	public MapEditor() {
 		initialize();
 	}
 
+	public void init()
+	{
+		initialize();
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -122,7 +153,6 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
 				OgreSelected = false;
-				GuardSelected = false;
 				DoorOpenedSelected = false;
 				DoorClosedSelected = true;
 				KeySelected = false;
@@ -141,7 +171,6 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
 				OgreSelected = false;
-				GuardSelected = false;
 				DoorOpenedSelected = false;
 				DoorClosedSelected = false;
 				KeySelected = false;
@@ -159,7 +188,6 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
 				OgreSelected = false;
-				GuardSelected = false;
 				DoorOpenedSelected = false;
 				DoorClosedSelected = false;
 				KeySelected = false;
@@ -179,11 +207,10 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
 				OgreSelected = false;
-				GuardSelected = false;
 				DoorOpenedSelected = false;
 				DoorClosedSelected = false;
-				KeySelected = true;
-				LeverSelected = false;
+				KeySelected = false;
+				LeverSelected = true;
 				WallSelected = false;
 				FloorSelected = false;
 			}
@@ -199,7 +226,6 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = false;
 				OgreSelected = false;
-				GuardSelected = false;
 				DoorOpenedSelected = false;
 				DoorClosedSelected = false;
 				KeySelected = true;
@@ -219,7 +245,6 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent arg0) {
 				HeroSelected = false;
 				OgreSelected = true;
-				GuardSelected = false;
 				DoorOpenedSelected = false;
 				DoorClosedSelected = false;
 				KeySelected = false;
@@ -249,7 +274,6 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e) {
 				HeroSelected = true;
 				OgreSelected = false;
-				GuardSelected = false;
 				DoorOpenedSelected = false;
 				DoorClosedSelected = false;
 				KeySelected = false;
@@ -261,6 +285,13 @@ public class MapEditor {
 		frame.getContentPane().add(btnHero);
 		
 		btnStartGame = new JButton("Start Game");
+		btnStartGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				getGi().frame.setVisible(true);
+				getGi().numOgres = getGi().getGame().getOgres().size();
+				frame.setVisible(false);
+			}
+		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnStartGame, 10, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 48, SpringLayout.NORTH, frame.getContentPane());
 		btnStartGame.setEnabled(false);
@@ -304,6 +335,18 @@ public class MapEditor {
 		textField_1.setColumns(10);
 		
 		btnDoorOpened = new JButton("Door Open");
+		btnDoorOpened.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				HeroSelected = false;
+				OgreSelected = false;
+				DoorOpenedSelected = true;
+				DoorClosedSelected = false;
+				KeySelected = false;
+				LeverSelected = false;
+				WallSelected = false;
+				FloorSelected = false;
+			}
+		});
 		springLayout.putConstraint(SpringLayout.SOUTH, btnDoorClosed, 35, SpringLayout.SOUTH, btnDoorOpened);
 		springLayout.putConstraint(SpringLayout.WEST, btnDoorOpened, 0, SpringLayout.WEST, btnHero);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnDoorOpened, 35, SpringLayout.SOUTH, btnFloor);
@@ -329,8 +372,8 @@ public class MapEditor {
 				{
 					actionPerformed(e);
 				}
-				btnHero.setEnabled(true);
-				game = new GameState();
+				enableButtons();
+				getGi().setGame(new GameState());
 				generateEmptyMap(height ,width);
 				gpme = new GraphicsPanelMapEditor(i);
 				frame.getContentPane().add(gpme);
@@ -342,11 +385,12 @@ public class MapEditor {
 		frame.getContentPane().add(btnGenerate);
 	}
 
-	public GameState getGame() {
-		return game;
+	public GraphicalInterface getGi() {
+		return gi;
 	}
 
-	public void setGame(GameState gi) {
-		this.game = gi;
+	public void setGi(GraphicalInterface gi) {
+		this.gi = gi;
 	}
+
 }

@@ -1,7 +1,11 @@
+/**  
+* GameState.java - Class with the state of the game at the moment
+*/ 
 package dkeep.logic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.imageio.ImageIO;
@@ -10,13 +14,20 @@ public class GameState {
 	GameMap mapa;
 	private Hero h;
 	private Guard g;
-	private Ogre[] o;
+	ArrayList<Ogre> o = new ArrayList<Ogre>();
 	private Lever l;
 	private Key k;
 	private int gameMode;
 	private boolean victory, victoryGuard, victoryOgre, defeat;
 
-	public GameState() {}
+	public GameState() {
+		
+	}
+	
+	public void addOgre(Ogre og)
+	{
+		o.add(og);
+	}
 
 	public void setVictory(boolean vic) { victory = vic; }
 
@@ -30,20 +41,20 @@ public class GameState {
 	}
 
 	public void ogreOnKey() {
-		for (int i = 0; i < o.length; i++) {
-			if (isOgreOnKey(o[i])) {
-				o[i].setOnTheKey(true);
-				o[i].setIm('*');
+		for (int i = 0; i < o.size(); i++) {
+			if (isOgreOnKey(o.get(i))) {
+				o.get(i).setOnTheKey(true);
+				o.get(i).setIm('*');
 			}
 			else {
-				o[i].setIm('O');
-				o[i].setOnTheKey(false);
+				o.get(i).setIm('O');
+				o.get(i).setOnTheKey(false);
 			}
 		}
 	}
 
 	public boolean stunOgre(int i) {
-		int[] oPos = o[i].getPos();
+		int[] oPos = o.get(i).getPos();
 		int[] hPos = h.getPos();
 		if (((oPos[0] == hPos[0] - 1 || oPos[0] == hPos[0] + 1) && oPos[1] == hPos[1])
 				|| ((oPos[1] == hPos[1] - 1 || oPos[1] == hPos[1] + 1) && oPos[0] == hPos[0] || oPos[1] == hPos[1])
@@ -57,11 +68,11 @@ public class GameState {
 	}
 
 	public boolean ogreKillsHero(int i) {
-		int[] oPos = o[i].getPos();
+		int[] oPos = o.get(i).getPos();
 		int[] hPos = h.getPos();
-		int[] cPos = o[i].getClub().getPos();
+		int[] cPos = o.get(i).getClub().getPos();
 
-		if (o[i].getStun() > 0) {
+		if (o.get(i).getStun() > 0) {
 			return false;
 		}
 
@@ -82,9 +93,9 @@ public class GameState {
 
 	public boolean heroNearOgre() {
 		boolean ret = false;
-		for (int i = 0; i < o.length; i++) {
+		for (int i = 0; i < o.size(); i++) {
 			if (this.stunOgre(i)) {
-				o[i].setStun(3);
+				o.get(i).setStun(3);
 				ret = false;
 			}
 			if (ogreKillsHero(i)) {
@@ -110,7 +121,7 @@ public class GameState {
 	}
 
 	public boolean heroNearOgreSimple() {
-		int[] gPos = o[0].getPos();
+		int[] gPos = o.get(0).getPos();
 		int[] hPos = h.getPos();
 		if ((((gPos[0] == hPos[0] - 1 || gPos[0] == hPos[0] + 1) && gPos[1] == hPos[1]) // Near
 																						// Guard
@@ -147,11 +158,11 @@ public class GameState {
 		this.g = g1;
 	}
 
-	public void setO(Ogre[] og) {
+	public void setO(ArrayList<Ogre> og) {
 		this.o = og;
 	}
 
-	public Ogre[] getOgres() {
+	public ArrayList<Ogre> getOgres() {
 		return this.o;
 	}
 
@@ -184,12 +195,12 @@ public class GameState {
 			this.g = d;
 		}
 		this.g.setMovs(this.g.movsPossibility);
-		o = new Ogre[(og[2])];
+		//o = new Ogre[(og[2])];
 		for (int i = 0; i < og[2]; i++) {
 			Ogre o1 = new Ogre(og[0], og[1], 'O', '*');
-			o[i] = o1;
+			o.add(o1);
 		}
-		this.mapa.mapSetGameMode1(l, h, g);
+		this.getMapa().mapSetGameMode(this.getLever(), this.getHero(), this.getGuard(), null, null);
 		this.victoryGuard = false;
 		this.victoryOgre = false;
 	}
@@ -240,20 +251,20 @@ public class GameState {
 	public void clearSpaceMoveChar(int[] coord, int[] xy, Character o, char symbol) {
 		this.mapa.getMap()[coord[1]][coord[0]] = ' ';
 		o.setX(o.getPos()[0] + xy[0]);
-		o.setX(o.getPos()[1] + xy[1]);
+		o.setY(o.getPos()[1] + xy[1]);
 		o.changeBuffImage(symbol);
 	}
 
 	public void moveOgres() {
-		for (int i = 0; i < o.length; i++) {
-			if (o[i].getStun() > 0) {
-				o[i].setStun(o[i].getStun() - 1);
+		for (int i = 0; i < o.size(); i++) {
+			if (o.get(i).getStun() > 0) {
+				o.get(i).setStun(o.get(i).getStun() - 1);
 			} else {
-				action(o[i], this.mapa.getMap());
-				this.mapa.getMap()[o[i].getClub().getPos()[1]][o[i].getClub().getPos()[0]] = ' ';
-				o[i].getClub().getPos()[0] = o[i].getPos()[0];
-				o[i].getClub().getPos()[1] = o[i].getPos()[1];
-				action(o[i].getClub(), this.mapa.getMap());
+				action(o.get(i), this.mapa.getMap());
+				this.mapa.getMap()[o.get(i).getClub().getPos()[1]][o.get(i).getClub().getPos()[0]] = ' ';
+				o.get(i).getClub().getPos()[0] = o.get(i).getPos()[0];
+				o.get(i).getClub().getPos()[1] = o.get(i).getPos()[1];
+				action(o.get(i).getClub(), this.mapa.getMap());
 			}
 		}
 	}
@@ -351,8 +362,8 @@ public class GameState {
 
 	public boolean checkWall(int posy, int posx) {
 		if (this.mapa.getMap()[posy][posx] == 'X' || this.mapa.getMap()[posy][posx] == g.getImage()
-				|| this.mapa.getMap()[posy][posx] == o[0].getImage()
-				|| this.mapa.getMap()[posy][posx] == o[0].getClub().getImage()) {
+				|| this.mapa.getMap()[posy][posx] == o.get(0).getImage()
+				|| this.mapa.getMap()[posy][posx] == o.get(0).getClub().getImage()) {
 			return true;
 		}
 
@@ -401,8 +412,8 @@ public class GameState {
 		
 	public boolean checkOgre(int posy, int posx)
 	{
-		for(int i = 0; i < o.length; i++){
-			if (this.mapa.getMap()[posy][posx] == o[i].getImage()) {
+		for(int i = 0; i < o.size(); i++){
+			if (this.mapa.getMap()[posy][posx] == o.get(i).getImage()) {
 				return true;
 			}
 		}
@@ -647,7 +658,7 @@ public class GameState {
 	public boolean updateGameMode1(char order) {
 		try {
 			if (this.moveHero(order) == false) {
-				this.getMapa().mapSetGameMode1(l, h, g);
+				this.getMapa().mapSetGameMode(this.getLever(), this.getHero(), this.getGuard(),null, null);
 				return true;
 			}
 		} catch (CloneNotSupportedException e) {
@@ -673,15 +684,15 @@ public class GameState {
 			this.setGMode(2);
 			this.h.setX(1);
 			this.h.setY(8);
-		    this.getMapa().mapSetGameMode2(h, o, k);
+			this.getMapa().mapSetGameMode(this.getLever(), this.getHero(), this.getGuard(), null, null);
 			return true;
 		}
 		else if (this.getDefeat())
 		{
-			this.getMapa().mapSetGameMode1(this.getLever(), this.getHero(), this.getGuard());
+			this.getMapa().mapSetGameMode(this.getLever(), this.getHero(), this.getGuard(),null, null);
 			return false;
 		}	
-		this.getMapa().mapSetGameMode1(l, h, g);
+		this.getMapa().mapSetGameMode(this.getLever(), this.getHero(), this.getGuard(),null, null);
 		return true;
 	}
 	
@@ -690,7 +701,7 @@ public class GameState {
 		try {
 			if(this.moveHero(order) == false)
 			{
-				this.getMapa().mapSetGameMode2(this.getHero(), this.getOgres(), this.getK());
+				this.getMapa().mapSetGameMode(null, this.getHero(), null, this.getOgres(), this.getK());
 				return true;
 			}
 		} catch (CloneNotSupportedException e) {
@@ -706,11 +717,42 @@ public class GameState {
 			return true;
 		}
 		if (this.getDefeat()) {
-			this.getMapa().mapSetGameMode2(this.getHero(), this.getOgres(), this.getK());
+			this.getMapa().mapSetGameMode(null, this.getHero(), null, this.getOgres(), this.getK());
 			return false;
 		}
 	
-		this.getMapa().mapSetGameMode2(this.getHero(), this.getOgres(), this.getK());
+		this.getMapa().mapSetGameMode(null, this.getHero(), null, this.getOgres(), this.getK());
+		return true;
+	}
+	
+
+	public boolean updateGameMode(char order)
+	{
+		this.setGuard(new Rookie(100,100,'G'));
+		try {
+			if(this.moveHero(order) == false)
+			{
+				this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
+				return true;
+			}
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+		this.moveOgres();
+		this.ogreOnKey();
+		this.heroNearOgre();
+		if(this.getVictory())
+		{
+			this.victoryOgre = true;
+			return true;
+		}
+		if (this.getDefeat()) {
+			this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
+			return false;
+		}
+	
+		this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
 		return true;
 	}
 

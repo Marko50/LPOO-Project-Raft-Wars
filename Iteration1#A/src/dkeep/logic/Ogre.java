@@ -1,3 +1,7 @@
+/**  
+* Ogre.java - Sub-Class of character for ogres
+*/ 
+
 package dkeep.logic;
 
 import java.io.File;
@@ -11,13 +15,11 @@ public class Ogre  extends Character {
 	
 	private int stun;
 	
-	public int getStun()
-	{
+	public int getStun() {
 		return this.stun;
 	}
 	
-	public void setStun(int s)
-	{
+	public void setStun(int s) {
 		this.stun = s;
 	}
 	
@@ -28,6 +30,7 @@ public class Ogre  extends Character {
 		this.c = c2;
 		this.onTheKey = false;
 		stun = 0;
+		changeBuffImage('w');
 	}
 	
 	public void setOnTheKey(boolean b)
@@ -47,55 +50,32 @@ public class Ogre  extends Character {
 
 	@Override
 	public void changeBuffImage(char order) {
-		if(onTheKey)
-		{
-			try {
-				this.setIm(ImageIO.read(new File("images/key.png")));
-			} catch (IOException e) {
-				System.out.print("key sprite not found\n");
+		if(onTheKey) {
+			try { this.setIm(ImageIO.read(new File("images/key.png")));
+			} catch (IOException e) { System.out.print("key sprite not found\n");
 			}	
 		}
-		
-		else
-		{
-			if(order == 'w')
-	    	{
-	    		try {
-					this.setIm(ImageIO.read(new File("images/OgreCima.png")));
-				} catch (IOException e) {
-					System.out.print("OgreCima sprite not found\n");
+		else {
+			if(order == 'w') {
+	    		try { this.setIm(ImageIO.read(new File("images/OgreCima.png")));
+				} catch (IOException e) { System.out.print("OgreCima sprite not found\n");
 				}
 	    	}
-	    	
-	    	else if(order == 'a')
-	    	{
-	    		try {
-					this.setIm(ImageIO.read(new File("images/OgreLeft.png")));
-				} catch (IOException e) {
-					System.out.print("OgreLeft sprite not found\n");
+	    	else if(order == 'a') {
+	    		try { this.setIm(ImageIO.read(new File("images/OgreLeft.png")));
+				} catch (IOException e) { System.out.print("OgreLeft sprite not found\n");
 				}
-	    		
 	    	}
-	    	
-	    	else if(order == 's')
-	    	{
-	    		try {
-					this.setIm(ImageIO.read(new File("images/OgreBaixo.png")));
-				} catch (IOException e) {
-					System.out.print("OgreBaixo sprite not found\n");
+	    	else if(order == 's') {
+	    		try { this.setIm(ImageIO.read(new File("images/OgreBaixo.png")));
+				} catch (IOException e) { System.out.print("OgreBaixo sprite not found\n");
 				}
-	    		
 	    	}
-	    	
-	    	else if(order == 'd')
-	    	{
-	    		try {
-	    			this.setIm(ImageIO.read(new File("images/OgreRight.png")));
-	    		} catch (IOException e) {
-	    			System.out.print("OgreRight sprite not found\n");
+	    	else if(order == 'd') {
+	    		try { this.setIm(ImageIO.read(new File("images/OgreRight.png")));
+	    		} catch (IOException e) { System.out.print("OgreRight sprite not found\n");
 	    		}		
 	    	}
 		}
-		
 	}
 }

@@ -1,3 +1,7 @@
+/**  
+* Key.java - Sub-Class of Character for the key
+*/ 
+
 package dkeep.logic;
 
 import java.io.File;
@@ -13,11 +17,7 @@ public class Key extends Character  implements Cloneable{
 		super(x, y, im);
 		this.Used = false;
 		this.pickedUp = false;
-		try {
-			this.setIm(ImageIO.read(new File("images/key.png")));
-		} catch (IOException e) {
-			System.out.print("key sprite not found\n");
-		}
+		changeBuffImage('w');
 	}
 	
 	public Key (Key k)

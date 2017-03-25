@@ -1,3 +1,7 @@
+/**  
+* Guard.java - Sub-Class of Character for every guard
+*/ 
+
 package dkeep.logic;
 
 import java.io.File;

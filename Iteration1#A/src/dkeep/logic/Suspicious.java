@@ -1,3 +1,6 @@
+/**  
+* Suspicious.java - Sub-Class of guard for suspicious guard
+*/ 
 package dkeep.logic;
 
 import java.util.Random;
@@ -20,7 +23,4 @@ public class Suspicious extends Guard {
 				this.setDirection(-1);
 			else this.setDirection(1);
 	}
-
-	
-
 }

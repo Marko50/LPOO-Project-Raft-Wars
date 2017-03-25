@@ -1,3 +1,7 @@
+/**  
+* Lever.java - Sub-Class of Character for the lever
+*/ 
+
 package dkeep.logic;
 
 import java.io.File;
@@ -12,12 +16,6 @@ public class Lever extends Character {
 		super(x,y,im);
 		this.pressed = false;	
 		changeBuffImage('h');
-		/*try {
-			this.setIm(ImageIO.read(new File("images/LeverOff.png")));
-		} catch (IOException e) {
-			System.out.print("LeverOff sprite not found\n");
-			e.printStackTrace();
-		}*/
 	}
 	
 	public boolean getPressed()

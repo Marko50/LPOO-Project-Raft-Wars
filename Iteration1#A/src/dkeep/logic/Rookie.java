@@ -1,10 +1,13 @@
+/**  
+* Rookie.java - Sub-Class of guard for rookie guard
+*/ 
+
 package dkeep.logic;
 
 public class Rookie extends Guard {
 
 	public Rookie(int x, int y, char im) {
 		super(x, y, im);
-		
 	}
 
 	@Override
@@ -12,7 +15,4 @@ public class Rookie extends Guard {
 		this.setX(movs[contador][0]); 
 		this.setY(movs[contador][1]);		
 	}
-
-
-
 }
