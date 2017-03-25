@@ -17,10 +17,7 @@ public abstract class Guard   extends Character{
 		super(x,y,im);
 		direction = 1;
 		asleep = 0;
-		try {
-			this.setIm(ImageIO.read(new File("images/GuardMoveLeft.png")));
-		} catch (IOException e) {
-		}
+		changeBuffImage('a');
 	}
 	
 	public void setMovs(int [][] m) {
@@ -56,16 +53,18 @@ public abstract class Guard   extends Character{
 	
 	public void changeBuffImage(char order)
 	{
-		if(order == 'w' || order == 'd') {
+		if(order == 'a' || order == 's') {
     		try {
 				this.setIm(ImageIO.read(new File("images/GuardMoveLeft.png")));
 			} catch (IOException e) {
+				System.out.print("GuardMoveLeft sprite not found\n");
 			}
     	}
-    	else if(order == 's' || order == 'a') {
+    	else if(order == 'w' || order == 'd') {
     		try {
     			this.setIm(ImageIO.read(new File("images/GuardMoveRight.png")));
     		} catch (IOException e) {
+    			System.out.print("GuardMoveRight sprite not found\n");
     		}		
     	}
 	}

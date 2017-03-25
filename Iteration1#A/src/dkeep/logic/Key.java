@@ -16,6 +16,7 @@ public class Key extends Character  implements Cloneable{
 		try {
 			this.setIm(ImageIO.read(new File("images/key.png")));
 		} catch (IOException e) {
+			System.out.print("key sprite not found\n");
 		}
 	}
 	
@@ -52,6 +53,7 @@ public class Key extends Character  implements Cloneable{
 			try {
 				this.setIm(ImageIO.read(new File("images/key.png")));
 			} catch (IOException e) {
+				System.out.print("key sprite not found\n");
 			}
 	}
 

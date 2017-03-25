@@ -52,6 +52,7 @@ public class Ogre  extends Character {
 			try {
 				this.setIm(ImageIO.read(new File("images/key.png")));
 			} catch (IOException e) {
+				System.out.print("key sprite not found\n");
 			}	
 		}
 		
@@ -60,8 +61,9 @@ public class Ogre  extends Character {
 			if(order == 'w')
 	    	{
 	    		try {
-					this.setIm(ImageIO.read(new File("images/OgeCima.png")));
+					this.setIm(ImageIO.read(new File("images/OgreCima.png")));
 				} catch (IOException e) {
+					System.out.print("OgreCima sprite not found\n");
 				}
 	    	}
 	    	
@@ -70,6 +72,7 @@ public class Ogre  extends Character {
 	    		try {
 					this.setIm(ImageIO.read(new File("images/OgreLeft.png")));
 				} catch (IOException e) {
+					System.out.print("OgreLeft sprite not found\n");
 				}
 	    		
 	    	}
@@ -77,8 +80,9 @@ public class Ogre  extends Character {
 	    	else if(order == 's')
 	    	{
 	    		try {
-					this.setIm(ImageIO.read(new File("images/OgreRight.png")));
+					this.setIm(ImageIO.read(new File("images/OgreBaixo.png")));
 				} catch (IOException e) {
+					System.out.print("OgreBaixo sprite not found\n");
 				}
 	    		
 	    	}
@@ -86,8 +90,9 @@ public class Ogre  extends Character {
 	    	else if(order == 'd')
 	    	{
 	    		try {
-	    			this.setIm(ImageIO.read(new File("images/OgreLeft.png")));
+	    			this.setIm(ImageIO.read(new File("images/OgreRight.png")));
 	    		} catch (IOException e) {
+	    			System.out.print("OgreRight sprite not found\n");
 	    		}		
 	    	}
 		}

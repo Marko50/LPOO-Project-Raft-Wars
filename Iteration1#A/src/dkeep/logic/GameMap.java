@@ -44,9 +44,7 @@ public class GameMap {
 	}
 
 	public void setMap(char[][] map) {
-		System.out.println("CENAS1\n");
 		this.map = map;
-		System.out.println("CENAS2\n");
 		mapChar = new Character[map.length][map[0].length];
 		this.setMapChar();
 	}

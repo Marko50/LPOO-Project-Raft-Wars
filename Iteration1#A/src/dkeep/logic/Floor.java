@@ -12,6 +12,7 @@ public class Floor extends Character {
 		try {
 			this.setIm(ImageIO.read(new File("images/floor.png")));
 		} catch (IOException e) {
+			System.out.print("floor sprite not found\n");
 		}
 		
 	}

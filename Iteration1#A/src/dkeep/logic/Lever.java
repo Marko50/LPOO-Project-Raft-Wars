@@ -11,12 +11,13 @@ public class Lever extends Character {
 	{
 		super(x,y,im);
 		this.pressed = false;	
-		try {
+		changeBuffImage('h');
+		/*try {
 			this.setIm(ImageIO.read(new File("images/LeverOff.png")));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.print("LeverOff sprite not found\n");
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public boolean getPressed()
@@ -35,7 +36,7 @@ public class Lever extends Character {
 			try {
 				this.setIm(ImageIO.read(new File("images/LeverOn.png")));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.out.print("LeverOn sprite not found\n");
 				e.printStackTrace();
 			}
 		
@@ -43,7 +44,7 @@ public class Lever extends Character {
 			try {
 				this.setIm(ImageIO.read(new File("images/LeverOff.png")));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.out.print("LeverOff sprite not found\n");
 				e.printStackTrace();
 			}
 				

@@ -24,12 +24,14 @@ public class Door extends Character{
 			try {
 				this.setIm(ImageIO.read(new File("images/OpenDoor.png")));
 			} catch (IOException e) {
+				System.out.print("OpenDoor sprite not found\n");
 			}
 		
 		else
 			try {
 				this.setIm(ImageIO.read(new File("images/ClosedDoor.png")));
 			} catch (IOException e) {
+				System.out.print("ClosedDoor sprite not found\n");
 			}		
 	}
 }
