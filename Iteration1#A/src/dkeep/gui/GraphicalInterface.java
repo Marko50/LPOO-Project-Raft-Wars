@@ -184,6 +184,10 @@ public class GraphicalInterface{
 		btnLeft = new JButton("Left");
 		springLayout.putConstraint(SpringLayout.SOUTH, btnLeft, -210, SpringLayout.SOUTH, frame.getContentPane());
 		btnLeft.setFocusable(false);
+		initialize1dot2();
+	}
+	
+	public void initialize1dot2() {
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
 				move('a');
@@ -194,6 +198,10 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.EAST, btnLeft, -83, SpringLayout.EAST, frame.getContentPane());
 		btnDown = new JButton("Down");
 		springLayout.putConstraint(SpringLayout.SOUTH, btnDown, -173, SpringLayout.SOUTH, frame.getContentPane());
+		initialize1dot3();
+	}
+
+	public void initialize1dot3() {
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				move('s');
@@ -201,9 +209,9 @@ public class GraphicalInterface{
 				frame.repaint();
 			}
 		});
-		initialize2();
+		initialize2();	
 	}
-
+	
 	public void initialize2() {
 		springLayout.putConstraint(SpringLayout.NORTH, btnDown, 6, SpringLayout.SOUTH, btnLeft);
 		btnRight = new JButton("Right");
@@ -215,6 +223,10 @@ public class GraphicalInterface{
 				frame.repaint();
 			}
 		});
+		initialize2dot2();
+	}
+	
+	public void initialize2dot2() {
 		springLayout.putConstraint(SpringLayout.WEST, btnRight, 6, SpringLayout.EAST, btnLeft);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnRight, -6, SpringLayout.NORTH, btnDown);
 		springLayout.putConstraint(SpringLayout.EAST, btnRight, -10, SpringLayout.EAST, frame.getContentPane());
@@ -222,6 +234,10 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.NORTH, btnUp, -278, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnUp, -247, SpringLayout.SOUTH, frame.getContentPane());
 		btnUp.setFocusable(false);
+		initialize2dot3();
+	}
+
+	public void initialize2dot3() {
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
 				move('w');
@@ -234,7 +250,7 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.WEST, btnLeft, -100, SpringLayout.EAST, btnUp);
 		initialize3();
 	}
-
+	
 	public void initialize3() {
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.setFocusable(false);
@@ -278,6 +294,10 @@ public class GraphicalInterface{
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		lblNewLabel_1 = new JLabel("Guard Level");
+		initialize4dot2();
+	}
+
+	public void initialize4dot2() {
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 19, SpringLayout.SOUTH, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 0, SpringLayout.WEST, lblNewLabel);
 		frame.getContentPane().add(lblNewLabel_1);
@@ -289,6 +309,10 @@ public class GraphicalInterface{
 		textPane = new JTextPane();
 		springLayout.putConstraint(SpringLayout.NORTH, textPane, 23, SpringLayout.SOUTH, lblNewLabel_1);
 		springLayout.putConstraint(SpringLayout.WEST, textPane, 0, SpringLayout.WEST, lblNewLabel);
+		initialize4dot3();
+	}
+	
+	public void initialize4dot3() {
 		springLayout.putConstraint(SpringLayout.EAST, textPane, 251, SpringLayout.WEST, frame.getContentPane());
 		textPane.setFont(new Font("Consolas", Font.PLAIN, 16));
 		textPane.setEditable(false);
@@ -296,7 +320,7 @@ public class GraphicalInterface{
 		springLayout.putConstraint(SpringLayout.NORTH, lblTextoVarivel, -22, SpringLayout.SOUTH, frame.getContentPane());
 		initialize5();
 	}
-
+	
 	public void initialize5() {
 		springLayout.putConstraint(SpringLayout.EAST, lblTextoVarivel, 0, SpringLayout.EAST, frame.getContentPane());
 		lblTextoVarivel.setFont(new Font("Calibri", Font.PLAIN, 10));
