@@ -102,22 +102,6 @@ public class GameMap {
 			map[o.get(i).getClub().getPos()[1]][o.get(i).getClub().getPos()[0]] = o.get(i).getClub().getImage();
 		}
 	}
-	
-	public void mapSetGameModeSelfMap(Lever l, Hero h,  ArrayList<Ogre> o, Key k) {
-		if (l != null)
-			map[l.getPos()[1]][l.getPos()[0]] = l.getImage();
-
-		if (h != null)
-			map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
-		if (k != null)
-			if (!k.isPickedUp())
-				map[k.getPos()[1]][k.getPos()[0]] = k.getImage();
-		if(o != null)
-		for (int i = 0; i < o.size(); i++) {
-			map[o.get(i).getPos()[1]][o.get(i).getPos()[0]] = o.get(i).getImage();
-			map[o.get(i).getClub().getPos()[1]][o.get(i).getClub().getPos()[0]] = o.get(i).getClub().getImage();
-		}
-	}
 
 	public Character[][] getMapChar() {
 		return mapChar;

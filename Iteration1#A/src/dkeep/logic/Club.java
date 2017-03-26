@@ -1,7 +1,3 @@
-/**  
-* Club.java - Sub-Class of Character for the clubs
-*/ 
-
 package dkeep.logic;
 
 import java.io.File;
@@ -9,11 +5,24 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+
+/**  
+* Club.java - Sub-Class of Character for the clubs
+*/ 
 public class Club  extends Character {
+	/**  
+	 * Constructor of Club extending character
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param im char of representing club
+	 */  
 	public Club(int x, int y, char im) {
 		super(x,y,im);
 	}
-
+	/**  
+	    * Changes buffering image of club depending on where it moved to
+	    * @param order char representing where the character's moved
+	    */  
 	@Override
 	public void changeBuffImage(char order) {
 		if(order == 'w')

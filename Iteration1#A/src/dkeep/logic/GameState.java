@@ -552,16 +552,14 @@ public class GameState {
 		this.setGuard(new Rookie(100,100,'G'));
 		try {
 			if(this.moveHero(order) == false) {
-				this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
-				return true;
-			}
+				this.getMapa().mapSetGameMode(this.getLever(), this.getHero(),null, this.getOgres(), this.getK());
+				return true; }
 		} catch (CloneNotSupportedException e) { e.printStackTrace(); }
-		if(moveAndTestOgres()) return true;
+		moveAndTestOgres();
 		if (this.getDefeat()) {
-			this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
-			return false;
-		}
-		this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
+			this.getMapa().mapSetGameMode(this.getLever(), this.getHero(),null, this.getOgres(), this.getK());
+			return false; }
+		this.getMapa().mapSetGameMode(this.getLever(), this.getHero(),null, this.getOgres(), this.getK());
 		return true;
 	}
 

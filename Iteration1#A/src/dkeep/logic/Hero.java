@@ -1,7 +1,3 @@
-/**  
-* Hero.java - Sub-Class of Character for the Hero
-*/ 
-
 package dkeep.logic;
 
 import java.io.File;
@@ -10,8 +6,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**  
+* Hero.java - Sub-Class of Character for the Hero
+*/ 
 public class Hero  extends Character {
 	private boolean hasKey;
+	/**
+	 * Constructor of Hero extending character
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param im char representing Hero
+	 */
 	public Hero(int x, int y, char im) {
 		super(x,y,im);
 		setHasKey(false);
@@ -34,10 +39,18 @@ public class Hero  extends Character {
 		}
     }
 
+    /**
+     * Return whether or not hero has the key
+     * @return true if hero has the key
+     */
 	public boolean isHasKey() {
 		return hasKey;
 	}
 
+	/**
+	 * Sets whether or not hero has the key
+	 * @param hasKey whether or not hero has the key
+	 */
 	public void setHasKey(boolean hasKey) {
 		this.hasKey = hasKey;
 	}
