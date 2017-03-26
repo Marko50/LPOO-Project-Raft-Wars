@@ -142,47 +142,34 @@ public class GraphicalInterface{
 	 * Initialize the contents of the frame.
 	 */
 	
-	void move(char dir)
-	{
-	    if (getGame().getGMode() == 1) {
-			if (getGame().updateGameMode1(dir) == false) {
-				lblTextoVarivel.setText("Ups you lost!");
-				disabelButtons();
-				gp.removeListener();
-			}
+	void endGame(String text) {
+		lblTextoVarivel.setText(text);
+		disabelButtons();
+		gp.removeListener();
+	}
+	
+	void move(char dir) {
+	    if (getGame().getGMode() == 1 ) {
+			if (getGame().updateGameMode1(dir) == false)
+				endGame("Ups you lost!");
 		} else if (getGame().getGMode() == 2) {
-			if (getGame().updateGameMode2(dir) == false) {
-				lblTextoVarivel.setText("Ups you lost!");
-				disabelButtons();
-				gp.removeListener();
-			}
+			if (getGame().updateGameMode2(dir) == false)
+				endGame("Ups you lost!");
 			if(getGame().getVictory())
-			{
-				lblTextoVarivel.setText("Congratulations! You won!");
-				disabelButtons();
-				gp.removeListener();
-			}
-			
+				endGame("Congratulations! You won!");
 		}
 		else if (selfMap) {
 			if (getGame().updateGameMode(dir) == false) {
-				lblTextoVarivel.setText("Ups you lost!");
-				disabelButtons();
-				gp.removeListener();
-				selfMap = false;
-				
+				endGame("Ups you lost!");
+				selfMap = false;	
 			}
-			if(getGame().getVictory())
-			{
-				lblTextoVarivel.setText("Congratulations! You won!");
-				disabelButtons();
-				gp.removeListener();
+			if(getGame().getVictory()){
+				endGame("Congratulations! You won!");
 				selfMap = false;
 			}
 		}
 	}
 		
-	
 	private void initialize(){	
 		
 		frame = new JFrame();

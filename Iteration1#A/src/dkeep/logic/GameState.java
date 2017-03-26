@@ -86,13 +86,13 @@ public class GameState {
 	public boolean heroNearOgre() {
 		boolean ret = false;
 		for (int i = 0; i < o.size(); i++) {
-			if (this.stunOgre(i)) {
-				o.get(i).setStun(3);
-				ret = false;
-			}
 			if (ogreKillsHero(i)) {
 				this.defeat = true;
 				ret = true;
+			}
+			if (this.stunOgre(i)) {
+				o.get(i).setStun(3);
+				ret = false;
 			}
 		}
 		return ret;
@@ -208,31 +208,35 @@ public class GameState {
 		}
 	}
 
+	
+	public boolean ActionFalseMove(Character o, int[] xy, char[][] map) {
+		int[] oPos = o.getPos();
+		if (map[oPos[1] + xy[1]][oPos[0]+ xy[0]] == 'X' || map[oPos[1] + xy[1]][oPos[0]+ xy[0]] == 'I' || map[oPos[1] + xy[1]][oPos[0]+ xy[0]] == 'S' || map[oPos[1] + xy[1]][oPos[0]+ xy[0]] == h.getImage()) {
+			return true;
+		}
+		return false;
+	}
 	public void action(Character o, char[][] map) {
-		int[] oPos = o.getPos(); int randomNum;
+		int randomNum;
 		while (true) {
 			randomNum = ThreadLocalRandom.current().nextInt(1, 5);
 			if (randomNum == 1) { //w
-				if (map[oPos[1] - 1][oPos[0]] == 'X' || map[oPos[1] - 1][oPos[0]] == 'I' || map[oPos[1] - 1][oPos[0]] == 'S' || map[oPos[1] - 1][oPos[0]] == h.getImage()) {
-					continue; }
+				if (ActionFalseMove(o, new int[] {0,-1}, map)) continue;
 				else {
 					clearSpaceMoveChar(o.getPos(), new int[] {0, -1}, o, 'w');
 					break; }
 			} else if (randomNum == 2) { //d
-				if (map[oPos[1]][oPos[0] + 1] == 'X' || map[oPos[1]][oPos[0] + 1] == 'I' || map[oPos[1]][oPos[0]+1] == 'S'||  map[oPos[1] ][oPos[0]+1] == h.getImage()) {
-					continue; }
+				if (ActionFalseMove(o, new int[] {1,0}, map)) continue;
 				else {
 					clearSpaceMoveChar(o.getPos(), new int[] {1,0}, o, 'd');
 					break; }
 			} else if (randomNum == 3) { //s
-				if (map[oPos[1] + 1][oPos[0]] == 'X' || map[oPos[1] + 1][oPos[0]] == 'I'|| map[oPos[1] + 1][oPos[0]] == 'S' || map[oPos[1] + 1][oPos[0]] == h.getImage()) {
-					continue; }
+				if (ActionFalseMove(o, new int[] {0,1}, map)) continue;
 				else {
 					clearSpaceMoveChar(o.getPos(), new int[] {0,1}, o, 's');
 					break; }
 			} else if (randomNum == 4 ) { //a
-				if (map[oPos[1]][oPos[0] - 1] == 'X' || map[oPos[1]][oPos[0] - 1] == 'I' || map[oPos[1]][oPos[0]-1] == 'S' || map[oPos[1]][oPos[0] - 1] == h.getImage()) {
-					continue; }
+				if (ActionFalseMove(o, new int[] {-1,0}, map)) continue;
 				else {
 					clearSpaceMoveChar(o.getPos(), new int[] {-1,0}, o, 'a');
 					break; }
@@ -290,34 +294,26 @@ public class GameState {
 			if (order == 'w') {
 				if (checkVictory(posy, posx, 'w')) {
 					this.victory = true;
-					return true;
-				}
-				if (this.mapa.getMap()[posy - 1][posx] == ' ')
-					return true;
+					return true; }
+				if (this.mapa.getMap()[posy - 1][posx] == ' ') return true;
 				else return false;
 			} else if (order == 'a') {
 				if (checkVictory(posy, posx, 'a')) {
 					this.victory = true;
-					return true;
-				}
-				if (this.mapa.getMap()[posy][posx - 1] == ' ')
-					return true;
+					return true; }
+				if (this.mapa.getMap()[posy][posx - 1] == ' ') return true;
 				else return false;
 			} else if (order == 's') {
 				if (checkVictory(posy, posx, 's')) {
 					this.victory = true;
-					return true;
-				}
-				if (this.mapa.getMap()[posy + 1][posx] == ' ')
-					return true;
+					return true; }
+				if (this.mapa.getMap()[posy + 1][posx] == ' ') return true;
 				else return false;
 			} else if (order == 'd') {
 				if (checkVictory(posy, posx, 'd')) {
 					this.victory = true;
-					return true;
-				}
-				if (this.mapa.getMap()[posy][posx + 1] == ' ')
-					return true;
+					return true; }
+				if (this.mapa.getMap()[posy][posx + 1] == ' ') return true;
 				else return false;
 			} else return false;
 		} else return false;
@@ -480,14 +476,7 @@ public class GameState {
 		this.getGuard().gMove(contador);
 		this.heroNearGuard();
 		if(this.getVictory()) {
-			this.victory = false;
-			this.defeat = false;
-			this.victoryGuard = true;
-			this.mapa.setMap(this.mapa.mapOgre);
-			this.setGMode(2);
-			this.h.setX(1);
-			this.h.setY(8);
-			this.getMapa().mapSetGameMode(null, this.getHero(), null, this.getOgres(), this.getK());
+			changeGameMode2();
 			return true;
 		}
 		else if (this.getDefeat()) {
@@ -496,6 +485,16 @@ public class GameState {
 		}	
 		this.getMapa().mapSetGameMode(this.getLever(), this.getHero(), this.getGuard(),null, null);
 		return true;
+	}
+	public void changeGameMode2() {
+		this.victory = false;
+		this.defeat = false;
+		this.victoryGuard = true;
+		this.mapa.setMap(this.mapa.mapOgre);
+		this.setGMode(2);
+		this.h.setX(1);
+		this.h.setY(8);
+		this.getMapa().mapSetGameMode(null,  this.getHero(), null, this.getOgres(), this.getK());
 	}
 
 	public boolean updateGameMode2(char order) {

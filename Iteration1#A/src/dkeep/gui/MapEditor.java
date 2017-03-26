@@ -18,9 +18,9 @@ import javax.swing.JTextField;
 
 public class MapEditor {
 	private GraphicalInterface gi;
-	//private GameState game;
 	public GraphicsPanelMapEditor gpme;
 	public JFrame frame;
+	public SpringLayout springLayout;
 	public JButton btnStartGame;
 	public JButton btnExitGame;
 	public JButton btnDoorClosed;
@@ -42,13 +42,13 @@ public class MapEditor {
 	public boolean LeverSelected;
 	public boolean WallSelected;
 	public boolean FloorSelected;
-	
+
 	public boolean ogreUsed = false;
 	public boolean heroUsed = false;
 	public boolean keyUsed = false;
 	public boolean leverUsed = false;
-	
-	
+
+
 	/**
 	 * Launch the application.
 	 */
@@ -64,7 +64,7 @@ public class MapEditor {
 			}
 		});
 	}
-	
+
 	public void enableButtons()
 	{
 		btnStartGame.setEnabled(true);
@@ -78,7 +78,7 @@ public class MapEditor {
 		btnKey.setEnabled(true);
 		btnLever.setEnabled(true);
 	}
-	
+
 	public void disableButtons()
 	{
 		btnStartGame.setEnabled(false);
@@ -92,23 +92,23 @@ public class MapEditor {
 		btnKey.setEnabled(false);
 		btnLever.setEnabled(false);
 	}
-	
+
 	public int parseInt(String text)
 	{
 		int num;
-		
+
 		try
 		{
 			num = Integer.parseInt(text);
 			return num;
 		}
-		
+
 		catch(NumberFormatException e){
 			return 11;
 		}
 	}
-	
-	
+
+
 	public void generateEmptyMap(int y, int x)
 	{
 		char[][] aux = new char[y][x];
@@ -122,7 +122,7 @@ public class MapEditor {
 					aux[i][j] = ' ';
 			}
 		}
-		
+
 		getGi().getGame().setMapa(new GameMap(aux));
 	}	
 	/**
@@ -133,7 +133,7 @@ public class MapEditor {
 		this.setGi(gg);
 		initialize(); 	
 	}
-	
+
 	public MapEditor() {
 		initialize();
 	}
@@ -142,16 +142,27 @@ public class MapEditor {
 	{
 		initialize();
 	}
-	
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	private void selectUnit(boolean[] selected) {
+		HeroSelected = selected[0];
+		OgreSelected = selected[1];
+		DoorOpenedSelected = selected[2];
+		DoorClosedSelected = selected[3];
+		KeySelected = selected[4];
+		LeverSelected = selected[5];
+		WallSelected = selected[6];
+		FloorSelected = selected[7];
+	}
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.pack();
 		frame.setBounds(100, 100, 492, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		SpringLayout springLayout = new SpringLayout();
+		springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 		frame.setPreferredSize(new Dimension(450, 450));
 		btnDoorClosed = new JButton("Door Closed");
@@ -159,111 +170,69 @@ public class MapEditor {
 		btnDoorClosed.setEnabled(false);
 		btnDoorClosed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				HeroSelected = false;
-				OgreSelected = false;
-				DoorOpenedSelected = false;
-				DoorClosedSelected = true;
-				KeySelected = false;
-				LeverSelected = false;
-				WallSelected = false;
-				FloorSelected = false;
+				selectUnit(new boolean[] {false, false, false, true, false, false, false, false}); //doorclosedselected
 			}
 		});
 		frame.getContentPane().add(btnDoorClosed);
-		
 		btnWall = new JButton("Wall");
 		springLayout.putConstraint(SpringLayout.NORTH, btnWall, 5, SpringLayout.SOUTH, btnDoorClosed);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnWall, 35, SpringLayout.SOUTH, btnDoorClosed);
 		springLayout.putConstraint(SpringLayout.EAST, btnWall, 0, SpringLayout.EAST, btnDoorClosed);
 		btnWall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				HeroSelected = false;
-				OgreSelected = false;
-				DoorOpenedSelected = false;
-				DoorClosedSelected = false;
-				KeySelected = false;
-				LeverSelected = false;
-				WallSelected = true;
-				FloorSelected = false;
+				selectUnit(new boolean[] {false, false, false, false, false, false, true, false}); //wallselected
 			}
 		});
 		btnWall.setEnabled(false);
 		frame.getContentPane().add(btnWall);
-		
 		btnFloor = new JButton("Floor");
 		springLayout.putConstraint(SpringLayout.EAST, btnFloor, 0, SpringLayout.EAST, btnDoorClosed);
 		btnFloor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				HeroSelected = false;
-				OgreSelected = false;
-				DoorOpenedSelected = false;
-				DoorClosedSelected = false;
-				KeySelected = false;
-				LeverSelected = false;
-				WallSelected = false;
-				FloorSelected = true;
+				selectUnit(new boolean[] {false, false, false, false, false, false, false, true}); //floor selected
 			}
 		});
 		btnFloor.setEnabled(false);
 		frame.getContentPane().add(btnFloor);
-		
 		btnLever = new JButton("Lever");
 		springLayout.putConstraint(SpringLayout.SOUTH, btnFloor, 35, SpringLayout.SOUTH, btnLever);
 		springLayout.putConstraint(SpringLayout.EAST, btnLever, 0, SpringLayout.EAST, btnDoorClosed);
 		springLayout.putConstraint(SpringLayout.NORTH, btnFloor, 5, SpringLayout.SOUTH, btnLever);
 		btnLever.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				HeroSelected = false;
-				OgreSelected = false;
-				DoorOpenedSelected = false;
-				DoorClosedSelected = false;
-				KeySelected = false;
-				LeverSelected = true;
-				WallSelected = false;
-				FloorSelected = false;
+				selectUnit(new boolean[] {false, false, false, false, false, true, false, false}); //lever selected
 			}
 		});
 		btnLever.setEnabled(false);
 		frame.getContentPane().add(btnLever);
-		
 		btnKey = new JButton("Key");
 		springLayout.putConstraint(SpringLayout.SOUTH, btnLever, 35, SpringLayout.SOUTH, btnKey);
 		springLayout.putConstraint(SpringLayout.EAST, btnKey, 0, SpringLayout.EAST, btnDoorClosed);
 		springLayout.putConstraint(SpringLayout.NORTH, btnLever, 5, SpringLayout.SOUTH, btnKey);
 		btnKey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				HeroSelected = false;
-				OgreSelected = false;
-				DoorOpenedSelected = false;
-				DoorClosedSelected = false;
-				KeySelected = true;
-				LeverSelected = false;
-				WallSelected = false;
-				FloorSelected = false;
+				selectUnit(new boolean[] {false, false, false, false, true, false, false, false}); //key selected
 			}
 		});
 		btnKey.setEnabled(false);
 		frame.getContentPane().add(btnKey);
-		
+		initialize2();
+		initialize3();
+		initialize4();
+	}
+	
+	private void initialize2() {
 		btnOgre = new JButton("Ogre");
 		springLayout.putConstraint(SpringLayout.NORTH, btnKey, 5, SpringLayout.SOUTH, btnOgre);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnKey, 35, SpringLayout.SOUTH, btnOgre);
 		springLayout.putConstraint(SpringLayout.EAST, btnOgre, 0, SpringLayout.EAST, btnDoorClosed);
 		btnOgre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				HeroSelected = false;
-				OgreSelected = true;
-				DoorOpenedSelected = false;
-				DoorClosedSelected = false;
-				KeySelected = false;
-				LeverSelected = false;
-				WallSelected = false;
-				FloorSelected = false;
+				selectUnit(new boolean[] {false, true, false, false, false, false, false, false});
 			}
 		});
 		btnOgre.setEnabled(false);
 		frame.getContentPane().add(btnOgre);
-		
 		btnHero = new JButton("Hero");
 		springLayout.putConstraint(SpringLayout.SOUTH, btnOgre, 35, SpringLayout.SOUTH, btnHero);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnHero, 85, SpringLayout.NORTH, frame.getContentPane());
@@ -280,23 +249,14 @@ public class MapEditor {
 		btnHero.setEnabled(false);
 		btnHero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				HeroSelected = true;
-				OgreSelected = false;
-				DoorOpenedSelected = false;
-				DoorClosedSelected = false;
-				KeySelected = false;
-				LeverSelected = false;
-				WallSelected = false;
-				FloorSelected = false;
+				selectUnit(new boolean[] {true, false, false, false, false, false, false, false}); //hero selected
 			}
 		});
 		frame.getContentPane().add(btnHero);
-		
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(ogreUsed && leverUsed && keyUsed && heroUsed)
-				{
+				if(ogreUsed && leverUsed && keyUsed && heroUsed) {
 					getGi().frame.setVisible(true);
 					getGi().numOgres = getGi().getGame().getOgres().size();
 					frame.setVisible(false);
@@ -307,7 +267,9 @@ public class MapEditor {
 		springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 48, SpringLayout.NORTH, frame.getContentPane());
 		btnStartGame.setEnabled(false);
 		frame.getContentPane().add(btnStartGame);
-		
+	}
+
+	private void initialize3() {
 		btnExitGame = new JButton("Exit Game");
 		springLayout.putConstraint(SpringLayout.NORTH, btnExitGame, 19, SpringLayout.SOUTH, btnWall);
 		springLayout.putConstraint(SpringLayout.WEST, btnExitGame, 0, SpringLayout.WEST, btnDoorClosed);
@@ -319,18 +281,15 @@ public class MapEditor {
 			}
 		});
 		frame.getContentPane().add(btnExitGame);	
-		
 		JLabel lblHeight = new JLabel("Height");
 		springLayout.putConstraint(SpringLayout.NORTH, lblHeight, 10, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblHeight, 10, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(lblHeight);
-		
 		JLabel lblWidth = new JLabel("Width");
 		springLayout.putConstraint(SpringLayout.NORTH, lblWidth, 5, SpringLayout.SOUTH, lblHeight);
 		springLayout.putConstraint(SpringLayout.WEST, lblWidth, 0, SpringLayout.WEST, lblHeight);
 		springLayout.putConstraint(SpringLayout.EAST, lblWidth, 0, SpringLayout.EAST, lblHeight);
 		frame.getContentPane().add(lblWidth);
-		
 		textField = new JTextField();
 		springLayout.putConstraint(SpringLayout.NORTH, textField, 5, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, textField, 6, SpringLayout.EAST, lblHeight);
@@ -338,24 +297,15 @@ public class MapEditor {
 		springLayout.putConstraint(SpringLayout.EAST, textField, -200, SpringLayout.WEST, btnHero);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		
 		textField_1 = new JTextField();
 		springLayout.putConstraint(SpringLayout.NORTH, textField_1, -3, SpringLayout.NORTH, lblWidth);
 		springLayout.putConstraint(SpringLayout.WEST, textField_1, 6, SpringLayout.EAST, lblWidth);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
-		
 		btnDoorOpened = new JButton("Door Open");
 		btnDoorOpened.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				HeroSelected = false;
-				OgreSelected = false;
-				DoorOpenedSelected = true;
-				DoorClosedSelected = false;
-				KeySelected = false;
-				LeverSelected = false;
-				WallSelected = false;
-				FloorSelected = false;
+				selectUnit(new boolean[] {false, false, true, false, false, false, false, false}); //dooropened selected
 			}
 		});
 		springLayout.putConstraint(SpringLayout.SOUTH, btnDoorClosed, 35, SpringLayout.SOUTH, btnDoorOpened);
@@ -366,7 +316,6 @@ public class MapEditor {
 		springLayout.putConstraint(SpringLayout.EAST, btnDoorOpened, 0, SpringLayout.EAST, btnDoorClosed);
 		btnDoorOpened.setEnabled(false);
 		frame.getContentPane().add(btnDoorOpened);
-		MapEditor i = this;
 		btnGenerate = new JButton("Generate");
 		springLayout.putConstraint(SpringLayout.WEST, btnStartGame, 6, SpringLayout.EAST, btnGenerate);
 		springLayout.putConstraint(SpringLayout.EAST, btnStartGame, 113, SpringLayout.EAST, btnGenerate);
@@ -375,15 +324,20 @@ public class MapEditor {
 		springLayout.putConstraint(SpringLayout.SOUTH, btnGenerate, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnGenerate, 213, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, btnGenerate, 10, SpringLayout.NORTH, frame.getContentPane());
+	}
+	
+	private void initialize4() {
+		MapEditor i = this;
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int height = parseInt(textField.getText());
 				int width = parseInt(textField_1.getText());
-				if(width > 10 || height > 10 )
-				{
+				if(width > 10 || height > 10 ) {
 					actionPerformed(e);
 				}
 				enableButtons();
+				
+				
 				getGi().setGame(new GameState());
 				generateEmptyMap(height ,width);
 				gpme = new GraphicsPanelMapEditor(i);
@@ -395,7 +349,6 @@ public class MapEditor {
 		});
 		frame.getContentPane().add(btnGenerate);
 	}
-
 	public GraphicalInterface getGi() {
 		return gi;
 	}
