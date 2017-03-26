@@ -419,215 +419,61 @@ public class GameState {
 		}
 		return false;
 	}
+	public boolean moveHero2(int[] xy, char order) throws CloneNotSupportedException {
+		if(checkEmpty(h.getPos()[1] + xy[1], h.getPos()[0] + xy[0])) {
+			this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
+			h.getPos()[1] = h.getPos()[1] + xy[1];
+			h.getPos()[0] = h.getPos()[0] + xy[0];
+			return true;
+		}
+		else if (checkWall(h.getPos()[1] + xy[1], h.getPos()[0] + xy[0]))
+			return false;
+		else if (checkOgre(h.getPos()[1] + xy[1], h.getPos()[0] + xy[0]))
+			return false;
+		else if (checkClosedDoor(h.getPos()[1] + xy[1], h.getPos()[0] + xy[0])) {
+			if (k.isPickedUp()) {
+				k.setUsed(true);
+				this.mapa.getMap()[h.getPos()[1] + xy[1]][h.getPos()[0]+ xy[0]] = 'S';
+				this.mapa.getMapChar()[h.getPos()[1] + xy[1]][h.getPos()[0] + xy[0]].setIm('S');
+				this.mapa.setMapChar();
+				this.mapa.getMapChar()[h.getPos()[1] + xy[1]][h.getPos()[0]+ xy[0]].changeBuffImage('a');
+			}
+			return false;
+		}
+		else if (checkOpenDoor(h.getPos()[1] + xy[1], h.getPos()[0] + xy[0], order)) {
+			this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
+			h.getPos()[1] = h.getPos()[1] + (2*xy[1]);
+			h.getPos()[0] = h.getPos()[0] + (2*xy[0]);
+			return true;
+		}
+		else if (checkLever(h.getPos()[1] + xy[1], h.getPos()[0] + xy[0])) {
+			this.mapa.changeDoors();
+			return false;
+		}
+		else if (checkKey(h.getPos()[1] + xy[1], h.getPos()[0] + xy[0])) {
+			Key test = (Key) k.clone();
+			h.setIm(test.getImage());
+			this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
+			return false;
+		}
+		else return false;
+	}
 	
 	public boolean moveHero(char order) throws CloneNotSupportedException {
 		if (order == 'w') {
 			h.changeBuffImage('w');
-			if(checkEmpty(h.getPos()[1]-1, h.getPos()[0]))
-			{
-				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-				h.getPos()[1] = h.getPos()[1] - 1;
-				return true;
-			}
-			
-			else if (checkWall(h.getPos()[1] - 1, h.getPos()[0])) {
-				return false;
-			}
-			
-			else if (checkOgre(h.getPos()[1] - 1, h.getPos()[0]))
-			{
-				return false;
-			}
-
-			else if (checkClosedDoor(h.getPos()[1] - 1, h.getPos()[0])) {
-				if (k.isPickedUp()) {
-					k.setUsed(true);
-					this.mapa.getMap()[h.getPos()[1] - 1][h.getPos()[0]] = 'S';
-					this.mapa.getMapChar()[h.getPos()[1] - 1][h.getPos()[0]].setIm('S');
-					this.mapa.setMapChar();
-					this.mapa.getMapChar()[h.getPos()[1] - 1][h.getPos()[0]].changeBuffImage('a');
-				}
-				return false;
-			}
-
-			else if (checkOpenDoor(h.getPos()[1] - 1, h.getPos()[0], 'w')) {
-				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-				h.getPos()[1] = h.getPos()[1] - 2;
-				return true;
-			}
-
-			else if (checkLever(h.getPos()[1] - 1, h.getPos()[0])) {
-				this.mapa.changeDoors();
-				return false;
-			}
-
-			else if (checkKey(h.getPos()[1] - 1, h.getPos()[0])) {
-				Key test = (Key) k.clone();
-				h.setIm(test.getImage());
-				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
-				return false;
-			}
-
-			else {
-				return false;
-			}
-
+			return moveHero2(new int[] {0,-1}, order);
 		} else if (order == 'a') {
 			h.changeBuffImage('a');
-			if(checkEmpty(h.getPos()[1], h.getPos()[0] - 1))
-			{
-				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-				h.getPos()[0] = h.getPos()[0] - 1;
-				return true;
-			}
-			
-			else if (checkWall(h.getPos()[1], h.getPos()[0] - 1)) {
-				return false;
-			}
-			
-
-			else if (checkOgre(h.getPos()[1], h.getPos()[0] - 1))
-			{
-				return false;
-			}
-			
-			else if (checkClosedDoor(h.getPos()[1], h.getPos()[0] - 1)) {
-				if (k.isPickedUp()) {
-					k.setUsed(true);
-					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0] - 1] = 'S';
-					this.mapa.getMapChar()[h.getPos()[1]][h.getPos()[0]-1].setIm('S');
-					this.mapa.setMapChar();
-					this.mapa.getMapChar()[h.getPos()[1]][h.getPos()[0]-1].changeBuffImage('a');
-				}
-				return false;
-			}
-
-			else if (checkOpenDoor(h.getPos()[1], h.getPos()[0] - 1,'a')) {
-				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-				h.getPos()[0] = h.getPos()[0] - 2;
-				return true;
-			}
-
-			else if (checkLever(h.getPos()[1], h.getPos()[0] - 1)) {
-				this.mapa.changeDoors();
-				return false;
-			}
-
-			else if (checkKey(h.getPos()[1], h.getPos()[0] - 1)) {
-				Key test = (Key) k.clone();
-				h.setIm(test.getImage());
-				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
-				return false;
-			}
-
-			else {
-				return false;
-			}
-
+			return moveHero2(new int[] {-1,0}, order);
 		} else if (order == 's') {
 			h.changeBuffImage('s');
-			if(checkEmpty(h.getPos()[1]+1, h.getPos()[0]))
-			{
-				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-				h.getPos()[1] = h.getPos()[1] + 1;
-				return true;
-			}
-			else if (checkWall(h.getPos()[1] + 1, h.getPos()[0])) {
-				return false;
-			}
-			
-			else if (checkOgre(h.getPos()[1] + 1, h.getPos()[0]))
-			{
-				return false;
-			}
-
-			else if (checkClosedDoor(h.getPos()[1] + 1, h.getPos()[0])) {
-				if (k.isPickedUp()) {
-					k.setUsed(true);
-					this.mapa.getMap()[h.getPos()[1] + 1][h.getPos()[0]] = 'S';
-					this.mapa.getMapChar()[h.getPos()[1] + 1][h.getPos()[0]].setIm('S');
-					this.mapa.getMapChar()[h.getPos()[1] + 1][h.getPos()[0]].changeBuffImage('a');
-				}
-				return false;
-			}
-
-			else if (checkOpenDoor(h.getPos()[1] + 1, h.getPos()[0],'s')) {
-				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-				h.getPos()[1] = h.getPos()[1] + 2;
-				return true;
-			}
-
-			else if (checkLever(h.getPos()[1] + 1, h.getPos()[0])) {
-				this.mapa.changeDoors();
-				return false;
-			}
-
-			else if (checkKey(h.getPos()[1] + 1, h.getPos()[0])) {
-				Key test = (Key) k.clone();
-				h.setIm(test.getImage());
-				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
-				return false;
-			}
-
-			else {
-				return false;
-			}
-
+			return moveHero2(new int[] {0,1}, order);
 		} else if (order == 'd') {
 			h.changeBuffImage('d');
-			if(checkEmpty(h.getPos()[1], h.getPos()[0]+1))
-			{
-				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-				h.getPos()[0] = h.getPos()[0] + 1;
-				return true;
-			}
-			else if (checkWall(h.getPos()[1], h.getPos()[0] + 1)) {
-				return false;
-			}
-
-
-			else if (checkOgre(h.getPos()[1], h.getPos()[0] + 1))
-			{
-				return false;
-			}
-			
-			else if (checkClosedDoor(h.getPos()[1], h.getPos()[0] + 1)) {
-				if (k.isPickedUp()) {
-					k.setUsed(true);
-					this.mapa.getMap()[h.getPos()[1]][h.getPos()[0] + 1] = 'S';
-					this.mapa.getMapChar()[h.getPos()[1]][h.getPos()[0]+1].setIm('S');
-					this.mapa.setMapChar();
-					this.mapa.getMapChar()[h.getPos()[1]][h.getPos()[0]+1].changeBuffImage('a');
-				}
-				return false;
-			}
-
-			else if (checkOpenDoor(h.getPos()[1], h.getPos()[0] + 1,'d')) {
-				this.mapa.getMap()[h.getPos()[1]][h.getPos()[0]] = ' ';
-				h.getPos()[0] = h.getPos()[0] + 2;
-				return true;
-			}
-
-			else if (checkLever(h.getPos()[1], h.getPos()[0] + 1)) {
-				this.mapa.changeDoors();
-				return false;
-			}
-
-			else if (checkKey(h.getPos()[1], h.getPos()[0] + 1)) {
-				Key test = (Key) k.clone();
-				h.setIm(test.getImage());
-				this.getMapa().getMap()[k.getPos()[1]][k.getPos()[0]] = ' ';
-				return false;
-			}
-
-			else {
-				return false;
-			}
+			return moveHero2(new int[] {1,0}, order);
 		}
-
-		else
-			return false;
-
+		else return false;
 	}
 
 	public GameMap getMapa() {
@@ -653,7 +499,7 @@ public class GameState {
 	public void setK(Key k) {
 		this.k = k;
 	}
-	
+
 	int contador = 0;
 	public boolean updateGameMode1(char order) {
 		try {
@@ -664,7 +510,6 @@ public class GameState {
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-
 		if (contador == this.g.getMovs().length-1 && this.getGuard().getDirection() == 1)
 			contador = 0;
 		else if (contador == 0 && this.getGuard().getDirection() == -1) {
@@ -675,8 +520,7 @@ public class GameState {
 		this.getMapa().getMap()[this.getGuard().getPos()[1]][this.getGuard().getPos()[0]] = ' ';
 		this.getGuard().gMove(contador);
 		this.heroNearGuard();
-		if(this.getVictory())
-		{
+		if(this.getVictory()) {
 			this.victory = false;
 			this.defeat = false;
 			this.victoryGuard = true;
@@ -684,11 +528,10 @@ public class GameState {
 			this.setGMode(2);
 			this.h.setX(1);
 			this.h.setY(8);
-			this.getMapa().mapSetGameMode(this.getLever(), this.getHero(), this.getGuard(), null, null);
+			this.getMapa().mapSetGameMode(null, this.getHero(), null, this.getOgres(), this.getK());
 			return true;
 		}
-		else if (this.getDefeat())
-		{
+		else if (this.getDefeat()) {
 			this.getMapa().mapSetGameMode(this.getLever(), this.getHero(), this.getGuard(),null, null);
 			return false;
 		}	
@@ -696,62 +539,52 @@ public class GameState {
 		return true;
 	}
 	
-	public boolean updateGameMode2(char order)
-	{
+	public boolean updateGameMode2(char order) {
 		try {
-			if(this.moveHero(order) == false)
-			{
+			if(this.moveHero(order) == false) {
 				this.getMapa().mapSetGameMode(null, this.getHero(), null, this.getOgres(), this.getK());
 				return true;
 			}
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-		
-		this.moveOgres();
-		this.ogreOnKey();
-		this.heroNearOgre();
-		if(this.getVictory())
-		{
-			this.victoryOgre = true;
+		if (moveAndTestOgres())
 			return true;
-		}
 		if (this.getDefeat()) {
 			this.getMapa().mapSetGameMode(null, this.getHero(), null, this.getOgres(), this.getK());
 			return false;
 		}
-	
 		this.getMapa().mapSetGameMode(null, this.getHero(), null, this.getOgres(), this.getK());
 		return true;
 	}
 	
-
-	public boolean updateGameMode(char order)
-	{
+	public boolean moveAndTestOgres() {
+		this.moveOgres();
+		this.ogreOnKey();
+		this.heroNearOgre();
+		if(this.getVictory()) {
+			this.victoryOgre = true;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean updateGameMode(char order) {
 		this.setGuard(new Rookie(100,100,'G'));
 		try {
-			if(this.moveHero(order) == false)
-			{
+			if(this.moveHero(order) == false) {
 				this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
 				return true;
 			}
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-		
-		this.moveOgres();
-		this.ogreOnKey();
-		this.heroNearOgre();
-		if(this.getVictory())
-		{
-			this.victoryOgre = true;
+		if(moveAndTestOgres())
 			return true;
-		}
 		if (this.getDefeat()) {
 			this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
 			return false;
 		}
-	
 		this.getMapa().mapSetGameModeSelfMap(this.getLever(), this.getHero(), this.getOgres(), this.getK());
 		return true;
 	}
