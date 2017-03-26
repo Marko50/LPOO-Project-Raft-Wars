@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 /**
- * Class for the game map
+ * GameMap.java - Class for the game map
  */
 public class GameMap {
 	char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
