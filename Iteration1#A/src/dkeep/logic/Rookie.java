@@ -15,6 +15,7 @@ public class Rookie extends Guard {
 		super(x, y, im);
 	}
 
+	
 	@Override
 	public void gMove(int contador) {
 		this.setX(movs[contador][0]); 

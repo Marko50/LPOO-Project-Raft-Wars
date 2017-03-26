@@ -17,6 +17,7 @@ public class Suspicious extends Guard {
 		super(x, y, im);
 	}
 
+	
 	@Override
 	public void gMove(int contador) {
 		Random rn = new Random();

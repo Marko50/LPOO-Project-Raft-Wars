@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+
 /**  
 * Door.java - Sub-Class of Character for the doors
 */ 

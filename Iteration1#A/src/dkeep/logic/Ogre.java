@@ -55,6 +55,7 @@ public class Ogre  extends Character {
 		this.onTheKey = b;
 	}
 	
+	
 	/**
 	 * Retrieves whether or not ogre is standing on the key
 	 * @return true if ogre is standing on the key

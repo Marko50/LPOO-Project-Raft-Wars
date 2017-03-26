@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 */ 
 public class Wall extends Character {
 
+	
 	/**
 	 * Constructor of Wall extending character
 	 * @param x x coordinate

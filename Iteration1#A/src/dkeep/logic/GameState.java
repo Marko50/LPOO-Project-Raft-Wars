@@ -820,5 +820,4 @@ public class GameState {
 	public void setVictoryOgre(boolean victoryOgre) {
 		this.victoryOgre = victoryOgre;
 	}
-
 }

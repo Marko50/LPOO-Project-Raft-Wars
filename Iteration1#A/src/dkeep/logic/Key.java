@@ -25,6 +25,7 @@ public class Key extends Character  implements Cloneable{
 		changeBuffImage('w');
 	}
 
+	
 	/**
 	 * Whether or not key has been used
 	 * @return true if key has been used

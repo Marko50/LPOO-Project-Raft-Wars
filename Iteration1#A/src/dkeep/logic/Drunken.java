@@ -2,6 +2,7 @@ package dkeep.logic;
 
 import java.util.Random;
 
+
 /**  
 * Drunken.java - Sub-Class of Guard for drunken guard
 */ 

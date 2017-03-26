@@ -24,6 +24,7 @@ public class Hero  extends Character {
 
 	}
 	
+	
     public void changeBuffImage(char order) {
 		if (hasKey)
 			changeBuffIm2("images/key.png", "key sprite not found\n");	
