@@ -6,28 +6,32 @@ import dkeep.logic.*;
 
 public class UserInteraction {
 
+	public boolean StartDifficulty(char rder) throws CloneNotSupportedException{
+		if (rder == '1') {
+			Environment(1);
+			return true;
+		}
+		else if (rder == '2') {
+			Environment(2);
+			return true;
+		}
+		else if (rder == '3') {
+			Environment(3);
+			return true;
+		}
+		return false;
+	}
 	public void StartGame() throws CloneNotSupportedException {
 		System.out.println("Hello player. What kind of guard would you like to play against?");
 		System.out.println("1. Drunken Guard");
 		System.out.println("2. Rookie Guard");
 		System.out.println("3. Suspicious Guard");
-
 		Scanner s = new Scanner(System.in);
 		char rder; 
 		while(true) {
 			rder = s.next().charAt(0);
-			if (rder == '1') {
-				Environment(1);
+			if (StartDifficulty(rder))
 				break;
-			}
-			else if (rder == '2') {
-				Environment(2);
-				break;
-			}
-			else if (rder == '3') {
-				Environment(3);
-				break;
-			}
 		}
 		s.close();
 	}
@@ -55,12 +59,12 @@ public class UserInteraction {
 			}
 			game.showmap();
 		}
-		
+
 		while(game.isVictoryOgre() == false)
 		{
 			System.out.println("Your move. Choose wisely");
 			order = s.next().charAt(0);
-		
+
 			if(game.updateGameMode2(order) == false)
 			{
 				game.showmap();

@@ -88,9 +88,7 @@ public class GameMap {
 	}
 
 	public void mapSetGameMode(Lever l, Hero h, Guard g, ArrayList<Ogre> o, Key k) {
-		if (l != null)
-			map[l.getPos()[1]][l.getPos()[0]] = l.getImage();
-
+		if (l != null) map[l.getPos()[1]][l.getPos()[0]] = l.getImage();
 		if (h != null)
 			map[h.getPos()[1]][h.getPos()[0]] = h.getImage();
 		if (g != null)

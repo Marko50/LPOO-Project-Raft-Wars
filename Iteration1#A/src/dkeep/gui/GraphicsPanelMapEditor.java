@@ -16,9 +16,9 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 
 	public GraphicsPanelMapEditor()
 	{
-		
+
 	}
-	
+
 	public GraphicsPanelMapEditor(MapEditor m)
 	{
 		this.Gi = m;
@@ -28,57 +28,40 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 		addMouseMotionListener(this); 
 		addMouseListener(this); 
 	}
-	
-	
+
+
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(450, 450);
 	}
- 
+
 	@Override
-	public void paintComponent(Graphics g)
-	{
+	public void paintComponent(Graphics g) { 
 		super.paintComponent(g);
 		for(int i = 0; i < Gi.getGi().getGame().getMapa().getMap().length; i++)
-		{
 			for(int j = 0 ; j < Gi.getGi().getGame().getMapa().getMap()[i].length; j++)
-			{
 				g.drawImage(Gi.getGi().getGame().getMapa().getMapChar()[i][j].getIm(), 10 + 25 * j, 75 + 30 * i, 25, 30, null);
-			}
-		}
 		if (Gi.getGi().getGame().getHero() != null)
-			g.drawImage(Gi.getGi().getGame().getHero().getIm(), 10 + 25 * Gi.getGi().getGame().getHero().getPos()[0],
-					75 + 30 * Gi.getGi().getGame().getHero().getPos()[1], 25, 30, null);
-
+			g.drawImage(Gi.getGi().getGame().getHero().getIm(), 10 + 25 * Gi.getGi().getGame().getHero().getPos()[0], 75 + 30 * Gi.getGi().getGame().getHero().getPos()[1], 25, 30, null);
 		if (Gi.getGi().getGame().getLever() != null)
-			g.drawImage(Gi.getGi().getGame().getLever().getIm(), 10 + 25 * Gi.getGi().getGame().getLever().getPos()[0],
-					75 + 30 * Gi.getGi().getGame().getLever().getPos()[1], 25, 30, null);
-
+			g.drawImage(Gi.getGi().getGame().getLever().getIm(), 10 + 25 * Gi.getGi().getGame().getLever().getPos()[0], 75 + 30 * Gi.getGi().getGame().getLever().getPos()[1], 25, 30, null);
 		for (int i = 0; i < Gi.getGi().getGame().getOgres().size(); i++) {
-			g.drawImage(Gi.getGi().getGame().getOgres().get(i).getIm(), 10 + 25 * Gi.getGi().getGame().getOgres().get(i).getPos()[0],
-					75 + 30 * Gi.getGi().getGame().getOgres().get(i).getPos()[1], 25, 30, null);
-			g.drawImage(Gi.getGi().getGame().getOgres().get(i).getClub().getIm(),
-					10 + 25 * Gi.getGi().getGame().getOgres().get(i).getClub().getPos()[0],
-					75 + 30 * Gi.getGi().getGame().getOgres().get(i).getClub().getPos()[1], 25, 30, null);
+			g.drawImage(Gi.getGi().getGame().getOgres().get(i).getIm(), 10 + 25 * Gi.getGi().getGame().getOgres().get(i).getPos()[0], 75 + 30 * Gi.getGi().getGame().getOgres().get(i).getPos()[1], 25, 30, null);
+			g.drawImage(Gi.getGi().getGame().getOgres().get(i).getClub().getIm(), 10 + 25 * Gi.getGi().getGame().getOgres().get(i).getClub().getPos()[0], 75 + 30 * Gi.getGi().getGame().getOgres().get(i).getClub().getPos()[1], 25, 30, null);
 		}
-
 		if (Gi.getGi().getGame().getK() != null)
-		g.drawImage(Gi.getGi().getGame().getK().getIm(), 10 + 25 * Gi.getGi().getGame().getK().getPos()[0],
-				75 + 30 * Gi.getGi().getGame().getK().getPos()[1], 25, 30, null);
-
-		
+			g.drawImage(Gi.getGi().getGame().getK().getIm(), 10 + 25 * Gi.getGi().getGame().getK().getPos()[0], 75 + 30 * Gi.getGi().getGame().getK().getPos()[1], 25, 30, null);
 	}
-
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -127,21 +110,21 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 			Gi.getGi().getGame().getMapa().setPos(x, y, f.getImage());
 			Gi.frame.repaint();
 		}
-		
+
 		else if(this.Gi.WallSelected)
 		{
 			Wall w = new Wall(x, y, 'X');
 			Gi.getGi().getGame().getMapa().setPos(x, y, w.getImage());
 			Gi.frame.repaint();
 		}
-		
+
 		else if(this.Gi.DoorOpenedSelected)
 		{
 			Door d = new Door(x, y, 'S', true);
 			Gi.getGi().getGame().getMapa().setPos(x, y, d.getImage());
 			Gi.frame.repaint();
 		}
-		
+
 		else if(this.Gi.DoorClosedSelected)
 		{
 			Door d = new Door(x, y, 'I', false);
@@ -153,25 +136,25 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public MapEditor getMe() {
@@ -182,5 +165,5 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 		this.Gi = me;
 	}
 
-	
+
 }

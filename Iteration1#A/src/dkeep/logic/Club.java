@@ -16,33 +16,13 @@ public class Club  extends Character {
 
 	@Override
 	public void changeBuffImage(char order) {
-		if(order == 'w') {
-    		try {
-				this.setIm(ImageIO.read(new File("images/ClubUp.png")));
-			} catch (IOException e) {
-				System.out.print("ClubUp sprite not found\n");
-			}
-    	}
-    	else if(order == 'a') {
-    		try {
-				this.setIm(ImageIO.read(new File("images/ClubLeft.png")));
-			} catch (IOException e) {
-				System.out.print("ClubLeft sprite not found\n");
-			}
-    	} 
-    	else if(order == 's') {
-    		try {
-				this.setIm(ImageIO.read(new File("images/ClubDown.png")));
-			} catch (IOException e) {
-				System.out.print("ClubDown sprite not found\n");
-			}
-    	}
-    	else if(order == 'd') {
-    		try {
-    			this.setIm(ImageIO.read(new File("images/ClubRight.png")));
-    		} catch (IOException e) {
-    			System.out.print("ClubRight sprite not found\n");
-    		}		
-    	}
+		if(order == 'w')
+			changeBuffIm2("images/ClubUp.png", "ClubUp sprite not found\n");
+    	else if(order == 'a')
+    		changeBuffIm2("images/ClubLeft.png", "ClubLeft sprite not found\n");
+    	else if(order == 's')
+    		changeBuffIm2("images/ClubDown.png", "ClubDown sprite not found\n");
+    	else if(order == 'd')
+    		changeBuffIm2("images/ClubRight.png", "ClubRight sprite not found\n");
 	}
 }

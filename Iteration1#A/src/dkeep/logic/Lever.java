@@ -31,20 +31,9 @@ public class Lever extends Character {
 	@Override
 	public void changeBuffImage(char order) {
 		if(pressed)
-			try {
-				this.setIm(ImageIO.read(new File("images/LeverOn.png")));
-			} catch (IOException e) {
-				System.out.print("LeverOn sprite not found\n");
-				e.printStackTrace();
-			}
-		
-		else
-			try {
-				this.setIm(ImageIO.read(new File("images/LeverOff.png")));
-			} catch (IOException e) {
-				System.out.print("LeverOff sprite not found\n");
-				e.printStackTrace();
-			}
+			changeBuffIm2("images/LeverOn.png", "LeverOn sprite not found\n");
+		else 
+			changeBuffIm2("images/LeverOff.png", "LeverOff sprite not found\n");
 				
 	}
 }

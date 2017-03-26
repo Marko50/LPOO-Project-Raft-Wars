@@ -48,34 +48,20 @@ public class Ogre  extends Character {
 		return this.c;
 	}
 
+
 	@Override
 	public void changeBuffImage(char order) {
-		if(onTheKey) {
-			try { this.setIm(ImageIO.read(new File("images/key.png")));
-			} catch (IOException e) { System.out.print("key sprite not found\n");
-			}	
-		}
+		if(onTheKey)
+			changeBuffIm2("images/key.png", "key sprite not found\n");
 		else {
-			if(order == 'w') {
-	    		try { this.setIm(ImageIO.read(new File("images/OgreCima.png")));
-				} catch (IOException e) { System.out.print("OgreCima sprite not found\n");
-				}
-	    	}
-	    	else if(order == 'a') {
-	    		try { this.setIm(ImageIO.read(new File("images/OgreLeft.png")));
-				} catch (IOException e) { System.out.print("OgreLeft sprite not found\n");
-				}
-	    	}
-	    	else if(order == 's') {
-	    		try { this.setIm(ImageIO.read(new File("images/OgreBaixo.png")));
-				} catch (IOException e) { System.out.print("OgreBaixo sprite not found\n");
-				}
-	    	}
-	    	else if(order == 'd') {
-	    		try { this.setIm(ImageIO.read(new File("images/OgreRight.png")));
-	    		} catch (IOException e) { System.out.print("OgreRight sprite not found\n");
-	    		}		
-	    	}
+			if(order == 'w')
+				changeBuffIm2("images/OgreCima.png", "OgreCima sprite not found\n");
+	    	else if(order == 'a')
+	    		changeBuffIm2("images/OgreLeft.png", "OgreLeft sprite not found\n");
+	    	else if(order == 's')
+	    		changeBuffIm2("images/OgreBaixo.png", "OgreBaixo sprite not found\n");
+	    	else if(order == 'd')
+	    		changeBuffIm2("images/OgreRight.png", "OgreRight sprite not found\n");	
 		}
 	}
 }

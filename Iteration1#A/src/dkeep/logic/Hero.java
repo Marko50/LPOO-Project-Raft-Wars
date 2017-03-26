@@ -21,30 +21,16 @@ public class Hero  extends Character {
 	
     public void changeBuffImage(char order) {
 		if (hasKey)
-			try { this.setIm(ImageIO.read(new File("images/key.png")));
-			} catch (IOException e) { System.out.print("key sprite not found\n");
-			}		
+			changeBuffIm2("images/key.png", "key sprite not found\n");	
 		else {
-			if(order == 'w') {
-	    		try { this.setIm(ImageIO.read(new File("images/HeroMoveUp.png")));
-				} catch (IOException e) { System.out.print("HeroMoveUp sprite not found\n");
-				}
-	    	}
-	    	else if(order == 'a') {
-	    		try { this.setIm(ImageIO.read(new File("images/HeroMoveLeft.png")));
-				} catch (IOException e) { System.out.print("HeroMoveLeft sprite not found\n");
-				}	
-	    	}
-	    	else if(order == 's') {
-	    		try { this.setIm(ImageIO.read(new File("images/HeroMoveDown.png")));
-				} catch (IOException e) { System.out.print("HeroMoveDown sprite not found\n");
-				}
-	    	}
-	    	else if(order == 'd') {
-	    		try { this.setIm(ImageIO.read(new File("images/HeroMoveRight.png")));
-	    		} catch (IOException e) { System.out.print("HeroMoveRight sprite not found\n");
-	    		}		
-	    	}
+			if(order == 'w') 
+				changeBuffIm2("images/HeroMoveUp.png", "HeroMoveUp sprite not found\n");
+	    	else if(order == 'a')
+	    		changeBuffIm2("images/HeroMoveLeft.png", "HeroMoveLeft sprite not found\n");
+	    	else if(order == 's')
+	    		changeBuffIm2("images/HeroMoveDown.png", "HeroMoveDown sprite not found\n");
+	    	else if(order == 'd')
+	    		changeBuffIm2("images/HeroMoveRight.png", "HeroMoveRight sprite not found\n");	
 		}
     }
 

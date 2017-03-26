@@ -5,6 +5,10 @@
 package dkeep.logic;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public abstract class Character {
 	private int[] pos = new int[2];
@@ -19,6 +23,14 @@ public abstract class Character {
 		this.image = im;
 	}
 	
+	public void changeBuffIm2(String path, String out) {
+		try {
+			this.setIm(ImageIO.read(new File(path)));
+		}
+		catch (IOException e) {
+			System.out.print(out);
+		}
+	}
 	
 	public abstract void changeBuffImage(char order);
 	

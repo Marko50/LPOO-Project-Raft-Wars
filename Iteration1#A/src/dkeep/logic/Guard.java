@@ -57,19 +57,9 @@ public abstract class Guard   extends Character{
 	
 	public void changeBuffImage(char order)
 	{
-		if(order == 'a' || order == 's') {
-    		try {
-				this.setIm(ImageIO.read(new File("images/GuardMoveLeft.png")));
-			} catch (IOException e) {
-				System.out.print("GuardMoveLeft sprite not found\n");
-			}
-    	}
-    	else if(order == 'w' || order == 'd') {
-    		try {
-    			this.setIm(ImageIO.read(new File("images/GuardMoveRight.png")));
-    		} catch (IOException e) {
-    			System.out.print("GuardMoveRight sprite not found\n");
-    		}		
-    	}
+		if(order == 'a' || order == 's') 
+			changeBuffIm2("images/GuardMoveLeft.png", "GuardMoveLeft sprite not found\n");
+    	else if(order == 'w' || order == 'd')
+    		changeBuffIm2("images/GuardMoveRight.png", "GuardMoveRight sprite not found\n");	
 	}
 }

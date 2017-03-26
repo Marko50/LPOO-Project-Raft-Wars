@@ -92,27 +92,26 @@ public class GraphicsPanel extends JPanel implements KeyListener{
 
 	}
 
+	public void moveAndRepaint(char order) {
+		Gi.move(order);
+		Gi.frame.repaint();
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			Gi.move('a');
-			Gi.frame.repaint();
+			moveAndRepaint('a');
 			break;
 		case KeyEvent.VK_RIGHT:
-			Gi.move('d');
-			Gi.frame.repaint();
+			moveAndRepaint('d');
 			break;
 		case KeyEvent.VK_UP:
-			Gi.move('w');
-			Gi.frame.repaint();
+			moveAndRepaint('w');
 			break;
 		case KeyEvent.VK_DOWN:
-			Gi.move('s');
-			Gi.frame.repaint();
-			break;
-		}
-		
+			moveAndRepaint('s'); break;
+		} 
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {}
