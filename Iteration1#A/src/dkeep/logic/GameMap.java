@@ -2,6 +2,9 @@ package dkeep.logic;
 
 import java.util.ArrayList;
 
+/**
+ * Class for the game map
+ */
 public class GameMap {
 	char[] l0 = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ,'X', 'X' };
 	char[] l1 = {'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ' ,' ', 'X' };
@@ -28,65 +31,83 @@ public class GameMap {
 	public char[][] mapOgre = {l0a,l1a,l2a,l3a,l4a,l5a,l6a,l7a,l8a,l9a};	
 	private char[][] map;
 	private Character[][] mapChar;
-	public GameMap()
-	{
-		
+	/**
+	 * Default constructor
+	 */
+	public GameMap() {
 	}
 
-	
-	public GameMap(char[][] map1)
-	{
+	/**
+	 * Constructor of GameMap
+	 * @param map1 array of array of chars representing every tile of the map
+	 */
+	public GameMap(char[][] map1) {
 		this.map = map1;
 		mapChar =   new Character[map.length][map[0].length];
 		this.setMapChar();
 	}
 
+	/**
+	 * Retrieve the game map of chars
+	 * @return array of array of chars of game map
+	 */
 	public char[][] getMap() {
 		return map;
 	}
 
+	/**
+	 * Sets the game map of chars
+	 * @param map game map of chars
+	 */
 	public void setMap(char[][] map) {
 		this.map = map;
 		mapChar = new Character[map.length][map[0].length];
 		this.setMapChar();
 	}
 	
+	/**
+	 * Sets a certain tile of the map to im
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param im char to be set
+	 */
 	public void setPos(int x, int y, char im)
 	{
 		map[y][x] = im;
 		this.setMapChar();
 	}
 	
-	public void changeDoors()
-	{
-		for(int i  = 0; i < map.length; i++)
-		{
-			for(int j = 0; j < map[i].length; j++)
-			{
-				if(map[i][j] == 'I')
-				{
+	/**
+	 * Changes doors from closed to open
+	 */
+	public void changeDoors() {
+		for(int i  = 0; i < map.length; i++) {
+			for(int j = 0; j < map[i].length; j++) {
+				if(map[i][j] == 'I') {
 					map[i][j] = 'S';
 				}
-				
-				else if(map[i][j] == 'S')
-				{
+				else if(map[i][j] == 'S') {
 					map[i][j] = 'I';
 				}
 			}
 		}
 		this.setMapChar();
-		for(int i  = 0; i < mapChar.length; i++)
-		{
-			for(int j = 0; j < mapChar[i].length; j++)
-			{
-				if(mapChar[i][j].getImage() == 'S')
-				{
+		for(int i  = 0; i < mapChar.length; i++) {
+			for(int j = 0; j < mapChar[i].length; j++) {
+				if(mapChar[i][j].getImage() == 'S') {
 					mapChar[i][j].changeBuffImage('a');
 				}
 			}
 		}
 	}
-
+	/**
+	 * Places lever, hero, guard, ogres and key on the map
+	 * @param l lever
+	 * @param h hero
+	 * @param g guard
+	 * @param o arraylist of ogres
+	 * @param k key
+	 */
 	public void mapSetGameMode(Lever l, Hero h, Guard g, ArrayList<Ogre> o, Key k) {
 		if (l != null) map[l.getPos()[1]][l.getPos()[0]] = l.getImage();
 		if (h != null)
@@ -103,40 +124,37 @@ public class GameMap {
 		}
 	}
 
+	/**
+	 * Retrieve every tile in the map
+	 * @return Array of arrays of character representing every tile in the map
+	 */
 	public Character[][] getMapChar() {
 		return mapChar;
 	}
+	
+	/**
+	 * Sets a game map of characters
+	 */
 	public void setMapChar() {
-		for(int i = 0; i < map.length; i++)
-		{
-			for(int j = 0; j < map[i].length; j++)
-			{
-				if(map[i][j] == 'X')
-				{
+		for(int i = 0; i < map.length; i++) {
+			for(int j = 0; j < map[i].length; j++) {
+				if(map[i][j] == 'X') {
 					Wall w = new Wall(j,i,'X');
 					mapChar[i][j] = w;
 				}
-				
-				else if(map[i][j] == 'I')
-				{
+				else if(map[i][j] == 'I') {
 					Door w = new Door(j,i,'I',false);
 					mapChar[i][j] = w;
 				}
-				
-				else if(map[i][j] == 'S')
-				{
+				else if(map[i][j] == 'S') {
 					Door w = new Door(j,i,'S',true);
 					mapChar[i][j] = w;
-				}
-						
-				else if(map[i][j] == ' ')
-				{
+				}		
+				else if(map[i][j] == ' ') {
 					Floor w = new Floor(j,i,' ');
 					mapChar[i][j] = w;
 				}
 			}
 		}
-		
-		
 	}
 }

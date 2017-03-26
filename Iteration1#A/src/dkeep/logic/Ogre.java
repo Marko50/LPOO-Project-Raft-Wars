@@ -1,7 +1,3 @@
-/**  
-* Ogre.java - Sub-Class of character for ogres
-*/ 
-
 package dkeep.logic;
 
 import java.io.File;
@@ -9,20 +5,37 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**  
+* Ogre.java - Sub-Class of character for ogres
+*/ 
 public class Ogre  extends Character {
 	private boolean onTheKey;
 	private Club c;
 	
 	private int stun;
 	
+	/**
+	 * Returns ogre's stun status
+	 * @return Turns left for the stun
+	 */
 	public int getStun() {
 		return this.stun;
 	}
 	
+	/**
+	 * Sets ogre's stun duration
+	 * @param s stun duration
+	 */
 	public void setStun(int s) {
 		this.stun = s;
 	}
-	
+	/**
+	 * Constructor of ogre extending character
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param im char representing ogre
+	 * @param cim char representing ogre's club
+	 */
 	public Ogre(int x, int y, char im, char cim)
 	{
 		super(x,y,im);
@@ -33,16 +46,28 @@ public class Ogre  extends Character {
 		changeBuffImage('w');
 	}
 	
+	/**
+	 * Sets whether or not ogre is standing on the key
+	 * @param b whether or not ogre is standing on the key
+	 */
 	public void setOnTheKey(boolean b)
 	{
 		this.onTheKey = b;
 	}
 	
+	/**
+	 * Retrieves whether or not ogre is standing on the key
+	 * @return true if ogre is standing on the key
+	 */
 	public boolean getOnTheKey()
 	{
 		return this.onTheKey;
 	}
 
+	/**
+	 * Retrieve ogre's club
+	 * @return ogre's club
+	 */
 	public Club getClub()
 	{
 		return this.c;

@@ -1,12 +1,18 @@
-/**  
-* Suspicious.java - Sub-Class of guard for suspicious guard
-*/ 
 package dkeep.logic;
 
 import java.util.Random;
 
+/**  
+* Suspicious.java - Sub-Class of guard for suspicious guard
+*/ 
 public class Suspicious extends Guard {
 
+	/**
+	 * Constructor of suspicious guard extending guard
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param im char representing suspicious guard
+	 */
 	public Suspicious(int x, int y, char im) {
 		super(x, y, im);
 	}

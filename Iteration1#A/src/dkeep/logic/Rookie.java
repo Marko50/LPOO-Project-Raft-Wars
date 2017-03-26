@@ -1,11 +1,16 @@
+package dkeep.logic;
+
 /**  
 * Rookie.java - Sub-Class of guard for rookie guard
 */ 
-
-package dkeep.logic;
-
 public class Rookie extends Guard {
 
+	/**
+	 * Constructor of rookie guard extending guard
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param im char representing rookie guard
+	 */
 	public Rookie(int x, int y, char im) {
 		super(x, y, im);
 	}

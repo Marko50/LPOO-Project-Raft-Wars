@@ -1,7 +1,3 @@
-/**  
-* Wall.java - Class for walls
-*/ 
-
 package dkeep.logic;
 
 import java.io.File;
@@ -9,8 +5,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**  
+* Wall.java - Class for walls
+*/ 
 public class Wall extends Character {
 
+	/**
+	 * Constructor of Wall extending character
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param im char representing wall
+	 */
 	public Wall(int x, int y, char im) {
 		super(x, y, im);
 		try {
