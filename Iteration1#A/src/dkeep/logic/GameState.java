@@ -292,33 +292,57 @@ public class GameState {
 	public boolean checkOpenDoor(int posy, int posx, char order) {
 		if (this.mapa.getMap()[posy][posx] == 'S') {
 			if (order == 'w') {
-				if (checkVictory(posy, posx, 'w')) {
-					this.victory = true;
-					return true; }
-				if (this.mapa.getMap()[posy - 1][posx] == ' ') return true;
-				else return false;
+				return checkOpenDoorW(posy, posx, order);
 			} else if (order == 'a') {
-				if (checkVictory(posy, posx, 'a')) {
-					this.victory = true;
-					return true; }
-				if (this.mapa.getMap()[posy][posx - 1] == ' ') return true;
-				else return false;
+				return checkOpenDoorA(posy, posx, order);
 			} else if (order == 's') {
-				if (checkVictory(posy, posx, 's')) {
-					this.victory = true;
-					return true; }
-				if (this.mapa.getMap()[posy + 1][posx] == ' ') return true;
-				else return false;
+				return checkOpenDoorS(posy, posx, order);
 			} else if (order == 'd') {
-				if (checkVictory(posy, posx, 'd')) {
-					this.victory = true;
-					return true; }
-				if (this.mapa.getMap()[posy][posx + 1] == ' ') return true;
-				else return false;
+				return checkOpenDoorD(posy, posx, order);
 			} else return false;
 		} else return false;
 	}
+	
+	public boolean checkOpenDoorW(int posy, int posx, char order) {
+		if (checkVictory(posy, posx, 'w')) {
+			this.victory = true;
+			return true; 
+			}
+		if (this.mapa.getMap()[posy - 1][posx] == ' ') 
+			return true;
+		else return false;
+	}
 
+	public boolean checkOpenDoorA(int posy, int posx, char order) {
+		if (checkVictory(posy, posx, 'a')) {
+			this.victory = true;
+			return true; 
+			}
+		if (this.mapa.getMap()[posy][posx - 1] == ' ') 
+			return true;
+		else return false;
+	}
+
+	public boolean checkOpenDoorS(int posy, int posx, char order) {
+		if (checkVictory(posy, posx, 's')) {
+			this.victory = true;
+			return true; 
+			}
+		if (this.mapa.getMap()[posy + 1][posx] == ' ') 
+			return true;
+		else return false;
+	}
+
+	public boolean checkOpenDoorD(int posy, int posx, char order) {
+		if (checkVictory(posy, posx, 'd')) {
+			this.victory = true;
+			return true; 
+			}
+		if (this.mapa.getMap()[posy][posx + 1] == ' ') 
+			return true;
+		else return false;
+	}
+	
 	public boolean checkWall(int posy, int posx) {
 		if (this.mapa.getMap()[posy][posx] == 'X' || this.mapa.getMap()[posy][posx] == g.getImage()
 				|| this.mapa.getMap()[posy][posx] == o.get(0).getImage()
