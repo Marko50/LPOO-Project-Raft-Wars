@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-
 /**  
 * Lever.java - Sub-Class of Character for the lever
 */ 

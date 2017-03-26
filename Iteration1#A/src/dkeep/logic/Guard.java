@@ -39,7 +39,6 @@ public abstract class Guard   extends Character{
 		this.movs = m;
 	}
 	
-	
 	/**
 	 * Retrieve guard moveset
 	 * @return array of integers with the coordinates of every guard move
