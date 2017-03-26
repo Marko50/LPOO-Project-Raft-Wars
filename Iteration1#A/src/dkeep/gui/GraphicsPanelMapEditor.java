@@ -71,62 +71,70 @@ public class GraphicsPanelMapEditor extends JPanel implements MouseListener, Mou
 			x = Gi.getGi().getGame().getMapa().getMap()[0].length-1;
 		if(y == Gi.getGi().getGame().getMapa().getMap().length)
 			y = Gi.getGi().getGame().getMapa().getMap().length-1;	
-		if(this.Gi.HeroSelected)
-		{
+		if(!mouseClickedHeroKey(x,y))
+			if (!mouseClickedOgreLeverFloor(x,y))
+				mouseClickedWallDoors(x,y);
+	}
+
+	public boolean mouseClickedHeroKey(int x, int y) {
+		if(this.Gi.HeroSelected) {
 			Hero h = new Hero(x, y, 'H');
 			Gi.getGi().getGame().setHero(h);
 			Gi.getGi().getGame().getMapa().setPos(x, y, h.getImage());
 			Gi.heroUsed = true;
 			Gi.frame.repaint();
+			return true;
 		}
-		else if(this.Gi.KeySelected)
-		{
+		else if(this.Gi.KeySelected) {
 			Key k = new Key(x, y, 'k');
 			Gi.getGi().getGame().setK(k);
 			Gi.getGi().getGame().getMapa().setPos(x, y, k.getImage());
 			Gi.keyUsed = true;
 			Gi.frame.repaint();
+			return true;
 		}
-		else if(this.Gi.OgreSelected)
-		{	
+		return false;
+	}
+
+	public boolean mouseClickedOgreLeverFloor(int x, int y) {
+		if(this.Gi.OgreSelected) {	
 			Ogre o = new Ogre(x, y, 'O', '*');
 			Gi.getGi().getGame().addOgre(o);
 			Gi.getGi().getGame().getMapa().setPos(x, y, o.getImage());
 			Gi.getGi().getGame().getMapa().setPos(x, y, o.getClub().getImage());
 			Gi.ogreUsed = true;
 			Gi.frame.repaint();
+			return true;
 		}
-		else if(this.Gi.LeverSelected)
-		{
+		else if(this.Gi.LeverSelected) {
 			Lever l = new Lever(x, y, 'K');
 			Gi.getGi().getGame().setLever(l);
 			Gi.getGi().getGame().getMapa().setPos(x, y, l.getImage());
 			Gi.leverUsed = true;
 			Gi.frame.repaint();
+			return true;
 		}
-		else if(this.Gi.FloorSelected)
-		{
+		else if(this.Gi.FloorSelected) {
 			Floor f = new Floor(x, y, ' ');
 			Gi.getGi().getGame().getMapa().setPos(x, y, f.getImage());
 			Gi.frame.repaint();
+			return true;
 		}
+		return false;
+	}
 
-		else if(this.Gi.WallSelected)
-		{
+	public void mouseClickedWallDoors(int x, int y) {
+		if(this.Gi.WallSelected) {
 			Wall w = new Wall(x, y, 'X');
 			Gi.getGi().getGame().getMapa().setPos(x, y, w.getImage());
 			Gi.frame.repaint();
 		}
-
-		else if(this.Gi.DoorOpenedSelected)
-		{
+		else if(this.Gi.DoorOpenedSelected) {
 			Door d = new Door(x, y, 'S', true);
 			Gi.getGi().getGame().getMapa().setPos(x, y, d.getImage());
 			Gi.frame.repaint();
 		}
-
-		else if(this.Gi.DoorClosedSelected)
-		{
+		else if(this.Gi.DoorClosedSelected) {
 			Door d = new Door(x, y, 'I', false);
 			Gi.getGi().getGame().getMapa().setPos(x, y, d.getImage());
 			Gi.frame.repaint();
