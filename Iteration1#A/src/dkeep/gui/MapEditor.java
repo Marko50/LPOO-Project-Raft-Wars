@@ -185,6 +185,10 @@ public class MapEditor {
 		});
 		btnWall.setEnabled(false);
 		frame.getContentPane().add(btnWall);
+		initialize1andHalf();
+	}
+	
+	private void initialize1andHalf() {
 		btnFloor = new JButton("Floor");
 		springLayout.putConstraint(SpringLayout.EAST, btnFloor, 0, SpringLayout.EAST, btnDoorClosed);
 		btnFloor.addActionListener(new ActionListener() {
@@ -207,21 +211,19 @@ public class MapEditor {
 		frame.getContentPane().add(btnLever);
 		btnKey = new JButton("Key");
 		springLayout.putConstraint(SpringLayout.SOUTH, btnLever, 35, SpringLayout.SOUTH, btnKey);
-		springLayout.putConstraint(SpringLayout.EAST, btnKey, 0, SpringLayout.EAST, btnDoorClosed);
-		springLayout.putConstraint(SpringLayout.NORTH, btnLever, 5, SpringLayout.SOUTH, btnKey);
 		btnKey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectUnit(new boolean[] {false, false, false, false, true, false, false, false}); //key selected
 			}
 		});
-		btnKey.setEnabled(false);
-		frame.getContentPane().add(btnKey);
 		initialize2();
-		initialize3();
-		initialize4();
 	}
 	
 	private void initialize2() {
+		springLayout.putConstraint(SpringLayout.EAST, btnKey, 0, SpringLayout.EAST, btnDoorClosed);
+		springLayout.putConstraint(SpringLayout.NORTH, btnLever, 5, SpringLayout.SOUTH, btnKey);
+		btnKey.setEnabled(false);
+		frame.getContentPane().add(btnKey);
 		btnOgre = new JButton("Ogre");
 		springLayout.putConstraint(SpringLayout.NORTH, btnKey, 5, SpringLayout.SOUTH, btnOgre);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnKey, 35, SpringLayout.SOUTH, btnOgre);
@@ -245,6 +247,10 @@ public class MapEditor {
 		springLayout.putConstraint(SpringLayout.WEST, btnLever, 0, SpringLayout.WEST, btnHero);
 		springLayout.putConstraint(SpringLayout.WEST, btnKey, 0, SpringLayout.WEST, btnHero);
 		springLayout.putConstraint(SpringLayout.WEST, btnOgre, 0, SpringLayout.WEST, btnHero);
+		initialize3();
+	}
+	
+	private void initialize3() {
 		springLayout.putConstraint(SpringLayout.NORTH, btnOgre, 5, SpringLayout.SOUTH, btnHero);
 		btnHero.setEnabled(false);
 		btnHero.addActionListener(new ActionListener() {
@@ -267,14 +273,15 @@ public class MapEditor {
 		springLayout.putConstraint(SpringLayout.SOUTH, btnStartGame, 48, SpringLayout.NORTH, frame.getContentPane());
 		btnStartGame.setEnabled(false);
 		frame.getContentPane().add(btnStartGame);
-	}
-
-	private void initialize3() {
 		btnExitGame = new JButton("Exit Game");
 		springLayout.putConstraint(SpringLayout.NORTH, btnExitGame, 19, SpringLayout.SOUTH, btnWall);
 		springLayout.putConstraint(SpringLayout.WEST, btnExitGame, 0, SpringLayout.WEST, btnDoorClosed);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnExitGame, 56, SpringLayout.SOUTH, btnWall);
 		springLayout.putConstraint(SpringLayout.EAST, btnExitGame, 0, SpringLayout.EAST, btnDoorClosed);
+		initialize4();
+	}
+
+	private void initialize4() {
 		btnExitGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(1);
@@ -302,6 +309,10 @@ public class MapEditor {
 		springLayout.putConstraint(SpringLayout.WEST, textField_1, 6, SpringLayout.EAST, lblWidth);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
+		initialize4andHalf();
+	}
+	
+	private void initialize4andHalf() {
 		btnDoorOpened = new JButton("Door Open");
 		btnDoorOpened.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -324,9 +335,10 @@ public class MapEditor {
 		springLayout.putConstraint(SpringLayout.SOUTH, btnGenerate, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnGenerate, 213, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, btnGenerate, 10, SpringLayout.NORTH, frame.getContentPane());
+		initialize5();
 	}
 	
-	private void initialize4() {
+	private void initialize5() {
 		MapEditor i = this;
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -349,6 +361,7 @@ public class MapEditor {
 		});
 		frame.getContentPane().add(btnGenerate);
 	}
+	
 	public GraphicalInterface getGi() {
 		return gi;
 	}
