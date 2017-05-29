@@ -64,15 +64,13 @@ public class GameStage{
             }
         }
     }
-
-    public Character getSelectedCharacter(int player,int counter){
+    int getSelectedCharacter(int player){
         if(player == 1){
             for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
             {
                 if(this.getHeroesPlayer1().get(i).isSelected())
                 {
-                    counter = i;
-                    return this.getHeroesPlayer1().get(i);
+                    return i;
                 }
             }
         }
@@ -81,13 +79,12 @@ public class GameStage{
             {
                 if(this.getHeroesPlayer2().get(i).isSelected())
                 {
-                    counter = i;
-                    return this.getHeroesPlayer2().get(i);
+                    return i;
                 }
             }
         }
 
-        return null;
+        return 100;
     }
 
     public int getCoinsPlayer1() {
