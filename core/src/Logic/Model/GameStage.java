@@ -64,8 +64,8 @@ public class GameStage{
             }
         }
     }
-    public int getSelectedCharacter(int player){
-        if(player == 1){
+    public int getSelectedCharacter(){
+        if(playerTurn == 1){
             for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
             {
                 if(this.getHeroesPlayer1().get(i).isSelected())
@@ -74,7 +74,7 @@ public class GameStage{
                 }
             }
         }
-        else if(player == 2){
+        else if(playerTurn == 2){
             for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
             {
                 if(this.getHeroesPlayer2().get(i).isSelected())

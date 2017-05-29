@@ -58,18 +58,15 @@ public class GameStageView extends ScreenAdapter{
         this.handleInputs(delta);
         this.updateView(delta);
 
-        GameStage.getInstance().getSelectedCharacter();
+        int c = GameStage.getInstance().getSelectedCharacter();
 
         if(GameStage.getInstance().getPlayerTurn() == 1)
         {
-
-            //camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get().getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().y + 90,0);
+            camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(c).getAmmoBody().getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(c).getAmmoBody().getBody().getPosition().y + 90,0);
         }
         else if(GameStage.getInstance().getPlayerTurn() == 2)
         {
-
-
-
+            camera.position.set(GameStageController.getInstance().getBodiesPlayer2().get(c).getAmmoBody().getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer2().get(c).getAmmoBody().getBody().getPosition().y + 90,0);
         }
         camera.update();
         Game.getInstance().getBatch().setProjectionMatrix(camera.combined);
