@@ -22,7 +22,7 @@ public class GameStage{
         this.coinsPlayer1 = 0;
         this.coinsPlayer2 = 0;
         this.playerTurn = 1;
-        this.chooseSelected(1);
+        this.chooseSelected();
     }
 
     public static GameStage getInstance(){
@@ -43,8 +43,8 @@ public class GameStage{
     }
 
 
-    public void chooseSelected(int player){
-        if(player == 1){
+    public void chooseSelected(){
+        if(playerTurn == 1){
             for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
             {
                 if(this.getHeroesPlayer1().get(i).isActive())
@@ -54,7 +54,7 @@ public class GameStage{
                 }
             }
         }
-        else if(player == 2){
+        else if(playerTurn == 2){
             for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
             {
                 if(this.getHeroesPlayer2().get(i).isActive())
@@ -64,7 +64,7 @@ public class GameStage{
             }
         }
     }
-    int getSelectedCharacter(int player){
+    public int getSelectedCharacter(int player){
         if(player == 1){
             for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
             {

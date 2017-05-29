@@ -58,6 +58,8 @@ public class GameStageView extends ScreenAdapter{
         this.handleInputs(delta);
         this.updateView(delta);
 
+        GameStage.getInstance().getSelectedCharacter();
+
         if(GameStage.getInstance().getPlayerTurn() == 1)
         {
 
