@@ -11,6 +11,8 @@ public abstract class Ammo{
     protected  float actionLength;
     protected boolean beingUsed;
     protected  String filename;
+
+
     public Ammo(float d, float al, String f){
         this.damage = d;
         this.actionLength = al;
@@ -19,15 +21,21 @@ public abstract class Ammo{
     }
 
     public void update(float vx, float vy){
-        if(vx <=  FINISHED_MOVEMENT_VELOCITY_X && vy <= FINISHED_MOVEMENT_VELOCITY_Y) {
+        System.out.println("VX: " + vx + "  VY: "+ vy);
+        if((Math.abs(vx) <=  FINISHED_MOVEMENT_VELOCITY_X) && (Math.abs(vy) <= FINISHED_MOVEMENT_VELOCITY_Y) && beingUsed == true) {
+            System.out.println("BALL HAS STOPPED MOVING");
             beingUsed = false;
             if(GameStage.getInstance().getPlayerTurn() == 1)
                 GameStage.getInstance().setPlayerTurn(2);
             else if(GameStage.getInstance().getPlayerTurn() == 2)
                 GameStage.getInstance().setPlayerTurn(1);
         }
+        else if((Math.abs(vx) <=  FINISHED_MOVEMENT_VELOCITY_X) && (Math.abs(vy) <= FINISHED_MOVEMENT_VELOCITY_Y) && beingUsed == false) {
+            System.out.println("BALL IS NOT BEING USED");
+        }
         else
         {
+            System.out.println("BALL HAS NOT STOPPED MOVING");
             beingUsed= true;
         }
 

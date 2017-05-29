@@ -13,12 +13,12 @@ public class GameStage{
 
     private GameStage()
     {
-        final Character c = new Character(10,"sprite-animation1.png");
-        final Character c2 = new Character(10,"sprite-animation1.png");
+        final Character c = new Character(10,"wyvern_fire.png");
+        final Character c2 = new Character(10,"wyvern_water.png");
         heroesPlayer1.add(c);
         heroesPlayer2.add(c2);
         heroesPlayer1.get(0).setSelected(true);
-        heroesPlayer2.get(0).setSelected(false);
+        heroesPlayer2.get(0).setSelected(true);
         this.coinsPlayer1 = 0;
         this.coinsPlayer2 = 0;
         this.playerTurn = 1;
@@ -32,59 +32,66 @@ public class GameStage{
     }
 
     public void update(){
-
         for(int i = 0; i < this.getHeroesPlayer1().size(); i++){
             this.getHeroesPlayer1().get(i).update();
         }
         for(int i = 0; i < this.getHeroesPlayer2().size(); i++){
             this.getHeroesPlayer2().get(i).update();
         }
-
+        this.chooseSelected();
     }
-
 
     public void chooseSelected(){
         if(playerTurn == 1){
+            System.out.println("PLAYER TURN 1 CHOOSE SELECTED!");
             for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
             {
                 if(this.getHeroesPlayer1().get(i).isActive())
                 {
+                    System.out.println("Player turn 1 ACTIVE");
                     this.getHeroesPlayer1().get(i).setSelected(true);
                     break;
                 }
             }
         }
         else if(playerTurn == 2){
+            System.out.println("PLAYER TURN 2 CHOOSE SELECTED!");
             for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
             {
                 if(this.getHeroesPlayer2().get(i).isActive())
                 {
+                    System.out.println("Player turn 2 ACTIVE");
                     this.getHeroesPlayer2().get(i).setSelected(true);
+                    break;
                 }
             }
         }
     }
     public int getSelectedCharacter(){
         if(playerTurn == 1){
+            System.out.println("GET SELECTED PLAYER 1");
             for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
             {
                 if(this.getHeroesPlayer1().get(i).isSelected())
                 {
+                    System.out.println("PLAYER 1 IS SELECTED");
                     return i;
                 }
             }
         }
         else if(playerTurn == 2){
+            System.out.println("GET SELECTED PLAYER 2");
             for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
             {
                 if(this.getHeroesPlayer2().get(i).isSelected())
                 {
+                    System.out.println("PLAYER 2 IS SELECTED");
                     return i;
                 }
             }
         }
 
-        return 100;
+        return 0;
     }
 
     public int getCoinsPlayer1() {

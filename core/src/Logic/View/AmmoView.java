@@ -19,7 +19,10 @@ public class AmmoView extends EntityView {
 
     @Override
     public void draw(SpriteBatch batch) {
-        sprite.draw(batch);
+       batch.draw(sprite, sprite.getX(), sprite.getY(),sprite.getOriginX(),
+                sprite.getOriginY(),
+                sprite.getWidth(),sprite.getHeight(),sprite.getScaleX(),sprite.
+                        getScaleY(),sprite.getRotation());
     }
 
     @Override
@@ -35,6 +38,6 @@ public class AmmoView extends EntityView {
 
     @Override
     public void update(float delta, EntityBody body) {
-        sprite.setPosition(body.getBody().getPosition().x, body.getBody().getPosition().y);
+        sprite.setPosition((body.getBody().getPosition().x * GameStageView.PIXEL_TO_METER)-sprite.getWidth()/2,(body.getBody().getPosition().y * GameStageView.PIXEL_TO_METER) - sprite.getHeight()/2);
     }
 }

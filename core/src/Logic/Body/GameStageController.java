@@ -25,11 +25,6 @@ public class GameStageController implements ContactListener {
     public final Body floor;
     private final World world;
 
-    public static final float FIELD_WIDTH = 100;
-    public static final float FIELD_HEIGHT = 50;
-    public static final float AMMO_SPEED = 30f;
-
-
     private static GameStageController instance;
     ArrayList<CharacterBody> bodiesPlayer1 = new ArrayList<CharacterBody>();
     ArrayList<CharacterBody> bodiesPlayer2 = new ArrayList<CharacterBody>();
@@ -47,17 +42,17 @@ public class GameStageController implements ContactListener {
         rectangle.setAsBox(Gdx.graphics.getWidth(), 10f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = rectangle;
-        fixtureDef.density = .5f;      // how heavy is the character
+        fixtureDef.density = 1f;      // how heavy is the character
         fixtureDef.friction = 1;    // how slippery is the character
         fixtureDef.restitution = .0f; // how bouncy is the character
         // Attach fixture to body
         floor.createFixture(fixtureDef);
         rectangle.dispose();
         for (int i = 0; i < GameStage.getInstance().getHeroesPlayer1().size(); i++) {
-            bodiesPlayer1.add(new CharacterBody(50, 20, world));
+            bodiesPlayer1.add(new CharacterBody(1,1, 2,2,world));
         }
         for (int i = 0; i < GameStage.getInstance().getHeroesPlayer2().size(); i++) {
-            bodiesPlayer2.add(new CharacterBody(400, 20, world));
+            bodiesPlayer2.add(new CharacterBody(350,10,350-50,10+50, world));
         }
     }
 
@@ -70,29 +65,31 @@ public class GameStageController implements ContactListener {
     public void shootPlayerAmmo(int x, int y) {
         int c = GameStage.getInstance().getSelectedCharacter();
         if (GameStage.getInstance().getPlayerTurn() == 1) {
-
-            GameStage.getInstance().chooseSelected();
+            System.out.println("SHOOT PLEAYER 1");
             this.getBodiesPlayer1().get(c).shootAmmo(x, y);
             GameStage.getInstance().getHeroesPlayer1().get(c).getAmmo().setBeingUsed(true);
-
-        } else if (GameStage.getInstance().getPlayerTurn() == 2) {
-            GameStage.getInstance().chooseSelected();
-            this.getBodiesPlayer2().get(c).shootAmmo(-x, -y);
+        }
+        else if (GameStage.getInstance().getPlayerTurn() == 2) {
+            System.out.println("SHOOT PLEAYER 2");
+            this.getBodiesPlayer2().get(c).shootAmmo(-x, y);
             GameStage.getInstance().getHeroesPlayer2().get(c).getAmmo().setBeingUsed(true);
         }
     }
 
     public void update() {
         world.step(1 / 60f, 6, 2);
+        GameStage.getInstance().update();
         for (int i = 0; i < bodiesPlayer1.size(); i++) {
             bodiesPlayer1.get(i).update();
             bodiesPlayer1.get(i).getAmmoBody().update();
             GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo().update(bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().x, bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().y);
+            System.out.println("PLAYER1: BALL VX: " + bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().x + " BALL VY: " +  bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().y);
         }
         for (int i = 0; i < bodiesPlayer2.size(); i++) {
             bodiesPlayer2.get(i).update();
             bodiesPlayer2.get(i).getAmmoBody().update();
-            GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo().update(bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().x, bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().y);
+            GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo().update(bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().x, bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().y);
+            System.out.println("PLAYER2: BALL VX: " + bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().x + "  BALL VY: " +  bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().y);
         }
 
     }

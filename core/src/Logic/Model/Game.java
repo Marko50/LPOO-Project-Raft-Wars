@@ -33,9 +33,9 @@ public class Game extends com.badlogic.gdx.Game { //Singleton Design Pattern
 
     @Override
     public void create() {
-        this.gameStage = GameStage.getInstance();
         this.assetManager = new AssetManager();
         batch = new SpriteBatch();
+        this.gameStage = GameStage.getInstance();
         setScreen(new GameStageView());
     }
 

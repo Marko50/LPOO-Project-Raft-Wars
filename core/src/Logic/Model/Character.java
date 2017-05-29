@@ -32,12 +32,13 @@ public class Character extends Actor {
             active = false;
             selected = false;
         }
+        else{
+            active = true;
+        }
 
     }
 
-    public void attacked(int dmg){
-        this.hp = this.hp - (dmg - armor);
-    }
+    public void attacked(int dmg){this.hp = this.hp - (dmg - armor);}
 
     public boolean isSelected() {
         return selected;
@@ -86,4 +87,5 @@ public class Character extends Actor {
     public void setAmmo(Ammo ammo) {
         this.ammo = ammo;
     }
+
 }

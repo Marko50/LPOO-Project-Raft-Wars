@@ -39,4 +39,9 @@ public abstract class EntityView  {
     public void setStateTime(float stateTime) {
         this.stateTime = stateTime;
     }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
 }

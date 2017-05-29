@@ -1,5 +1,6 @@
 package Logic.Body;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -13,9 +14,9 @@ public abstract class EntityBody{
     protected Body body;
     protected int originX, originY;
     public EntityBody(int x, int y, World world){
-        setBody(x, y,world );
-        this.originX =x;
-        this.originY = y;
+        setBody(x, y, world);
+        this.originX = y;
+        this.originY = x;
     }
 
     public Body getBody(){return body;}
