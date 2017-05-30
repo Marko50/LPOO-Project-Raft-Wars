@@ -5,8 +5,8 @@ package Logic.Model;
  */
 
 public abstract class Ammo{
-    protected static final int FINISHED_MOVEMENT_VELOCITY_Y = 3;
-    protected static final int FINISHED_MOVEMENT_VELOCITY_X = 5;
+    protected static final int FINISHED_MOVEMENT_VELOCITY_Y = 0;
+    protected static final int FINISHED_MOVEMENT_VELOCITY_X = 0;
     protected float damage;
     protected  float actionLength;
     protected boolean beingUsed;
@@ -31,11 +31,11 @@ public abstract class Ammo{
                 GameStage.getInstance().setPlayerTurn(1);
         }
         else if((Math.abs(vx) <=  FINISHED_MOVEMENT_VELOCITY_X) && (Math.abs(vy) <= FINISHED_MOVEMENT_VELOCITY_Y) && beingUsed == false) {
-            System.out.println("BALL IS NOT BEING USED");
+           // System.out.println("BALL IS NOT BEING USED");
         }
         else
         {
-            System.out.println("BALL HAS NOT STOPPED MOVING");
+          //  System.out.println("BALL HAS NOT STOPPED MOVING");
             beingUsed= true;
         }
 

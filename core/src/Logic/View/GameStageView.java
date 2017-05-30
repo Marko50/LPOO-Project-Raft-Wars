@@ -2,7 +2,6 @@ package Logic.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Matrix4;
@@ -23,8 +22,8 @@ public class GameStageView extends ScreenAdapter {
     private Texture backImage;
     private ArrayList<CharacterView> heroesPlayer1 = new ArrayList<CharacterView>();
     private ArrayList<CharacterView> heroesPlayer2 = new ArrayList<CharacterView>();
-    Matrix4 debugMatrix;
-    Box2DDebugRenderer debugRenderer;
+    private Matrix4 debugMatrix;
+    private Box2DDebugRenderer debugRenderer;
     public static final float PIXEL_TO_METER = 50f;
     private final OrthographicCamera camera;
 
@@ -55,7 +54,7 @@ public class GameStageView extends ScreenAdapter {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
         debugRenderer = new Box2DDebugRenderer();
-        // camera.zoom = 0.6f;
+      //  camera.zoom = 0.6f;
        // camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().y + 90,0);
         return camera;
     }
@@ -66,7 +65,7 @@ public class GameStageView extends ScreenAdapter {
        // Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.handleInputs(delta);
         this.updateView(delta);
-        System.out.println("OMG PLAYER TURN: " + GameStage.getInstance().getPlayerTurn());
+       // System.out.println("OMG PLAYER TURN: " + GameStage.getInstance().getPlayerTurn());
         int c = GameStage.getInstance().getSelectedCharacter();
 
         camera.update();
@@ -77,10 +76,9 @@ public class GameStageView extends ScreenAdapter {
         Game.getInstance().getBatch().draw(backImage, 0, 0);
         //Game.getInstance().getBatch().draw(backImage, 0, 0, 0, 0, (int)(GameStageController.FIELD_WIDTH / PIXEL_TO_METER), (int) (GameStageController.FIELD_HEIGHT / PIXEL_TO_METER));
         for (int i = 0; i < heroesPlayer1.size(); i++) {
+            heroesPlayer1.get(i).getSprite().flip(true, false);
+            //heroesPlayer1.get(i).getSprite().setFlip(true, false);
             heroesPlayer1.get(i).draw(Game.getInstance().getBatch());
-           // heroesPlayer1.get(i).getSprite().flip(true, true);
-           // heroesPlayer1.get(i).getSprite().setFlip(true, true);
-
         }
         for (int i = 0; i < heroesPlayer2.size(); i++) {
             heroesPlayer2.get(i).draw(Game.getInstance().getBatch());
@@ -90,14 +88,16 @@ public class GameStageView extends ScreenAdapter {
 /*
         if(GameStage.getInstance().getPlayerTurn() == 1)
         {
-            camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(c).getAmmoBody().getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(c).getAmmoBody().getBody().getPosition().y + 50,0);
+            //camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(c).getAmmoBody().getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(c).getAmmoBody().getBody().getPosition().y + 50,0);
+            camera.position.set(heroesPlayer1.get(c).getAmmoView().getSprite().getX() + 110 ,heroesPlayer1.get(c).getAmmoView().getSprite().getY() + 60,0);
         }
         else if(GameStage.getInstance().getPlayerTurn() == 2)
         {
-            camera.position.set(GameStageController.getInstance().getBodiesPlayer2().get(c).getAmmoBody().getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer2().get(c).getAmmoBody().getBody().getPosition().y + 50,0);
+            //camera.position.set(GameStageController.getInstance().getBodiesPlayer2().get(c).getAmmoBody().getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer2().get(c).getAmmoBody().getBody().getPosition().y + 50,0);
+            camera.position.set(heroesPlayer2.get(c).getAmmoView().getSprite().getX() + 110 ,heroesPlayer2.get(c).getAmmoView().getSprite().getY() + 60,0);
         }
-
 */
+
     }
 
     public void updateView(float delta) {
@@ -115,7 +115,7 @@ public class GameStageView extends ScreenAdapter {
 
     private void handleInputs(float delta) {
         if (Gdx.input.justTouched()) {
-            System.out.println("Clicked!");
+            //System.out.println("Clicked!");
             int x = Gdx.input.getX();
             int y = Gdx.input.getY();
             GameStageController.getInstance().shootPlayerAmmo(x, y);

@@ -17,12 +17,12 @@ public class Character extends Actor {
 
     public Character(){}
 
-    public Character(int ar, String f){
+    public Character(int ar, String f, String f2){
         this.selected = false;
         this.armor = ar;
         this.active = true;
         this.hp = 100;
-        this.ammo = new SimpleBall();
+        this.ammo = new SimpleBall(f2);
         this.filename = f;
     }
 

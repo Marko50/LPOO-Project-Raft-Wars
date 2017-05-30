@@ -30,7 +30,7 @@ public class GameStageController implements ContactListener {
     ArrayList<CharacterBody> bodiesPlayer2 = new ArrayList<CharacterBody>();
 
     private GameStageController() {
-        world = new World(new Vector2(0, -10 / GameStageView.PIXEL_TO_METER), true);
+        world = new World(new Vector2(0, -500 / GameStageView.PIXEL_TO_METER), true);
         world.setContactListener(this);
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -49,10 +49,10 @@ public class GameStageController implements ContactListener {
         floor.createFixture(fixtureDef);
         rectangle.dispose();
         for (int i = 0; i < GameStage.getInstance().getHeroesPlayer1().size(); i++) {
-            bodiesPlayer1.add(new CharacterBody(1,1, 2,2,world));
+            bodiesPlayer1.add(new CharacterBody(1,1,2,2,world));
         }
         for (int i = 0; i < GameStage.getInstance().getHeroesPlayer2().size(); i++) {
-            bodiesPlayer2.add(new CharacterBody(350,10,350-50,10+50, world));
+            bodiesPlayer2.add(new CharacterBody(1,12,2,11, world));
         }
     }
 
@@ -65,12 +65,12 @@ public class GameStageController implements ContactListener {
     public void shootPlayerAmmo(int x, int y) {
         int c = GameStage.getInstance().getSelectedCharacter();
         if (GameStage.getInstance().getPlayerTurn() == 1) {
-            System.out.println("SHOOT PLEAYER 1");
+           // System.out.println("SHOOT PLEAYER 1");
             this.getBodiesPlayer1().get(c).shootAmmo(x, y);
             GameStage.getInstance().getHeroesPlayer1().get(c).getAmmo().setBeingUsed(true);
         }
         else if (GameStage.getInstance().getPlayerTurn() == 2) {
-            System.out.println("SHOOT PLEAYER 2");
+          //  System.out.println("SHOOT PLEAYER 2");
             this.getBodiesPlayer2().get(c).shootAmmo(-x, y);
             GameStage.getInstance().getHeroesPlayer2().get(c).getAmmo().setBeingUsed(true);
         }
@@ -83,13 +83,13 @@ public class GameStageController implements ContactListener {
             bodiesPlayer1.get(i).update();
             bodiesPlayer1.get(i).getAmmoBody().update();
             GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo().update(bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().x, bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().y);
-            System.out.println("PLAYER1: BALL VX: " + bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().x + " BALL VY: " +  bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().y);
+          //  System.out.println("PLAYER1: BALL VX: " + bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().x + " BALL VY: " +  bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().y);
         }
         for (int i = 0; i < bodiesPlayer2.size(); i++) {
             bodiesPlayer2.get(i).update();
             bodiesPlayer2.get(i).getAmmoBody().update();
             GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo().update(bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().x, bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().y);
-            System.out.println("PLAYER2: BALL VX: " + bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().x + "  BALL VY: " +  bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().y);
+         //   System.out.println("PLAYER2: BALL VX: " + bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().x + "  BALL VY: " +  bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().y);
         }
 
     }

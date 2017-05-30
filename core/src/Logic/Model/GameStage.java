@@ -13,8 +13,8 @@ public class GameStage{
 
     private GameStage()
     {
-        final Character c = new Character(10,"wyvern_fire.png");
-        final Character c2 = new Character(10,"wyvern_water.png");
+        final Character c = new Character(10,"wyvern_fire.png", "ballfire.png");
+        final Character c2 = new Character(10,"wyvern_water.png", "ballwater.png");
         heroesPlayer1.add(c);
         heroesPlayer2.add(c2);
         heroesPlayer1.get(0).setSelected(true);
@@ -43,24 +43,24 @@ public class GameStage{
 
     public void chooseSelected(){
         if(playerTurn == 1){
-            System.out.println("PLAYER TURN 1 CHOOSE SELECTED!");
+         //   System.out.println("PLAYER TURN 1 CHOOSE SELECTED!");
             for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
             {
                 if(this.getHeroesPlayer1().get(i).isActive())
                 {
-                    System.out.println("Player turn 1 ACTIVE");
+               //     System.out.println("Player turn 1 ACTIVE");
                     this.getHeroesPlayer1().get(i).setSelected(true);
                     break;
                 }
             }
         }
         else if(playerTurn == 2){
-            System.out.println("PLAYER TURN 2 CHOOSE SELECTED!");
+         //   System.out.println("PLAYER TURN 2 CHOOSE SELECTED!");
             for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
             {
                 if(this.getHeroesPlayer2().get(i).isActive())
                 {
-                    System.out.println("Player turn 2 ACTIVE");
+           //         System.out.println("Player turn 2 ACTIVE");
                     this.getHeroesPlayer2().get(i).setSelected(true);
                     break;
                 }
@@ -69,23 +69,23 @@ public class GameStage{
     }
     public int getSelectedCharacter(){
         if(playerTurn == 1){
-            System.out.println("GET SELECTED PLAYER 1");
+          //  System.out.println("GET SELECTED PLAYER 1");
             for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
             {
                 if(this.getHeroesPlayer1().get(i).isSelected())
                 {
-                    System.out.println("PLAYER 1 IS SELECTED");
+            //        System.out.println("PLAYER 1 IS SELECTED");
                     return i;
                 }
             }
         }
         else if(playerTurn == 2){
-            System.out.println("GET SELECTED PLAYER 2");
+         //   System.out.println("GET SELECTED PLAYER 2");
             for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
             {
                 if(this.getHeroesPlayer2().get(i).isSelected())
                 {
-                    System.out.println("PLAYER 2 IS SELECTED");
+             //       System.out.println("PLAYER 2 IS SELECTED");
                     return i;
                 }
             }

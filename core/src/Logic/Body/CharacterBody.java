@@ -49,7 +49,7 @@ public class CharacterBody extends EntityBody {
     public void shootAmmo(int x, int y)
     {
         this.ammoBody.getBody().setActive(true);
-        this.ammoBody.getBody().applyForceToCenter(x*GameStageView.PIXEL_TO_METER,y*GameStageView.PIXEL_TO_METER,true);
+        this.ammoBody.getBody().applyForceToCenter(5f,5f,true);
 
     }
 
