@@ -1,10 +1,12 @@
 package Logic.View;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 
@@ -18,14 +20,16 @@ import Logic.Model.GameStage;
  * Created by André on 30-04-2017.
  */
 
-public class GameStageView extends ScreenAdapter {
+public class GameStageView extends ScreenAdapter implements InputProcessor {
     private Texture backImage;
     private ArrayList<CharacterView> heroesPlayer1 = new ArrayList<CharacterView>();
     private ArrayList<CharacterView> heroesPlayer2 = new ArrayList<CharacterView>();
     private Matrix4 debugMatrix;
     private Box2DDebugRenderer debugRenderer;
+    private Vector2 lastTouch;
     public static final float PIXEL_TO_METER = 50f;
     private final OrthographicCamera camera;
+    public int c;
 
     public void loadAssets(){
         Game.getInstance().getAssetManager().load("background3.png", Texture.class);
@@ -33,23 +37,27 @@ public class GameStageView extends ScreenAdapter {
         backImage = Game.getInstance().getAssetManager().get("background3.png");
     }
 
-    public  GameStageView() {
+    public GameStageView() {
         loadAssets();
+        lastTouch = new Vector2();
         for (int i = 0; i < GameStageController.getInstance().getBodiesPlayer1().size(); i++) {
             String ammoFilename = GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo().getFilename();
             heroesPlayer1.add(new CharacterView(GameStage.getInstance().getHeroesPlayer1().get(i).getFilename(), 56, 8, ammoFilename));
         }
         for (int i = 0; i < GameStageController.getInstance().getBodiesPlayer2().size(); i++) {
-        String ammoFilename = GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo().getFilename();
-        heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(), 56, 8, ammoFilename));
+            String ammoFilename = GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo().getFilename();
+            heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(), 56, 8, ammoFilename));
+        }
+        loadAssets();
+        camera = createCamera();
+        Gdx.input.setInputProcessor(this);
+       // System.out.println("HEIGHT: " + Gdx.graphics.getHeight() + "  WIDTH: " + Gdx.graphics.getWidth());
     }
-    loadAssets();
-    camera = createCamera();
-}
 
     OrthographicCamera createCamera() {
 
         OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        camera.setToOrtho(false);
         //OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH / PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
@@ -63,11 +71,10 @@ public class GameStageView extends ScreenAdapter {
     public void render(float delta) {
         //Gdx.gl.glClearColor(1, 1, 1, 1);
        // Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.handleInputs(delta);
+        //this.handleInputs(delta);
         this.updateView(delta);
        // System.out.println("OMG PLAYER TURN: " + GameStage.getInstance().getPlayerTurn());
-        int c = GameStage.getInstance().getSelectedCharacter();
-
+        c = GameStage.getInstance().getSelectedCharacter();
         camera.update();
         Game.getInstance().getBatch().setProjectionMatrix(camera.combined);
         debugMatrix = Game.getInstance().getBatch().getProjectionMatrix().cpy().scale(PIXEL_TO_METER,
@@ -77,7 +84,6 @@ public class GameStageView extends ScreenAdapter {
         //Game.getInstance().getBatch().draw(backImage, 0, 0, 0, 0, (int)(GameStageController.FIELD_WIDTH / PIXEL_TO_METER), (int) (GameStageController.FIELD_HEIGHT / PIXEL_TO_METER));
         for (int i = 0; i < heroesPlayer1.size(); i++) {
             heroesPlayer1.get(i).getSprite().flip(true, false);
-            //heroesPlayer1.get(i).getSprite().setFlip(true, false);
             heroesPlayer1.get(i).draw(Game.getInstance().getBatch());
         }
         for (int i = 0; i < heroesPlayer2.size(); i++) {
@@ -106,22 +112,22 @@ public class GameStageView extends ScreenAdapter {
             this.getHeroesPlayer1().get(i).update(delta, GameStageController.getInstance().getBodiesPlayer1().get(i));
             this.getHeroesPlayer1().get(i).getAmmoView().update(delta, GameStageController.getInstance().getBodiesPlayer1().get(i).getAmmoBody());
         }
-
         for (int i = 0; i < this.getHeroesPlayer2().size(); i++) {
             this.getHeroesPlayer2().get(i).update(delta, GameStageController.getInstance().getBodiesPlayer2().get(i));
             this.getHeroesPlayer2().get(i).getAmmoView().update(delta, GameStageController.getInstance().getBodiesPlayer2().get(i).getAmmoBody());
         }
+
     }
 
-    private void handleInputs(float delta) {
+  /*  private void handleInputs(float delta) {
         if (Gdx.input.justTouched()) {
-            //System.out.println("Clicked!");
             int x = Gdx.input.getX();
             int y = Gdx.input.getY();
             GameStageController.getInstance().shootPlayerAmmo(x, y);
         }
 
-    }
+
+    }*/
 
     public Texture getBackImage() {
         return backImage;
@@ -151,4 +157,49 @@ public class GameStageView extends ScreenAdapter {
         this.heroesPlayer2 = heroesPlayer2;
     }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        lastTouch.set(screenX, screenY);
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        Vector2 newTouch = new Vector2(screenX, screenY);
+        // delta will now hold the difference between the last and the current touch positions
+        // delta.x > 0 means the touch moved to the right, delta.x < 0 means a move to the left
+        Vector2 delta = newTouch.cpy().sub(lastTouch);
+        lastTouch = newTouch;
+        return true;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
 }

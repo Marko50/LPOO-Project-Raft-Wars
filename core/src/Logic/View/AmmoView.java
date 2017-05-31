@@ -11,7 +11,6 @@ import Logic.Model.Game;
  * Created by André on 30-04-2017.
  */
 public class AmmoView extends EntityView {
-    //MACROS FOR AMMO SPRITE SIZE
     public AmmoView(String filename,int c, int r){
         super(filename,c,r);
         this.sprite.setSize(25,25);
@@ -19,10 +18,7 @@ public class AmmoView extends EntityView {
 
     @Override
     public void draw(SpriteBatch batch) {
-       batch.draw(sprite, sprite.getX(), sprite.getY(),sprite.getOriginX(),
-                sprite.getOriginY(),
-                sprite.getWidth(),sprite.getHeight(),sprite.getScaleX(),sprite.
-                        getScaleY(),sprite.getRotation());
+        sprite.draw(batch);
     }
 
     @Override

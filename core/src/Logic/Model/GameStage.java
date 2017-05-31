@@ -1,5 +1,8 @@
 package Logic.Model;
 import java.util.ArrayList;
+
+import Logic.Body.GameStageController;
+
 /**
  * Created by André on 22-04-2017.
  */
@@ -33,10 +36,12 @@ public class GameStage{
 
     public void update(){
         for(int i = 0; i < this.getHeroesPlayer1().size(); i++){
-            this.getHeroesPlayer1().get(i).update();
+            this.getHeroesPlayer1().get(i).update(GameStageController.getInstance().getBodiesPlayer1().get(i));
+            this.getHeroesPlayer1().get(i).getAmmo().update(GameStageController.getInstance().getBodiesPlayer1().get(i).getAmmoBody());
         }
         for(int i = 0; i < this.getHeroesPlayer2().size(); i++){
-            this.getHeroesPlayer2().get(i).update();
+            this.getHeroesPlayer2().get(i).update(GameStageController.getInstance().getBodiesPlayer2().get(i));
+            this.getHeroesPlayer2().get(i).getAmmo().update(GameStageController.getInstance().getBodiesPlayer2().get(i).getAmmoBody());
         }
         this.chooseSelected();
     }

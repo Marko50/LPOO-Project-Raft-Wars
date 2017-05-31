@@ -3,6 +3,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import Logic.Model.Entity;
 import Logic.View.GameStageView;
 
 /**
@@ -12,10 +13,8 @@ import Logic.View.GameStageView;
 public class CharacterBody extends EntityBody {
     private AmmoBody ammoBody;
     public CharacterBody(int x,int y,int ax,int ay, World world) {
-        //MACROS FOR THE DISTANCE BETWEEN THE PLAYER AND IT'S AMMO
         super(x,y, world);
         this.ammoBody = new AmmoBody(ax,ay, world);
-
     }
 
     @Override
@@ -39,8 +38,8 @@ public class CharacterBody extends EntityBody {
     }
 
     @Override
-    public void update() {
-        if(body.getLinearVelocity().x <= FINISHED_MOVEMENT_VELOCITY_X && Math.abs(body.getLinearVelocity().y) <= FINISHED_MOVEMENT_VELOCITY_Y){
+    public void update(Entity e) {
+        if(e.isBeingUsed() == false){
             body.setTransform(originX, originY, body.getAngle());
             body.setLinearVelocity(0,0);
         }
@@ -49,8 +48,7 @@ public class CharacterBody extends EntityBody {
     public void shootAmmo(int x, int y)
     {
         this.ammoBody.getBody().setActive(true);
-        this.ammoBody.getBody().applyForceToCenter(5f,5f,true);
-
+        this.ammoBody.getBody().applyForceToCenter(5f, 0f, true);
     }
 
     public AmmoBody getAmmoBody() {

@@ -1,11 +1,10 @@
 package Logic.Body;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-
+import Logic.Model.Entity;
 import Logic.View.GameStageView;
 
 /**
@@ -28,11 +27,11 @@ public class AmmoBody extends EntityBody {
         body = world.createBody(bodyDef);
         // Create character fixture
         CircleShape circle = new CircleShape();
-        circle.setRadius(5/GameStageView.PIXEL_TO_METER); // 10cm / 2
+        circle.setRadius(10/GameStageView.PIXEL_TO_METER); // 10cm / 2
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
-        fixtureDef.density = .5f;      // how heavy is the character
-        fixtureDef.friction =  1;    // how slippery is the character
+        fixtureDef.density = .1f;      // how heavy is the character
+        fixtureDef.friction =  1f;    // how slippery is the character
         fixtureDef.restitution =  .5f; // how bouncy is the character
         // Attach fixture to body
         body.createFixture(fixtureDef);
@@ -42,8 +41,9 @@ public class AmmoBody extends EntityBody {
     }
 
     @Override
-    public void update() {
-        if(Math.abs(body.getLinearVelocity().x) <= FINISHED_MOVEMENT_VELOCITY_X && Math.abs(body.getLinearVelocity().y) <= FINISHED_MOVEMENT_VELOCITY_Y){
+    public void update(Entity e) {
+        //System.out.println("BodyX: " + body.getPosition().x+ " BodyY: " + body.getPosition().y);
+        if(e.isBeingUsed() == false){
             body.setTransform(originX, originY, body.getAngle());
             body.setLinearVelocity(0,0);
             body.setActive(false);

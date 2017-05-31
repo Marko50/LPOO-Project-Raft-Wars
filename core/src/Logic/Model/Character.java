@@ -1,5 +1,7 @@
 package Logic.Model;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+
+
+import Logic.Body.EntityBody;
 
 /**
  * Created by André on 21-04-2017.
@@ -7,26 +9,24 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 
 
-public class Character extends Actor {
+public class Character extends Entity{
     private Ammo ammo;
     private boolean selected;
     private boolean active;
     private int hp;
     private int armor;
-    private String filename;
-
-    public Character(){}
 
     public Character(int ar, String f, String f2){
+        super(f);
         this.selected = false;
         this.armor = ar;
         this.active = true;
         this.hp = 100;
         this.ammo = new SimpleBall(f2);
-        this.filename = f;
     }
 
-    public void update(){
+    @Override
+    public void update(EntityBody e){
         if(hp <= 0)
         {
             active = false;
@@ -35,7 +35,9 @@ public class Character extends Actor {
         else{
             active = true;
         }
-
+        if(e.getBody().getLinearVelocity().x <= FINISHED_MOVEMENT_VELOCITY_X && Math.abs(e.getBody().getLinearVelocity().y) <= FINISHED_MOVEMENT_VELOCITY_Y){
+            this.setBeingUsed(false);
+        }
     }
 
     public void attacked(int dmg){this.hp = this.hp - (dmg - armor);}
@@ -70,14 +72,6 @@ public class Character extends Actor {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
     }
 
     public Ammo getAmmo() {

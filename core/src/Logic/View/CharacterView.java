@@ -26,10 +26,7 @@ public class CharacterView extends EntityView {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(sprite, sprite.getX(), sprite.getY(),sprite.getOriginX(),
-                sprite.getOriginY(),
-                sprite.getWidth(),sprite.getHeight(),sprite.getScaleX(),sprite.
-                        getScaleY(),sprite.getRotation());
+        sprite.draw(batch);
         ammoView.draw(batch);
     }
 
