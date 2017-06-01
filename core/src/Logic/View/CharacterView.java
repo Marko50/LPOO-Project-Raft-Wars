@@ -40,8 +40,8 @@ public class CharacterView extends EntityView {
         System.arraycopy(region[0],0,frames,0, cols);
         animation = new Animation<TextureRegion>(.11f, frames);
         sprite = new Sprite(animation.getKeyFrame(0));
-        sprite.setSize(animation.getKeyFrame(0).getRegionWidth()/3, animation.getKeyFrame(0).getRegionHeight()/3);
-        sprite.setCenter(animation.getKeyFrame(0).getRegionWidth() /6, animation.getKeyFrame(0).getRegionHeight() /6);
+        sprite.setSize(animation.getKeyFrame(0).getRegionWidth()/2, animation.getKeyFrame(0).getRegionHeight()/2);
+        sprite.setCenter(animation.getKeyFrame(0).getRegionWidth() /4, animation.getKeyFrame(0).getRegionHeight() /4);
     }
 
     @Override
