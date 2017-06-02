@@ -84,7 +84,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         Game.getInstance().getBatch().setProjectionMatrix(camera.combined);
         debugMatrix = Game.getInstance().getBatch().getProjectionMatrix().cpy().scale(PIXEL_TO_METER, PIXEL_TO_METER, 0);
         Game.getInstance().getBatch().begin();
-        Game.getInstance().getBatch().draw(backImage, 0, 0, this.VIEWPORT_WIDTH,this.VIEWPORT_HEIGHT);
+        Game.getInstance().getBatch().draw(backImage, 0, 0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         for (int i = 0; i < heroesPlayer1.size(); i++) {
             heroesPlayer1.get(i).getSprite().flip(true, false);
             heroesPlayer1.get(i).draw(Game.getInstance().getBatch());

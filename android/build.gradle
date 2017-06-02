@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion "22.0.3"
-    compileSdkVersion 22
+    buildToolsVersion "24.0.3"
+    compileSdkVersion 24
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId "com.mygdx.game"
         minSdkVersion 9
-        targetSdkVersion 22
+        targetSdkVersion 24
     }
 }
 
