@@ -1,7 +1,10 @@
 package Logic.Model;
+import com.badlogic.gdx.Gdx;
+
 import java.util.ArrayList;
 
 import Logic.Body.GameStageController;
+import Logic.View.MenuView;
 
 /**
  * Created by André on 22-04-2017.
@@ -18,8 +21,9 @@ public class GameStage{
     {
         final Character c = new Character(10,"wyvern_fire.png", "ballfire.png");
         final Character c2 = new Character(10,"wyvern_water.png", "ballwater.png");
-        //final Character c3 = new Character(5, "", "");
+        //final Character c3 = new Character(10, "reviveddragon.png", "ballfire.png");
         heroesPlayer1.add(c);
+        //heroesPlayer1.add(c3);
         heroesPlayer2.add(c2);
         heroesPlayer1.get(0).setSelected(true);
         heroesPlayer2.get(0).setSelected(true);
@@ -35,7 +39,48 @@ public class GameStage{
         return instance;
     }
 
+    public boolean checkVictoryPlayer1(){
+        for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
+        {
+            if(this.getHeroesPlayer2().get(i).isActive())
+            {
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean checkVictoryPlayer2(){
+        for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
+        {
+            if(this.getHeroesPlayer1().get(i).isActive())
+            {
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void resetGame(){
+        for(int i = 0; i < this.heroesPlayer1.size(); i++){
+            heroesPlayer1.get(i).setHp(100);
+            heroesPlayer1.get(i).getAmmo().setBeingUsed(false);
+        }
+        for(int i = 0; i < this.heroesPlayer2.size(); i++){
+            heroesPlayer2.get(i).setHp(100);
+            heroesPlayer1.get(i).getAmmo().setBeingUsed(false);
+        }
+    }
+
     public void update(){
+        if(checkVictoryPlayer1() || checkVictoryPlayer2()){
+            resetGame();
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuView());
+        }
         for(int i = 0; i < this.getHeroesPlayer1().size(); i++){
             this.getHeroesPlayer1().get(i).update(GameStageController.getInstance().getBodiesPlayer1().get(i));
             this.getHeroesPlayer1().get(i).getAmmo().update(GameStageController.getInstance().getBodiesPlayer1().get(i).getAmmoBody());

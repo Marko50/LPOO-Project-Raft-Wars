@@ -32,10 +32,8 @@ public class MenuView implements Screen{
 
     public MenuView() {
         batch = new SpriteBatch();
-
         viewport = new ExtendViewport(300,400);
         viewport.apply();
-
         stage = new Stage(viewport, batch);
         Gdx.input.setInputProcessor(stage);
     }

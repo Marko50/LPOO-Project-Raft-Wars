@@ -12,13 +12,13 @@ import Logic.View.GameStageView;
 
 public class CharacterBody extends EntityBody {
     private AmmoBody ammoBody;
-    public CharacterBody(int x,int y,int ax,int ay, World world, Entity e1, Entity e2) {
+    public CharacterBody(float x,float y,float ax,float ay, World world, Entity e1, Entity e2) {
         super(x,y, world, e1);
         this.ammoBody = new AmmoBody(ax,ay, world, e2);
     }
 
     @Override
-    public void setBody(int x, int y, World world, Entity e) {
+    public void setBody(float x, float y, World world, Entity e) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.linearVelocity.set(0f,0f);
@@ -26,7 +26,7 @@ public class CharacterBody extends EntityBody {
         body = world.createBody(bodyDef);
         // Create character fixture
         CircleShape circle = new CircleShape();
-        circle.setRadius(10/GameStageView.PIXEL_TO_METER); // 10cm / 2
+        circle.setRadius(20/GameStageView.PIXEL_TO_METER); // 10cm / 2
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.density = .5f;      // how heavy is the character
@@ -40,6 +40,7 @@ public class CharacterBody extends EntityBody {
 
     @Override
     public void update(Entity e) {
+        //System.out.println("BodyX: " + body.getPosition().x+ " BodyY: " + body.getPosition().y);
         if(e.isBeingUsed() == false){
             body.setTransform(originX, originY, body.getAngle());
             body.setLinearVelocity(0,0);

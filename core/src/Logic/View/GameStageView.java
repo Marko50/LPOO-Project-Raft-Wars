@@ -10,9 +10,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
-
 import java.util.ArrayList;
 
 import Logic.Body.GameStageController;
@@ -35,53 +32,47 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
     public static float VIEWPORT_HEIGHT;
     private final OrthographicCamera camera;
     public int c;
+    private static final float MIN_HEIGHT = 87.5f;
+    private static final float MIN_WIDTH = 87.5f;
 
     public void loadAssets(){
-       // Game.getInstance().getAssetManager().load("background1.png", Texture.class);
-        //Game.getInstance().getAssetManager().load("background2.png", Texture.class);
+        Game.getInstance().getAssetManager().load("background1.jpg", Texture.class);
+        Game.getInstance().getAssetManager().load("background2.png", Texture.class);
         Game.getInstance().getAssetManager().load("background3.png", Texture.class);
+        Game.getInstance().getAssetManager().load("reviveddragon.png", Texture.class);
         Game.getInstance().getAssetManager().load("wyvern_fire.png", Texture.class);
         Game.getInstance().getAssetManager().load("wyvern_water.png", Texture.class);
         Game.getInstance().getAssetManager().load("ballwater.png", Texture.class);
         Game.getInstance().getAssetManager().load("ballfire.png", Texture.class);
         Game.getInstance().getAssetManager().finishLoading();
-        backImage = Game.getInstance().getAssetManager().get("background3.png");
-        System.out.println("gdx HEIGHT: "+Gdx.graphics.getHeight());
-        System.out.println("gdx WIDTH: "+Gdx.graphics.getWidth());
+        backImage = Game.getInstance().getAssetManager().get("background1.jpg");
         VIEWPORT_WIDTH = backImage.getWidth();
         VIEWPORT_HEIGHT = backImage.getHeight();
-        System.out.println("VIEWPORT HEIGHT: "+VIEWPORT_HEIGHT );
-        System.out.println("VIEWPORT WIDTH: "+VIEWPORT_WIDTH );
     }
 
     public GameStageView() {
         c = 0;
         loadAssets();
         lastTouch = new Vector2();
+
         for (int i = 0; i < GameStageController.getInstance().getBodiesPlayer1().size(); i++) {
             String ammoFilename = GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo().getFilename();
-            heroesPlayer1.add(new CharacterView(GameStage.getInstance().getHeroesPlayer1().get(i).getFilename(), 56, 8, ammoFilename));
+            heroesPlayer1.add(new CharacterView(GameStage.getInstance().getHeroesPlayer1().get(i).getFilename(), 8, 1, ammoFilename));
         }
         for (int i = 0; i < GameStageController.getInstance().getBodiesPlayer2().size(); i++) {
             String ammoFilename = GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo().getFilename();
-            heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(), 56, 8, ammoFilename));
+            heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(),8, 1, ammoFilename));
         }
+
         loadAssets();
         camera = createCamera();
         Gdx.input.setInputProcessor(this);
-       // System.out.println("HEIGHT: " + Gdx.graphics.getHeight() + "  WIDTH: " + Gdx.graphics.getWidth());
     }
 
     OrthographicCamera createCamera() {
-        //OrthographicCamera camera = new OrthographicCamera(this.VIEWPORT_WIDTH, this.VIEWPORT_HEIGHT);
-        // camera.setToOrtho(false);
-        OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_WIDTH  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        OrthographicCamera camera = new OrthographicCamera(MIN_HEIGHT*2 , MIN_HEIGHT*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
         camera.update();
         debugRenderer = new Box2DDebugRenderer();
-        //camera.zoom = .5f;
-       // camera.position.set(heroesPlayer1.get(c).getAmmoView().getSprite().getX() + 80,heroesPlayer1.get(c).getAmmoView().getSprite().getY()+ 35,0);
-        // camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().y + 90,0);
         return camera;
     }
 
@@ -96,26 +87,58 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         Game.getInstance().getBatch().begin();
         Game.getInstance().getBatch().draw(backImage, 0, 0, VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
         for (int i = 0; i < heroesPlayer1.size(); i++) {
-            heroesPlayer1.get(i).getSprite().flip(true, false);
-            heroesPlayer1.get(i).draw(Game.getInstance().getBatch());
+            if(GameStage.getInstance().getHeroesPlayer1().get(i).isActive()) {
+                heroesPlayer1.get(i).getSprite().flip(true, false);
+                heroesPlayer1.get(i).draw(Game.getInstance().getBatch());
+            }
+
         }
         for (int i = 0; i < heroesPlayer2.size(); i++) {
-            heroesPlayer2.get(i).draw(Game.getInstance().getBatch());
+            if(GameStage.getInstance().getHeroesPlayer2().get(i).isActive()) {
+                heroesPlayer2.get(i).draw(Game.getInstance().getBatch());
+            }
         }
         Game.getInstance().getBatch().end();
-        debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
-        //System.out.println(camera.position.y);
-       /* if(GameStage.getInstance().getPlayerTurn() == 1 && this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getX() + camera.viewportWidth/2 - 80 <= VIEWPORT_WIDTH
-                && this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getY() + camera.viewportWidth/2 - 35 <= VIEWPORT_HEIGHT)
+        //debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
+        if(GameStage.getInstance().getPlayerTurn() == 1)
         {
-            camera.position.set(heroesPlayer1.get(c).getAmmoView().getSprite().getX() + 80,heroesPlayer1.get(c).getAmmoView().getSprite().getY()+ 35,0);
+            float yValue = heroesPlayer1.get(c).getAmmoView().getSprite().getY();
+            float xValue = heroesPlayer1.get(c).getAmmoView().getSprite().getX();
+            if(yValue < MIN_HEIGHT) {
+                yValue = MIN_HEIGHT;
+            }
+            else if (yValue > VIEWPORT_HEIGHT - MIN_HEIGHT){
+                yValue = VIEWPORT_HEIGHT - MIN_HEIGHT;
+            }
+            if(xValue < MIN_WIDTH ){
+                xValue = MIN_WIDTH;
+            }
+            else if(xValue > VIEWPORT_WIDTH - MIN_WIDTH ){
+                xValue = VIEWPORT_WIDTH - MIN_WIDTH;
+            }
+
+            camera.position.set(xValue,yValue,0);
         }
 
-        else if(GameStage.getInstance().getPlayerTurn() == 2 && this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getX() - camera.viewportWidth/2 + 80 >= 0 && this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getY() + camera.viewportWidth/2 - 35 <= VIEWPORT_HEIGHT)
+        else if(GameStage.getInstance().getPlayerTurn() == 2)
         {
-            camera.position.set(heroesPlayer2.get(c).getAmmoView().getSprite().getX() - 70 ,heroesPlayer2.get(c).getAmmoView().getSprite().getY() + 35,0);
-        }*/
+            float yValue = heroesPlayer2.get(c).getAmmoView().getSprite().getY();
+            float xValue = heroesPlayer2.get(c).getAmmoView().getSprite().getX();
+            if(yValue < MIN_HEIGHT) {
+                yValue = MIN_HEIGHT;
+            }
+            else if (yValue > VIEWPORT_HEIGHT - MIN_HEIGHT){
+                yValue = VIEWPORT_HEIGHT - MIN_HEIGHT;
+            }
+            if(xValue < MIN_WIDTH ){
+                xValue = MIN_WIDTH;
+            }
+            else if(xValue > VIEWPORT_WIDTH - MIN_WIDTH ){
+                xValue = VIEWPORT_WIDTH - MIN_WIDTH;
+            }
 
+            camera.position.set(xValue,yValue,0);
+        }
     }
 
     public void updateView(float delta) {
@@ -190,9 +213,9 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         Vector2 newTouch = new Vector2(aux.x, aux.y);
         Vector2 delta = newTouch.cpy().sub(lastTouch);
         if((lastTouch.x >= this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getX() && lastTouch.x <=  this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getX() +  this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getWidth()
-                && lastTouch.y >= this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getY() && lastTouch.y <= this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getY() + this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getHeight()) ||
+                && lastTouch.y >= this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getY() && lastTouch.y <= this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getY() + this.getHeroesPlayer1().get(c).getAmmoView().getSprite().getHeight() && GameStage.getInstance().getPlayerTurn() ==1) ||
                 (lastTouch.x >= this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getX() && lastTouch.x <=  this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getX() +  this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getWidth()
-                        && lastTouch.y >= this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getY() && lastTouch.y <= this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getY() + this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getHeight())  )
+                        && lastTouch.y >= this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getY() && lastTouch.y <= this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getY() + this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getHeight() && GameStage.getInstance().getPlayerTurn() ==2))
         {
             //System.out.println("deltax: " + delta.x + " deltay: " + delta.y);
             GameStageController.getInstance().shootPlayerAmmo(delta.x/10, delta.y/10);

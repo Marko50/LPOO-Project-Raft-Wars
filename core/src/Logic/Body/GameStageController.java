@@ -34,8 +34,8 @@ public class GameStageController implements ContactListener {
     private GameStageController() {
         FIELD_WIDTH = GameStageView.VIEWPORT_WIDTH / GameStageView.PIXEL_TO_METER;
         FIELD_HEIGHT = GameStageView.VIEWPORT_HEIGHT / GameStageView.PIXEL_TO_METER;
-        System.out.println("FIELD_WIDTH: " + FIELD_WIDTH);
-        System.out.println("FIELD_HEIGHT: " + FIELD_HEIGHT);
+       // System.out.println("FIELD_WIDTH: " + FIELD_WIDTH);
+        //System.out.println("FIELD_HEIGHT: " + FIELD_HEIGHT);
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(this);
         BodyDef bodyDef = new BodyDef();
@@ -58,7 +58,7 @@ public class GameStageController implements ContactListener {
             bodiesPlayer1.add(new CharacterBody(1+i,1+i,2+i,2+i,world, GameStage.getInstance().getHeroesPlayer1().get(i), GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo()));
         }
         for (int i = 0; i < GameStage.getInstance().getHeroesPlayer2().size(); i++) {
-            bodiesPlayer2.add(new CharacterBody((int)FIELD_HEIGHT - i,1+i, (int)FIELD_HEIGHT - 1 - i, 2+i, world, GameStage.getInstance().getHeroesPlayer2().get(i), GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo()));
+            bodiesPlayer2.add(new CharacterBody(FIELD_WIDTH - 1 - i , 1 + i , FIELD_WIDTH - 2 - i, 2+i, world, GameStage.getInstance().getHeroesPlayer2().get(i), GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo()));
         }
     }
 

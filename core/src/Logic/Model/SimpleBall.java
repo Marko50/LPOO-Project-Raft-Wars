@@ -5,7 +5,7 @@ package Logic.Model;
  */
 
 public class SimpleBall extends Ammo {
-    private static final int SIMPLE_BALL_DAMAGE = 20;
+    private static final int SIMPLE_BALL_DAMAGE = 60;
     private static final float SIMPLE_BALL_ACTION_LENGTH = 0f;
     public SimpleBall(String f){
         super( SIMPLE_BALL_DAMAGE, SIMPLE_BALL_ACTION_LENGTH, f);
