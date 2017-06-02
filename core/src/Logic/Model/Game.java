@@ -3,6 +3,7 @@ package Logic.Model;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Logic.View.GameStageView;
+import Logic.View.MenuView;
 
 
 /**
@@ -36,7 +37,7 @@ public class Game extends com.badlogic.gdx.Game { //Singleton Design Pattern
         this.assetManager = new AssetManager();
         batch = new SpriteBatch();
         this.gameStage = GameStage.getInstance();
-        setScreen(new GameStageView());
+        setScreen(new MenuView());
     }
 
 
