@@ -14,10 +14,13 @@ public class GameStage{
     private ArrayList<Character> heroesPlayer2 = new ArrayList<Character>();
     private static GameStage instance;
 
+    /**
+     *
+     */
     private GameStage()
     {
-        final Character c = new Character(10,"wyvern_fire.png", "ballfire.png");
-        final Character c2 = new Character(10,"wyvern_water.png", "ballwater.png");
+        final Character c = new Character(10,"wyvernfire.png", "ballfire.png");
+        final Character c2 = new Character(10,"wyvernwater.png", "ballwater.png");
         heroesPlayer1.add(c);
         heroesPlayer2.add(c2);
         heroesPlayer1.get(0).setSelected(true);
