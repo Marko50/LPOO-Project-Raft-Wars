@@ -20,8 +20,8 @@ import Logic.Model.GameStage;
 public class GameStageController implements ContactListener {
     public final Body floor;
     private final World world;
-    //public final static float FIELD_HEIGHT = 50;
-    //public final static float FIELD_WIDTH = 50;
+    public final static float FIELD_WIDTH = 15;
+    public final static float FIELD_HEIGHT = 25;
 
     private static GameStageController instance;
     private ArrayList<CharacterBody> bodiesPlayer1 = new ArrayList<CharacterBody>();
@@ -60,7 +60,7 @@ public class GameStageController implements ContactListener {
         return instance;
     }
 
-    public void shootPlayerAmmo(int x, int y) {
+    public void shootPlayerAmmo(float x, float y) {
         int c = GameStage.getInstance().getSelectedCharacter();
         if (GameStage.getInstance().getPlayerTurn() == 1) {
            // System.out.println("SHOOT PLEAYER 1");
@@ -69,7 +69,7 @@ public class GameStageController implements ContactListener {
         }
         else if (GameStage.getInstance().getPlayerTurn() == 2) {
           //  System.out.println("SHOOT PLEAYER 2");
-            this.getBodiesPlayer2().get(c).shootAmmo(-x, y);
+            this.getBodiesPlayer2().get(c).shootAmmo(x, y);
             GameStage.getInstance().getHeroesPlayer2().get(c).getAmmo().setBeingUsed(true);
         }
     }

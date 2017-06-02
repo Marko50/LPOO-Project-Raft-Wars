@@ -45,10 +45,10 @@ public class CharacterBody extends EntityBody {
         }
     }
 
-    public void shootAmmo(int x, int y)
+    public void shootAmmo(float x, float y)
     {
         this.ammoBody.getBody().setActive(true);
-        this.ammoBody.getBody().applyForceToCenter(5f, 0f, true);
+        this.ammoBody.getBody().applyForceToCenter(x, y, true);
     }
 
     public AmmoBody getAmmoBody() {
