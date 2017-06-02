@@ -21,6 +21,7 @@ public class GameStage{
     {
         final Character c = new Character(10,"wyvernfire.png", "ballfire.png");
         final Character c2 = new Character(10,"wyvernwater.png", "ballwater.png");
+        //final Character c3 = new Character(5, "", "");
         heroesPlayer1.add(c);
         heroesPlayer2.add(c2);
         heroesPlayer1.get(0).setSelected(true);
@@ -142,5 +143,25 @@ public class GameStage{
 
     public void setPlayerTurn(int playerTurn) {
         this.playerTurn = playerTurn;
+    }
+
+    public void ammoHitPlayer(Ammo ammo, Character character) {
+        if (playerTurn == 1) {
+            for (int i = 0; i < this.getHeroesPlayer1().size(); i++) {
+                if (ammo.equals(this.getHeroesPlayer1().get(i).getAmmo())) {
+                    ammo.hitPlayer(character);
+                    return;
+                }
+            }
+        }
+        if (playerTurn == 2) {
+            for (int i = 0; i < this.getHeroesPlayer2().size(); i++) {
+                if (ammo.equals(this.getHeroesPlayer2().get(i).getAmmo())) {
+                    ammo.hitPlayer(character);
+                    return;
+                }
+            }
+        }
+
     }
 }

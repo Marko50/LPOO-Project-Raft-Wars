@@ -23,8 +23,8 @@ public class AmmoView extends EntityView {
 
     @Override
     public void setSprite(String filename,int c, int r) {
-        Game.getInstance().getAssetManager().load(filename, Texture.class);
-        Game.getInstance().getAssetManager().finishLoading();
+       // Game.getInstance().getAssetManager().load(filename, Texture.class);
+       // Game.getInstance().getAssetManager().finishLoading();
         Texture t =  Game.getInstance().getAssetManager().get(filename);
         TextureRegion textureRegion = new TextureRegion(t);
         sprite = new Sprite(textureRegion);

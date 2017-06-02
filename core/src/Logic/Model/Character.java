@@ -2,6 +2,7 @@ package Logic.Model;
 
 
 import Logic.Body.EntityBody;
+import Logic.Body.GameStageController;
 
 /**
  * Created by André on 21-04-2017.
@@ -15,6 +16,7 @@ public class Character extends Entity{
     private boolean active;
     private int hp;
     private int armor;
+    boolean hit;
 
     public Character(int ar, String f, String f2){
         super(f);
@@ -23,10 +25,12 @@ public class Character extends Entity{
         this.active = true;
         this.hp = 100;
         this.ammo = new SimpleBall(f2);
+        this.hit = false;
     }
 
     @Override
     public void update(EntityBody e){
+        //System.out.println("HPESIUS: " + hp);
         if(hp <= 0)
         {
             active = false;
@@ -35,8 +39,12 @@ public class Character extends Entity{
         else{
             active = true;
         }
-        if(e.getBody().getLinearVelocity().x <= FINISHED_MOVEMENT_VELOCITY_X && Math.abs(e.getBody().getLinearVelocity().y) <= FINISHED_MOVEMENT_VELOCITY_Y){
+        if(e.getBody().getLinearVelocity().x <= FINISHED_MOVEMENT_VELOCITY_X && Math.abs(e.getBody().getLinearVelocity().y) <= FINISHED_MOVEMENT_VELOCITY_Y || e.getBody().getPosition().x < 0 || e.getBody().getPosition().x  > GameStageController.FIELD_WIDTH ||  e.getBody().getPosition().y  > GameStageController.FIELD_HEIGHT){
             this.setBeingUsed(false);
+        }
+
+        else{
+            this.setBeingUsed(true);
         }
     }
 
@@ -80,6 +88,14 @@ public class Character extends Entity{
 
     public void setAmmo(Ammo ammo) {
         this.ammo = ammo;
+    }
+
+    public boolean isHit() {
+        return hit;
+    }
+
+    public void setHit(boolean hit) {
+        this.hit = hit;
     }
 
 }

@@ -12,13 +12,13 @@ import Logic.View.GameStageView;
 
 public class CharacterBody extends EntityBody {
     private AmmoBody ammoBody;
-    public CharacterBody(int x,int y,int ax,int ay, World world) {
-        super(x,y, world);
-        this.ammoBody = new AmmoBody(ax,ay, world);
+    public CharacterBody(int x,int y,int ax,int ay, World world, Entity e1, Entity e2) {
+        super(x,y, world, e1);
+        this.ammoBody = new AmmoBody(ax,ay, world, e2);
     }
 
     @Override
-    public void setBody(int x, int y, World world) {
+    public void setBody(int x, int y, World world, Entity e) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.linearVelocity.set(0f,0f);
@@ -34,6 +34,7 @@ public class CharacterBody extends EntityBody {
         fixtureDef.restitution =  .5f; // how bouncy is the character
         // Attach fixture to body
         body.createFixture(fixtureDef);
+        body.setUserData(e);
         circle.dispose();
     }
 
