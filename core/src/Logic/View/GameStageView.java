@@ -61,7 +61,11 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         }
         for (int i = 0; i < GameStageController.getInstance().getBodiesPlayer2().size(); i++) {
             String ammoFilename = GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo().getFilename();
+<<<<<<< HEAD
             heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(),8, 1, ammoFilename));
+=======
+            heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(), 8, 1, ammoFilename));
+>>>>>>> 69036aff5a698c09468f44d5a8a8915b7dccff62
         }
 
         loadAssets();
@@ -73,6 +77,18 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         OrthographicCamera camera = new OrthographicCamera(MIN_HEIGHT*2 , MIN_HEIGHT*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
         camera.update();
         debugRenderer = new Box2DDebugRenderer();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        camera.zoom = .5f;
+        camera.position.set(heroesPlayer1.get(c).getAmmoView().getSprite().getX() + 80,heroesPlayer1.get(c).getAmmoView().getSprite().getY()+ 35,0);
+        camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().y + 90,0);
+=======
+        //camera.zoom = .5f;
+       // camera.position.set(heroesPlayer1.get(c).getAmmoView().getSprite().getX() + 80,heroesPlayer1.get(c).getAmmoView().getSprite().getY()+ 35,0);
+        // camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().y + 90,0);
+>>>>>>> 4762bebd410f9b999ec2e94e5d7b7becfc557fd7
+>>>>>>> 69036aff5a698c09468f44d5a8a8915b7dccff62
         return camera;
     }
 
@@ -85,7 +101,11 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         Game.getInstance().getBatch().setProjectionMatrix(camera.combined);
         debugMatrix = Game.getInstance().getBatch().getProjectionMatrix().cpy().scale(PIXEL_TO_METER, PIXEL_TO_METER, 0);
         Game.getInstance().getBatch().begin();
+<<<<<<< HEAD
+        Game.getInstance().getBatch().draw(backImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+=======
         Game.getInstance().getBatch().draw(backImage, 0, 0, VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
+>>>>>>> 4762bebd410f9b999ec2e94e5d7b7becfc557fd7
         for (int i = 0; i < heroesPlayer1.size(); i++) {
             if(GameStage.getInstance().getHeroesPlayer1().get(i).isActive()) {
                 heroesPlayer1.get(i).getSprite().flip(true, false);

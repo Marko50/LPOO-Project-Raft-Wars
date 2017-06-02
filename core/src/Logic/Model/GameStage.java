@@ -17,11 +17,20 @@ public class GameStage{
     private ArrayList<Character> heroesPlayer2 = new ArrayList<Character>();
     private static GameStage instance;
 
+    /**
+     *
+     */
     private GameStage()
     {
+<<<<<<< HEAD
         final Character c = new Character(10,"wyvern_fire.png", "ballfire.png");
         final Character c2 = new Character(10,"wyvern_water.png", "ballwater.png");
         //final Character c3 = new Character(10, "reviveddragon.png", "ballfire.png");
+=======
+        final Character c = new Character(10,"wyvernfire.png", "ballfire.png");
+        final Character c2 = new Character(10,"wyvernwater.png", "ballwater.png");
+        //final Character c3 = new Character(5, "", "");
+>>>>>>> 69036aff5a698c09468f44d5a8a8915b7dccff62
         heroesPlayer1.add(c);
         //heroesPlayer1.add(c3);
         heroesPlayer2.add(c2);
