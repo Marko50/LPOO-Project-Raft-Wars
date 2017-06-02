@@ -12,15 +12,15 @@ import Logic.Model.Entity;
 public abstract class EntityBody{
     protected Body body;
     protected int originX, originY;
-    public EntityBody(int x, int y, World world){
-        setBody(x, y, world);
+    public EntityBody(int x, int y, World world, Entity e){
+        setBody(x, y, world, e);
         this.originX = x;
         this.originY = y;
     }
 
     public Body getBody(){return body;}
 
-    public abstract void setBody(int x, int y, World world);
+    public abstract void setBody(int x, int y, World world, Entity e);
 
     public  abstract void update(Entity e);
 

@@ -12,14 +12,14 @@ import Logic.View.GameStageView;
  */
 
 public class AmmoBody extends EntityBody {
-    public AmmoBody(int x, int y, World world) {
-        super(x,y,world);
+    public AmmoBody(int x, int y, World world, Entity e) {
+        super(x,y,world,e);
     }
 
 
 
     @Override
-    public void setBody(int x, int y , World world) {
+    public void setBody(int x, int y , World world,Entity e) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.linearVelocity.set(0f,0f);
@@ -37,6 +37,7 @@ public class AmmoBody extends EntityBody {
         body.createFixture(fixtureDef);
         body.setBullet(true);
         body.setActive(false);
+        body.setUserData(e);
         circle.dispose();
     }
 
