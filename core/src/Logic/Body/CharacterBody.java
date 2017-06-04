@@ -41,7 +41,10 @@ public class CharacterBody extends EntityBody {
     @Override
     public void update(Entity e) {
         //System.out.println("BodyX: " + body.getPosition().x+ " BodyY: " + body.getPosition().y);
-        if(e.isBeingUsed() == false){
+        if(e.isActive() == false){
+            body.setActive(false);
+        }
+        else if(e.isBeingUsed() == false){
             body.setTransform(originX, originY, body.getAngle());
             body.setLinearVelocity(0,0);
         }

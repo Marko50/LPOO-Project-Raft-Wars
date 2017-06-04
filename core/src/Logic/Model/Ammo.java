@@ -9,13 +9,11 @@ import Logic.Body.GameStageController;
 
 public abstract class Ammo extends Entity{
     protected int damage;
-    protected  float actionLength;
 
 
-    public Ammo(int d, float al, String f){
+    public Ammo(int d, String f){
         super(f);
         this.damage = d;
-        this.actionLength = al;
     }
 
     public void hitPlayer(Character c){
@@ -45,15 +43,6 @@ public abstract class Ammo extends Entity{
             beingUsed= true;
         }
 
-    }
-
-
-    public float getActionLength() {
-        return actionLength;
-    }
-
-    public void setActionLength(float actionLength) {
-        this.actionLength = actionLength;
     }
 
     public int getDamage() {

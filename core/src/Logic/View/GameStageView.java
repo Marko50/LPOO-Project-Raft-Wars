@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import Logic.Body.GameStageController;
 import Logic.Model.Game;
 import Logic.Model.GameStage;
+import Logic.Model.SecondMap;
+import Logic.Model.ThirdMap;
 
 /**
  * Created by André on 30-04-2017.
@@ -30,7 +32,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
     public static final float PIXEL_TO_METER = 50f;
     public static float VIEWPORT_WIDTH;
     public static float VIEWPORT_HEIGHT;
-    private final OrthographicCamera camera;
+    private OrthographicCamera camera;
     public int c;
     private static final float MIN_HEIGHT = 87.5f;
     private static final float MIN_WIDTH = 87.5f;
@@ -40,8 +42,8 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         Game.getInstance().getAssetManager().load("background2.png", Texture.class);
         Game.getInstance().getAssetManager().load("background3.png", Texture.class);
         Game.getInstance().getAssetManager().load("reviveddragon.png", Texture.class);
-        Game.getInstance().getAssetManager().load("wyvern_fire.png", Texture.class);
-        Game.getInstance().getAssetManager().load("wyvern_water.png", Texture.class);
+        Game.getInstance().getAssetManager().load("wyvernfire.png", Texture.class);
+        Game.getInstance().getAssetManager().load("wyvernwater.png", Texture.class);
         Game.getInstance().getAssetManager().load("ballwater.png", Texture.class);
         Game.getInstance().getAssetManager().load("ballfire.png", Texture.class);
         Game.getInstance().getAssetManager().finishLoading();
@@ -61,11 +63,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         }
         for (int i = 0; i < GameStageController.getInstance().getBodiesPlayer2().size(); i++) {
             String ammoFilename = GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo().getFilename();
-<<<<<<< HEAD
             heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(),8, 1, ammoFilename));
-=======
-            heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(), 8, 1, ammoFilename));
->>>>>>> 69036aff5a698c09468f44d5a8a8915b7dccff62
         }
 
         loadAssets();
@@ -75,21 +73,70 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
 
     OrthographicCamera createCamera() {
         OrthographicCamera camera = new OrthographicCamera(MIN_HEIGHT*2 , MIN_HEIGHT*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
+        //OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH*2 , VIEWPORT_WIDTH*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
         camera.update();
         debugRenderer = new Box2DDebugRenderer();
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        camera.zoom = .5f;
-        camera.position.set(heroesPlayer1.get(c).getAmmoView().getSprite().getX() + 80,heroesPlayer1.get(c).getAmmoView().getSprite().getY()+ 35,0);
-        camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().y + 90,0);
-=======
-        //camera.zoom = .5f;
-       // camera.position.set(heroesPlayer1.get(c).getAmmoView().getSprite().getX() + 80,heroesPlayer1.get(c).getAmmoView().getSprite().getY()+ 35,0);
-        // camera.position.set(GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().x + 90,GameStageController.getInstance().getBodiesPlayer1().get(0).getBody().getPosition().y + 90,0);
->>>>>>> 4762bebd410f9b999ec2e94e5d7b7becfc557fd7
->>>>>>> 69036aff5a698c09468f44d5a8a8915b7dccff62
         return camera;
+    }
+
+    public void checkBackImage(){
+        if(GameStage.getInstance().isChangedLevel())
+        {
+            if(GameStage.getInstance().getGameLevel() instanceof SecondMap){
+                backImage = Game.getInstance().getAssetManager().get("background2.png");
+                VIEWPORT_WIDTH = backImage.getWidth();
+                VIEWPORT_HEIGHT = backImage.getHeight();
+            }
+            else if(GameStage.getInstance().getGameLevel() instanceof ThirdMap){
+                backImage = Game.getInstance().getAssetManager().get("background3.png");
+                VIEWPORT_WIDTH = backImage.getWidth();
+                VIEWPORT_HEIGHT = backImage.getHeight();
+            }
+            GameStageController.getInstance().reset();
+        }
+    }
+
+    public void drawScene(){
+        Game.getInstance().getBatch().draw(backImage, 0, 0, VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
+        for (int i = 0; i < heroesPlayer1.size(); i++) {
+            if(GameStage.getInstance().getHeroesPlayer1().get(i).isActive()) {
+                heroesPlayer1.get(i).getSprite().flip(true, false);
+                heroesPlayer1.get(i).draw(Game.getInstance().getBatch());
+            }
+        }
+        for (int i = 0; i < heroesPlayer2.size(); i++) {
+            if(GameStage.getInstance().getHeroesPlayer2().get(i).isActive()) {
+                heroesPlayer2.get(i).draw(Game.getInstance().getBatch());
+            }
+        }
+    }
+
+    public void posCamera(){
+        float yValue = 0;
+        float xValue = 0;
+        if(GameStage.getInstance().getPlayerTurn() == 1)
+        {
+            yValue = heroesPlayer1.get(c).getAmmoView().getSprite().getY();
+            xValue = heroesPlayer1.get(c).getAmmoView().getSprite().getX();
+        }
+        else if(GameStage.getInstance().getPlayerTurn() == 2)
+        {
+            yValue = heroesPlayer2.get(c).getAmmoView().getSprite().getY();
+            xValue = heroesPlayer2.get(c).getAmmoView().getSprite().getX();
+        }
+        if(yValue < MIN_HEIGHT) {
+            yValue = MIN_HEIGHT;
+        }
+        else if (yValue > VIEWPORT_HEIGHT - MIN_HEIGHT){
+            yValue = VIEWPORT_HEIGHT - MIN_HEIGHT;
+        }
+        if(xValue < MIN_WIDTH ){
+            xValue = MIN_WIDTH;
+        }
+        else if(xValue > VIEWPORT_WIDTH - MIN_WIDTH ){
+            xValue = VIEWPORT_WIDTH - MIN_WIDTH;
+        }
+        camera.position.set(xValue,yValue,0);
     }
 
     @Override
@@ -101,67 +148,14 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         Game.getInstance().getBatch().setProjectionMatrix(camera.combined);
         debugMatrix = Game.getInstance().getBatch().getProjectionMatrix().cpy().scale(PIXEL_TO_METER, PIXEL_TO_METER, 0);
         Game.getInstance().getBatch().begin();
-<<<<<<< HEAD
-        Game.getInstance().getBatch().draw(backImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-=======
-        Game.getInstance().getBatch().draw(backImage, 0, 0, VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
->>>>>>> 4762bebd410f9b999ec2e94e5d7b7becfc557fd7
-        for (int i = 0; i < heroesPlayer1.size(); i++) {
-            if(GameStage.getInstance().getHeroesPlayer1().get(i).isActive()) {
-                heroesPlayer1.get(i).getSprite().flip(true, false);
-                heroesPlayer1.get(i).draw(Game.getInstance().getBatch());
-            }
-
-        }
-        for (int i = 0; i < heroesPlayer2.size(); i++) {
-            if(GameStage.getInstance().getHeroesPlayer2().get(i).isActive()) {
-                heroesPlayer2.get(i).draw(Game.getInstance().getBatch());
-            }
-        }
+        this.drawScene();
         Game.getInstance().getBatch().end();
-        //debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
-        if(GameStage.getInstance().getPlayerTurn() == 1)
-        {
-            float yValue = heroesPlayer1.get(c).getAmmoView().getSprite().getY();
-            float xValue = heroesPlayer1.get(c).getAmmoView().getSprite().getX();
-            if(yValue < MIN_HEIGHT) {
-                yValue = MIN_HEIGHT;
-            }
-            else if (yValue > VIEWPORT_HEIGHT - MIN_HEIGHT){
-                yValue = VIEWPORT_HEIGHT - MIN_HEIGHT;
-            }
-            if(xValue < MIN_WIDTH ){
-                xValue = MIN_WIDTH;
-            }
-            else if(xValue > VIEWPORT_WIDTH - MIN_WIDTH ){
-                xValue = VIEWPORT_WIDTH - MIN_WIDTH;
-            }
-
-            camera.position.set(xValue,yValue,0);
-        }
-
-        else if(GameStage.getInstance().getPlayerTurn() == 2)
-        {
-            float yValue = heroesPlayer2.get(c).getAmmoView().getSprite().getY();
-            float xValue = heroesPlayer2.get(c).getAmmoView().getSprite().getX();
-            if(yValue < MIN_HEIGHT) {
-                yValue = MIN_HEIGHT;
-            }
-            else if (yValue > VIEWPORT_HEIGHT - MIN_HEIGHT){
-                yValue = VIEWPORT_HEIGHT - MIN_HEIGHT;
-            }
-            if(xValue < MIN_WIDTH ){
-                xValue = MIN_WIDTH;
-            }
-            else if(xValue > VIEWPORT_WIDTH - MIN_WIDTH ){
-                xValue = VIEWPORT_WIDTH - MIN_WIDTH;
-            }
-
-            camera.position.set(xValue,yValue,0);
-        }
+        this.posCamera();
+        debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
     }
 
     public void updateView(float delta) {
+        this.checkBackImage();
         GameStageController.getInstance().update();
         c = GameStage.getInstance().getSelectedCharacter();
         for (int i = 0; i < this.getHeroesPlayer1().size(); i++) {

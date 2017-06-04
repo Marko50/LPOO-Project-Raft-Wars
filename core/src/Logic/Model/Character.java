@@ -13,7 +13,6 @@ import Logic.Body.GameStageController;
 public class Character extends Entity{
     private Ammo ammo;
     private boolean selected;
-    private boolean active;
     private int hp;
     private int armor;
     boolean hit;
@@ -72,14 +71,6 @@ public class Character extends Entity{
 
     public void setHp(int hp) {
         this.hp = hp;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public Ammo getAmmo() {

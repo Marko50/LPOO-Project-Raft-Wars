@@ -13,6 +13,9 @@ public abstract class Entity {
     protected boolean beingUsed;
 
 
+    protected boolean active;
+
+
     public Entity(String f){
         this.filename = f;
         beingUsed = false;
@@ -35,6 +38,14 @@ public abstract class Entity {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 
