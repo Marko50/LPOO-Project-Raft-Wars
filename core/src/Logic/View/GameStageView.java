@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -23,6 +24,9 @@ import Logic.Model.ThirdMap;
  */
 
 public class GameStageView extends ScreenAdapter implements InputProcessor {
+    private BitmapFont player1Score;
+    private BitmapFont player2Score;
+    private Texture health;
     private Texture backImage;
     private ArrayList<CharacterView> heroesPlayer1 = new ArrayList<CharacterView>();
     private ArrayList<CharacterView> heroesPlayer2 = new ArrayList<CharacterView>();
@@ -38,6 +42,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
     private static final float MIN_WIDTH = 87.5f;
 
     public void loadAssets(){
+        Game.getInstance().getAssetManager().load("heart.png", Texture.class);
         Game.getInstance().getAssetManager().load("background1.jpg", Texture.class);
         Game.getInstance().getAssetManager().load("background2.png", Texture.class);
         Game.getInstance().getAssetManager().load("background3.png", Texture.class);
@@ -48,6 +53,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         Game.getInstance().getAssetManager().load("ballfire.png", Texture.class);
         Game.getInstance().getAssetManager().finishLoading();
         backImage = Game.getInstance().getAssetManager().get("background1.jpg");
+        health = Game.getInstance().getAssetManager().get("heart.png");
         VIEWPORT_WIDTH = backImage.getWidth();
         VIEWPORT_HEIGHT = backImage.getHeight();
     }
@@ -65,7 +71,8 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
             String ammoFilename = GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo().getFilename();
             heroesPlayer2.add(new CharacterView(GameStage.getInstance().getHeroesPlayer2().get(i).getFilename(),8, 1, ammoFilename));
         }
-
+        this.player1Score = new BitmapFont();
+        this.player2Score = new BitmapFont();
         loadAssets();
         camera = createCamera();
         Gdx.input.setInputProcessor(this);
@@ -96,19 +103,44 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         }
     }
 
-    public void drawScene(){
-        Game.getInstance().getBatch().draw(backImage, 0, 0, VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
+    public void drawHealthBar1(int i){
+        for(int c = 0; c < GameStage.getInstance().getHeroesPlayer1().get(i).getHp(); c++){
+            Game.getInstance().getBatch().draw(health, this.getHeroesPlayer1().get(i).getSprite().getX() + 10*c + this.getHeroesPlayer1().get(i).getSprite().getWidth()/2, this.getHeroesPlayer1().get(i).getSprite().getY() + this.getHeroesPlayer1().get(i).getSprite().getHeight(),10,10);
+        }
+    }
+
+    public void drawHealthBar2(int i){
+        for(int c = 0; c < GameStage.getInstance().getHeroesPlayer2().get(i).getHp(); c++){
+            Game.getInstance().getBatch().draw(health, this.getHeroesPlayer2().get(i).getSprite().getX() + 10*c + this.getHeroesPlayer2().get(i).getSprite().getWidth()/2, this.getHeroesPlayer2().get(i).getSprite().getY() + this.getHeroesPlayer2().get(i).getSprite().getHeight(),10,10);
+        }
+    }
+
+    public void drawPlayers(){
         for (int i = 0; i < heroesPlayer1.size(); i++) {
             if(GameStage.getInstance().getHeroesPlayer1().get(i).isActive()) {
+                this.drawHealthBar1(i);
                 heroesPlayer1.get(i).getSprite().flip(true, false);
                 heroesPlayer1.get(i).draw(Game.getInstance().getBatch());
             }
         }
         for (int i = 0; i < heroesPlayer2.size(); i++) {
             if(GameStage.getInstance().getHeroesPlayer2().get(i).isActive()) {
+                this.drawHealthBar2(i);
                 heroesPlayer2.get(i).draw(Game.getInstance().getBatch());
             }
         }
+    }
+
+    public void drawScene(){
+        Game.getInstance().getBatch().draw(backImage, 0, 0, VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
+        if(GameStage.getInstance().getPlayerTurn() == 1){
+            player1Score.draw(Game.getInstance().getBatch(), "SCORE: " + Integer.toString(GameStage.getInstance().getPlayer1Score()), camera.position.x - camera.viewportHeight/2, camera.position.y + camera.viewportHeight/2);
+        }
+        else if(GameStage.getInstance().getPlayerTurn() == 2){
+            player2Score.draw(Game.getInstance().getBatch(), "SCORE: " + Integer.toString(GameStage.getInstance().getPlayer2Score()), camera.position.x - camera.viewportHeight/2, camera.position.y + camera.viewportHeight/2);
+        }
+        this.drawPlayers();
+
     }
 
     public void posCamera(){

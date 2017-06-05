@@ -12,6 +12,8 @@ import Logic.View.MenuView;
  */
 public class GameStage{
     private int playerTurn;
+    private int player1Score;
+    private int player2Score;
     private GameLevel gameLevel;
     private ArrayList<Character> heroesPlayer1 = new ArrayList<Character>();
     private ArrayList<Character> heroesPlayer2 = new ArrayList<Character>();
@@ -19,10 +21,12 @@ public class GameStage{
     private boolean changedLevel;
     private GameStage()
     {
-        final Character c = new Character(10,"wyvernfire.png", "ballfire.png");
-        final Character c2 = new Character(10,"wyvernwater.png", "ballwater.png");
-        final Character c3 = new Character(10,"wyvernfire.png", "ballfire.png");
-        final Character c4 = new Character(10,"wyvernwater.png", "ballwater.png");
+        player1Score = 0;
+        player2Score = 0;
+        final Character c = new Character("wyvernfire.png", "ballfire.png");
+        final Character c2 = new Character("wyvernwater.png", "ballwater.png");
+        final Character c3 = new Character("wyvernfire.png", "ballfire.png");
+        final Character c4 = new Character("wyvernwater.png", "ballwater.png");
         heroesPlayer1.add(c);
         heroesPlayer1.add(c3);
         heroesPlayer2.add(c2);
@@ -62,12 +66,12 @@ public class GameStage{
     public void resetGame(){
         this.playerTurn = 1;
         for(int i = 0; i < this.heroesPlayer1.size(); i++){
-            heroesPlayer1.get(i).setHp(100);
+            heroesPlayer1.get(i).setHp(3);
             heroesPlayer1.get(i).getAmmo().setBeingUsed(false);
             heroesPlayer1.get(i).setActive(true);
         }
         for(int i = 0; i < this.heroesPlayer2.size(); i++){
-            heroesPlayer2.get(i).setHp(100);
+            heroesPlayer2.get(i).setHp(3);
             heroesPlayer2.get(i).getAmmo().setBeingUsed(false);
             heroesPlayer2.get(i).setActive(true);
         }
@@ -76,12 +80,26 @@ public class GameStage{
     public void update(){
         if(this.isChangedLevel())
             this.changedLevel = false;
-        if(checkVictoryPlayer1() || checkVictoryPlayer2()){
+        if(checkVictoryPlayer1()){
+            this.setPlayer1Score(this.getPlayer1Score() + 1);
+            if(this.gameLevel instanceof ThirdMap)
+            {
+                this.setPlayer1Score(0);
+                this.setPlayer2Score(0);
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuView());
+            }
+            // System.out.println("NEXT LEVEL");
+            this.setChangedLevel(true);
+            gameLevel = gameLevel.nextLevel();
+            resetGame();
+        }
+        else if (checkVictoryPlayer2()){
+            this.setPlayer2Score(this.getPlayer2Score() + 1);
             if(this.gameLevel instanceof ThirdMap)
             {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuView());
             }
-           // System.out.println("NEXT LEVEL");
+            // System.out.println("NEXT LEVEL");
             this.setChangedLevel(true);
             gameLevel = gameLevel.nextLevel();
             resetGame();
@@ -211,4 +229,19 @@ public class GameStage{
         this.gameLevel = gameLevel;
     }
 
+    public int getPlayer1Score() {
+        return player1Score;
+    }
+
+    public void setPlayer1Score(int player1Score) {
+        this.player1Score = player1Score;
+    }
+
+    public int getPlayer2Score() {
+        return player2Score;
+    }
+
+    public void setPlayer2Score(int player2Score) {
+        this.player2Score = player2Score;
+    }
 }

@@ -55,10 +55,10 @@ public class GameStageController implements ContactListener {
         floor.createFixture(fixtureDef);
         rectangle.dispose();
         for (int i = 0; i < GameStage.getInstance().getHeroesPlayer1().size(); i++) {
-            bodiesPlayer1.add(new CharacterBody(1+i,1,2+i,2,world, GameStage.getInstance().getHeroesPlayer1().get(i), GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo()));
+            bodiesPlayer1.add(new CharacterBody(1+i,0.9f,2+i,2,world, GameStage.getInstance().getHeroesPlayer1().get(i), GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo()));
         }
         for (int i = 0; i < GameStage.getInstance().getHeroesPlayer2().size(); i++) {
-            bodiesPlayer2.add(new CharacterBody(FIELD_WIDTH - 1 - i , 1, FIELD_WIDTH - 2 - i, 2, world, GameStage.getInstance().getHeroesPlayer2().get(i), GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo()));
+            bodiesPlayer2.add(new CharacterBody(FIELD_WIDTH - 1 - i , 0.9f, FIELD_WIDTH - 2 - i, 2, world, GameStage.getInstance().getHeroesPlayer2().get(i), GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo()));
         }
     }
 
@@ -87,9 +87,9 @@ public class GameStageController implements ContactListener {
         FIELD_HEIGHT = GameStageView.VIEWPORT_HEIGHT / GameStageView.PIXEL_TO_METER;
         for(int i = 0; i < this.getBodiesPlayer1().size(); i++){
             this.getBodiesPlayer1().get(i).getBody().setActive(true);
-            this.getBodiesPlayer1().get(i).getBody().setTransform(1+i,1, this.getBodiesPlayer1().get(i).getBody().getAngle());
+            this.getBodiesPlayer1().get(i).getBody().setTransform(1+i,0.9f, this.getBodiesPlayer1().get(i).getBody().getAngle());
             this.getBodiesPlayer1().get(i).setOriginX(1+i);
-            this.getBodiesPlayer1().get(i).setOriginY(1);
+            this.getBodiesPlayer1().get(i).setOriginY(0.9f);
             this.getBodiesPlayer1().get(i).getAmmoBody().getBody().setActive(false);
             this.getBodiesPlayer1().get(i).getAmmoBody().getBody().setTransform(2+i,2,this.getBodiesPlayer1().get(i).getAmmoBody().getBody().getAngle());
             this.getBodiesPlayer1().get(i).getAmmoBody().setOriginX(2+i);
@@ -97,9 +97,9 @@ public class GameStageController implements ContactListener {
         }
         for(int i = 0; i < this.getBodiesPlayer2().size(); i++){
             this.getBodiesPlayer2().get(i).getBody().setActive(true);
-            this.getBodiesPlayer2().get(i).getBody().setTransform(FIELD_WIDTH - 1 - i , 1,0);
+            this.getBodiesPlayer2().get(i).getBody().setTransform(FIELD_WIDTH - 1 - i ,0.9f,0);
             this.getBodiesPlayer2().get(i).setOriginX(FIELD_WIDTH - 1 - i);
-            this.getBodiesPlayer2().get(i).setOriginY(1);
+            this.getBodiesPlayer2().get(i).setOriginY(0.9f);
             this.getBodiesPlayer2().get(i).getAmmoBody().getBody().setActive(false);
             this.getBodiesPlayer2().get(i).getAmmoBody().getBody().setTransform(FIELD_WIDTH - 2 - i, 2,this.getBodiesPlayer2().get(i).getAmmoBody().getBody().getAngle());
             this.getBodiesPlayer2().get(i).getAmmoBody().setOriginX(FIELD_WIDTH - 2 - i);

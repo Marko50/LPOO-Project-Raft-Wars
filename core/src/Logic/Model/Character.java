@@ -14,15 +14,13 @@ public class Character extends Entity{
     private Ammo ammo;
     private boolean selected;
     private int hp;
-    private int armor;
     boolean hit;
 
-    public Character(int ar, String f, String f2){
+    public Character(String f, String f2){
         super(f);
         this.selected = false;
-        this.armor = ar;
         this.active = true;
-        this.hp = 100;
+        this.hp = 3;
         this.ammo = new SimpleBall(f2);
         this.hit = false;
     }
@@ -47,22 +45,12 @@ public class Character extends Entity{
         }
     }
 
-    public void attacked(int dmg){this.hp = this.hp - (dmg - armor);}
-
     public boolean isSelected() {
         return selected;
     }
 
     public void setSelected(boolean selected) {
         this.selected = selected;
-    }
-
-    public int getArmor() {
-        return armor;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
     }
 
     public int getHp() {

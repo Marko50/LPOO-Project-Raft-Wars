@@ -16,8 +16,9 @@ public abstract class Ammo extends Entity{
         this.damage = d;
     }
 
-    public void hitPlayer(Character c){
-        c.setHp(c.getHp() - (this.damage - c.getArmor()));
+    public void hitPlayer(Character c)
+    {
+        c.setHp(c.getHp() - this.damage);
     }
 
 
