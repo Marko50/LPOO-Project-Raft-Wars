@@ -29,18 +29,12 @@ public abstract class Ammo extends Entity{
         vy = body.getBody().getLinearVelocity().y;
         posX = body.getBody().getPosition().x;
         posY = body.getBody().getPosition().y;
-       // System.out.println("VX: " + vx + "  VY: "+ vy);
         if(((Math.abs(vx) <=  FINISHED_MOVEMENT_VELOCITY_X) && (Math.abs(vy) <= FINISHED_MOVEMENT_VELOCITY_Y) || posX < 0 || posX > GameStageController.FIELD_WIDTH || posY > GameStageController.FIELD_HEIGHT) && beingUsed == true) {
-           // System.out.println("BALL HAS STOPPED MOVING");
             beingUsed = false;
-            if(GameStage.getInstance().getPlayerTurn() == 1)
-                GameStage.getInstance().setPlayerTurn(2);
-            else if(GameStage.getInstance().getPlayerTurn() == 2)
-                GameStage.getInstance().setPlayerTurn(1);
+            GameStage.getInstance().changeTurn();
         }
         else if((!((Math.abs(vx) <=  FINISHED_MOVEMENT_VELOCITY_X) && (Math.abs(vy) <= FINISHED_MOVEMENT_VELOCITY_Y) || posX < 0 || posX > GameStageController.FIELD_WIDTH || posY > GameStageController.FIELD_HEIGHT)) && beingUsed == false)
         {
-           // System.out.println("BALL HAS NOT STOPPED MOVING");
             beingUsed= true;
         }
 

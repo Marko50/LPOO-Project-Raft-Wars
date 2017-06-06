@@ -31,10 +31,9 @@ public class GameStage{
         heroesPlayer1.add(c3);
         heroesPlayer2.add(c2);
         heroesPlayer2.add(c4);
-        heroesPlayer1.get(0).setSelected(true);
-        heroesPlayer2.get(0).setSelected(true);
+        heroesPlayer1.get(heroesPlayer1.size()-1).setSelected(true);
+        heroesPlayer2.get(heroesPlayer2.size()-1).setSelected(true);
         this.playerTurn = 1;
-        this.chooseSelected();
         changedLevel = false;
         gameLevel = new FirstMap();
     }
@@ -43,6 +42,13 @@ public class GameStage{
         if (instance == null)
             instance = new GameStage();
         return instance;
+    }
+
+    public void changeTurn(){
+        if(this.getPlayerTurn() == 1)
+            this.setPlayerTurn(2);
+        else if(this.getPlayerTurn() == 2)
+            this.setPlayerTurn(1);
     }
 
     public boolean checkVictoryPlayer1(){
@@ -69,12 +75,15 @@ public class GameStage{
             heroesPlayer1.get(i).setHp(3);
             heroesPlayer1.get(i).getAmmo().setBeingUsed(false);
             heroesPlayer1.get(i).setActive(true);
+            heroesPlayer1.get(i).setSelected(false);
         }
         for(int i = 0; i < this.heroesPlayer2.size(); i++){
             heroesPlayer2.get(i).setHp(3);
             heroesPlayer2.get(i).getAmmo().setBeingUsed(false);
             heroesPlayer2.get(i).setActive(true);
+            heroesPlayer2.get(i).setSelected(false);
         }
+        chooseSelected();
     }
 
     public void update(){
@@ -88,7 +97,6 @@ public class GameStage{
                 this.setPlayer2Score(0);
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuView());
             }
-            // System.out.println("NEXT LEVEL");
             this.setChangedLevel(true);
             gameLevel = gameLevel.nextLevel();
             resetGame();
@@ -97,45 +105,60 @@ public class GameStage{
             this.setPlayer2Score(this.getPlayer2Score() + 1);
             if(this.gameLevel instanceof ThirdMap)
             {
+                this.setPlayer1Score(0);
+                this.setPlayer2Score(0);
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuView());
             }
-            // System.out.println("NEXT LEVEL");
             this.setChangedLevel(true);
             gameLevel = gameLevel.nextLevel();
             resetGame();
         }
         for(int i = 0; i < this.getHeroesPlayer1().size(); i++){
-            this.getHeroesPlayer1().get(i).update(GameStageController.getInstance().getBodiesPlayer1().get(i));
             this.getHeroesPlayer1().get(i).getAmmo().update(GameStageController.getInstance().getBodiesPlayer1().get(i).getAmmoBody());
+            this.getHeroesPlayer1().get(i).update(GameStageController.getInstance().getBodiesPlayer1().get(i));
         }
         for(int i = 0; i < this.getHeroesPlayer2().size(); i++){
-            this.getHeroesPlayer2().get(i).update(GameStageController.getInstance().getBodiesPlayer2().get(i));
             this.getHeroesPlayer2().get(i).getAmmo().update(GameStageController.getInstance().getBodiesPlayer2().get(i).getAmmoBody());
+            this.getHeroesPlayer2().get(i).update(GameStageController.getInstance().getBodiesPlayer2().get(i));
         }
-        this.chooseSelected();
     }
-
-    public void chooseSelected(){
-        if(playerTurn == 1){
-         //   System.out.println("PLAYER TURN 1 CHOOSE SELECTED!");
-            for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
-            {
-                if(this.getHeroesPlayer1().get(i).isActive())
-                {
-               //     System.out.println("Player turn 1 ACTIVE");
+    public void chooseSelected() {
+        for (int i = this.getHeroesPlayer1().size() - 1; i >= 0; i--) {
+            if (this.getHeroesPlayer1().get(i).isActive()) {
+                this.getHeroesPlayer1().get(i).setSelected(true);
+                break;
+            }
+        }
+        for (int i = this.getHeroesPlayer2().size() - 1; i >= 0; i--) {
+            if (this.getHeroesPlayer2().get(i).isActive()) {
+                this.getHeroesPlayer2().get(i).setSelected(true);
+                break;
+            }
+        }
+    }
+    public void changeSelected(int c){
+        if(playerTurn == 1)
+        {
+            this.getHeroesPlayer1().get(c).setSelected(false);
+            if(c == 0)
+                c = this.getHeroesPlayer1().size();
+            for (int i = c - 1; i >= 0; i--) {
+                if (this.getHeroesPlayer1().get(i).isActive()) {
                     this.getHeroesPlayer1().get(i).setSelected(true);
+                    c = i;
                     break;
                 }
             }
         }
-        else if(playerTurn == 2){
-         //   System.out.println("PLAYER TURN 2 CHOOSE SELECTED!");
-            for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
-            {
-                if(this.getHeroesPlayer2().get(i).isActive())
-                {
-           //         System.out.println("Player turn 2 ACTIVE");
+        else if(playerTurn == 2)
+        {
+            this.getHeroesPlayer2().get(c).setSelected(false);
+            if(c == 0)
+                c = this.getHeroesPlayer2().size();
+            for (int i = c - 1; i >= 0; i--) {
+                if (this.getHeroesPlayer2().get(i).isActive()) {
                     this.getHeroesPlayer2().get(i).setSelected(true);
+                    c = i;
                     break;
                 }
             }
@@ -143,28 +166,19 @@ public class GameStage{
     }
     public int getSelectedCharacter(){
         if(playerTurn == 1){
-          //  System.out.println("GET SELECTED PLAYER 1");
-            for(int i = 0; i < this.getHeroesPlayer1().size(); i++)
-            {
-                if(this.getHeroesPlayer1().get(i).isSelected())
-                {
-            //        System.out.println("PLAYER 1 IS SELECTED");
+            for(int i = 0; i < this.getHeroesPlayer1().size(); i++) {
+                if(this.getHeroesPlayer1().get(i).isSelected()) {
                     return i;
                 }
             }
         }
         else if(playerTurn == 2){
-         //   System.out.println("GET SELECTED PLAYER 2");
-            for(int i = 0; i < this.getHeroesPlayer2().size(); i++)
-            {
-                if(this.getHeroesPlayer2().get(i).isSelected())
-                {
-             //       System.out.println("PLAYER 2 IS SELECTED");
+            for(int i = 0; i < this.getHeroesPlayer2().size(); i++) {
+                if(this.getHeroesPlayer2().get(i).isSelected()) {
                     return i;
                 }
             }
         }
-
         return 0;
     }
 
@@ -191,26 +205,6 @@ public class GameStage{
 
     public void setPlayerTurn(int playerTurn) {
         this.playerTurn = playerTurn;
-    }
-
-    public void ammoHitPlayer(Ammo ammo, Character character) {
-        if (playerTurn == 1) {
-            for (int i = 0; i < this.getHeroesPlayer1().size(); i++) {
-                if (ammo.equals(this.getHeroesPlayer1().get(i).getAmmo())) {
-                    ammo.hitPlayer(character);
-                    return;
-                }
-            }
-        }
-        if (playerTurn == 2) {
-            for (int i = 0; i < this.getHeroesPlayer2().size(); i++) {
-                if (ammo.equals(this.getHeroesPlayer2().get(i).getAmmo())) {
-                    ammo.hitPlayer(character);
-                    return;
-                }
-            }
-        }
-
     }
 
     public boolean isChangedLevel() {

@@ -71,14 +71,10 @@ public class GameStageController implements ContactListener {
     public void shootPlayerAmmo(float x, float y) {
         int c = GameStage.getInstance().getSelectedCharacter();
         if (GameStage.getInstance().getPlayerTurn() == 1) {
-           // System.out.println("SHOOT PLEAYER 1");
             this.getBodiesPlayer1().get(c).shootAmmo(x, y);
-            GameStage.getInstance().getHeroesPlayer1().get(c).getAmmo().setBeingUsed(true);
         }
         else if (GameStage.getInstance().getPlayerTurn() == 2) {
-          //  System.out.println("SHOOT PLEAYER 2");
             this.getBodiesPlayer2().get(c).shootAmmo(x, y);
-            GameStage.getInstance().getHeroesPlayer2().get(c).getAmmo().setBeingUsed(true);
         }
     }
 
@@ -113,12 +109,10 @@ public class GameStageController implements ContactListener {
         for (int i = 0; i < bodiesPlayer1.size(); i++) {
             bodiesPlayer1.get(i).update(GameStage.getInstance().getHeroesPlayer1().get(i));
             bodiesPlayer1.get(i).getAmmoBody().update(GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo());
-            //  System.out.println("PLAYER1: BALL VX: " + bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().x + " BALL VY: " +  bodiesPlayer1.get(i).getAmmoBody().getBody().getLinearVelocity().y);
         }
         for (int i = 0; i < bodiesPlayer2.size(); i++) {
             bodiesPlayer2.get(i).update(GameStage.getInstance().getHeroesPlayer2().get(i));
             bodiesPlayer2.get(i).getAmmoBody().update(GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo());
-            //   System.out.println("PLAYER2: BALL VX: " + bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().x + "  BALL VY: " +  bodiesPlayer2.get(i).getAmmoBody().getBody().getLinearVelocity().y);
         }
 
     }
@@ -133,12 +127,10 @@ public class GameStageController implements ContactListener {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
         if (bodyA.getUserData() instanceof Ammo && bodyB.getUserData() instanceof Character){
-           // System.out.println("OH MY GOD!\n");
-            GameStage.getInstance().ammoHitPlayer((Ammo) bodyA.getUserData(), (Character) bodyB.getUserData());
+            ((Ammo) bodyA.getUserData()).hitPlayer((Character) bodyB.getUserData());
         }
         if (bodyA.getUserData() instanceof Character && bodyB.getUserData() instanceof Ammo){
-           // System.out.println("OH MY GOD2!\n");
-            GameStage.getInstance().ammoHitPlayer((Ammo) bodyB.getUserData(), (Character) bodyA.getUserData());
+            ((Ammo) bodyB.getUserData()).hitPlayer((Character) bodyA.getUserData());
         }
 
     }

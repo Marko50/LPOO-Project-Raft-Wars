@@ -1,6 +1,7 @@
 package Logic.View;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,11 +20,13 @@ import Logic.Model.GameStage;
 import Logic.Model.SecondMap;
 import Logic.Model.ThirdMap;
 
+
 /**
  * Created by André on 30-04-2017.
  */
 
-public class GameStageView extends ScreenAdapter implements InputProcessor {
+public class GameStageView extends ScreenAdapter implements InputProcessor{
+    public boolean gyroscopeAvail;
     private BitmapFont player1Score;
     private BitmapFont player2Score;
     private Texture health;
@@ -62,7 +65,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         c = 0;
         loadAssets();
         lastTouch = new Vector2();
-
+        gyroscopeAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Gyroscope);
         for (int i = 0; i < GameStageController.getInstance().getBodiesPlayer1().size(); i++) {
             String ammoFilename = GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo().getFilename();
             heroesPlayer1.add(new CharacterView(GameStage.getInstance().getHeroesPlayer1().get(i).getFilename(), 8, 1, ammoFilename));
@@ -79,7 +82,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
     }
 
     OrthographicCamera createCamera() {
-        OrthographicCamera camera = new OrthographicCamera(MIN_HEIGHT*2 , MIN_HEIGHT*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
+        OrthographicCamera camera = new OrthographicCamera(MIN_WIDTH*2 , MIN_WIDTH*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
         //OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH*2 , VIEWPORT_WIDTH*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
         camera.update();
         debugRenderer = new Box2DDebugRenderer();
@@ -140,12 +143,29 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
             player2Score.draw(Game.getInstance().getBatch(), "SCORE: " + Integer.toString(GameStage.getInstance().getPlayer2Score()), camera.position.x - camera.viewportHeight/2, camera.position.y + camera.viewportHeight/2);
         }
         this.drawPlayers();
+    }
 
+    private static boolean aux = false;
+
+    public void accel(){
+
+       if(this.gyroscopeAvail){
+           float gyroX = Gdx.input.getGyroscopeX();
+           if(gyroX <= -5 && aux == false)
+           {
+               aux = true;
+           }
+           else if(gyroX >= 5 && aux == true){
+               GameStage.getInstance().changeSelected(c);
+               aux = false;
+           }
+       }
     }
 
     public void posCamera(){
         float yValue = 0;
         float xValue = 0;
+        accel();
         if(GameStage.getInstance().getPlayerTurn() == 1)
         {
             yValue = heroesPlayer1.get(c).getAmmoView().getSprite().getY();
@@ -176,13 +196,13 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
         this.updateView(delta);
         Gdx.gl.glClearColor( 1, 1, 1, 1 );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
+        this.posCamera();
         camera.update();
         Game.getInstance().getBatch().setProjectionMatrix(camera.combined);
         debugMatrix = Game.getInstance().getBatch().getProjectionMatrix().cpy().scale(PIXEL_TO_METER, PIXEL_TO_METER, 0);
         Game.getInstance().getBatch().begin();
         this.drawScene();
         Game.getInstance().getBatch().end();
-        this.posCamera();
         debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
     }
 
@@ -263,7 +283,6 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
                 (lastTouch.x >= this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getX() && lastTouch.x <=  this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getX() +  this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getWidth()
                         && lastTouch.y >= this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getY() && lastTouch.y <= this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getY() + this.getHeroesPlayer2().get(c).getAmmoView().getSprite().getHeight() && GameStage.getInstance().getPlayerTurn() ==2))
         {
-            //System.out.println("deltax: " + delta.x + " deltay: " + delta.y);
             GameStageController.getInstance().shootPlayerAmmo(delta.x/10, delta.y/10);
             lastTouch = newTouch;
             return true;
@@ -285,4 +304,6 @@ public class GameStageView extends ScreenAdapter implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
+
 }

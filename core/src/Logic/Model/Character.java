@@ -14,7 +14,6 @@ public class Character extends Entity{
     private Ammo ammo;
     private boolean selected;
     private int hp;
-    boolean hit;
 
     public Character(String f, String f2){
         super(f);
@@ -22,16 +21,15 @@ public class Character extends Entity{
         this.active = true;
         this.hp = 3;
         this.ammo = new SimpleBall(f2);
-        this.hit = false;
     }
 
     @Override
     public void update(EntityBody e){
-        //System.out.println("HPESIUS: " + hp);
         if(hp <= 0)
         {
             active = false;
             selected = false;
+            GameStage.getInstance().chooseSelected();
         }
         else{
             active = true;
@@ -69,12 +67,5 @@ public class Character extends Entity{
         this.ammo = ammo;
     }
 
-    public boolean isHit() {
-        return hit;
-    }
-
-    public void setHit(boolean hit) {
-        this.hit = hit;
-    }
 
 }
