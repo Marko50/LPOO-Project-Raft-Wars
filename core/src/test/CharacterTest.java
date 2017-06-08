@@ -1,22 +1,28 @@
-package Logic.Model;
+package test;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import Logic.Body.GameStageController;
+import Logic.Model.Game;
+import Logic.Model.GameStage;
+import Logic.View.GameStageView;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by Bruno on 02/06/2017.
  */
-public class CharacterTest {
+public class CharacterTest extends GameTest {
 
     @Test
     public void update() throws Exception {
-        GameStageController testWorld = GameStageController.getInstance();
-
-        testWorld.getBodiesPlayer1().get(0).shootAmmo(7.5f,0.1f);
-        assertEquals(GameStage.getInstance().getHeroesPlayer2().get(0).getHp(), 90);
+        new Game();
+        GameStageController.getInstance().getBodiesPlayer1().get(0).shootAmmo(75f,1f);
+        Assert.assertEquals(90, GameStage.getInstance().getHeroesPlayer2().get(0).getHp());
     }
 
     @Test
@@ -26,7 +32,7 @@ public class CharacterTest {
 
     @Test
     public void isSelected() throws Exception {
-
+        Assert.assertEquals(true, GameStage.getInstance().getHeroesPlayer1().get(0).isSelected());
     }
 
     @Test
@@ -46,7 +52,7 @@ public class CharacterTest {
 
     @Test
     public void getHp() throws Exception {
-
+        Assert.assertEquals(100,GameStage.getInstance().getHeroesPlayer1().get(0).getHp());
     }
 
     @Test
