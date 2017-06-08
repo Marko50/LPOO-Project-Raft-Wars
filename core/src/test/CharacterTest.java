@@ -19,65 +19,23 @@ import static org.junit.Assert.*;
 public class CharacterTest extends GameTest {
 
     @Test
-    public void update() throws Exception {
-        new Game();
-        GameStageController.getInstance().getBodiesPlayer1().get(0).shootAmmo(75f,1f);
-        Assert.assertEquals(90, GameStage.getInstance().getHeroesPlayer2().get(0).getHp());
-    }
-
-    @Test
-    public void attacked() throws Exception {
-
-    }
-
-    @Test
     public void isSelected() throws Exception {
-        Assert.assertEquals(true, GameStage.getInstance().getHeroesPlayer1().get(0).isSelected());
+        Assert.assertEquals(true, GameStage.getInstance().getHeroesPlayer1().get(1).isSelected());
     }
 
     @Test
     public void setSelected() throws Exception {
-
-    }
-
-    @Test
-    public void getArmor() throws Exception {
-
-    }
-
-    @Test
-    public void setArmor() throws Exception {
-
+        GameStage.getInstance().getHeroesPlayer2().get(0).setSelected(true);
+        Assert.assertEquals(true, GameStage.getInstance().getHeroesPlayer2().get(0).isSelected());
     }
 
     @Test
     public void getHp() throws Exception {
-        Assert.assertEquals(100,GameStage.getInstance().getHeroesPlayer1().get(0).getHp());
+        for(int i = 0; i < GameStage.getInstance().getHeroesPlayer1().size(); i++) {
+            Assert.assertEquals(3,GameStage.getInstance().getHeroesPlayer1().get(i).getHp());
+        }
+        for(int i = 0; i < GameStage.getInstance().getHeroesPlayer2().size(); i++) {
+            Assert.assertEquals(3,GameStage.getInstance().getHeroesPlayer2().get(i).getHp());
+        }
     }
-
-    @Test
-    public void setHp() throws Exception {
-
-    }
-
-    @Test
-    public void isActive() throws Exception {
-
-    }
-
-    @Test
-    public void setActive() throws Exception {
-
-    }
-
-    @Test
-    public void getAmmo() throws Exception {
-
-    }
-
-    @Test
-    public void setAmmo() throws Exception {
-
-    }
-
 }
