@@ -108,6 +108,14 @@ project(":core") {
         testCompile "org.mockito:mockito-core:2.2.7"
     }
 }
+/*
+task deleteJar(type: Delete){
+    delete 'exec/raft_wars.jar'
+}
+
+task createJar(type Copy){
+    from('build/intermidiates/bundles/release/')
+}*/
 
 tasks.eclipse.doLast {
     delete ".project"

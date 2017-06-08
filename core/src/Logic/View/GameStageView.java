@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import java.util.ArrayList;
-
 import Logic.Body.GameStageController;
 import Logic.Model.Game;
 import Logic.Model.GameStage;
@@ -43,6 +42,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
     public int c;
     private static final float MIN_HEIGHT = 87.5f;
     private static final float MIN_WIDTH = 87.5f;
+    private static final float CAMERA_SIZE_MULTIPLIER = 3f;
 
     public void loadAssets(){
         Game.getInstance().getAssetManager().load("heart.png", Texture.class);
@@ -82,8 +82,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
     }
 
     OrthographicCamera createCamera() {
-        OrthographicCamera camera = new OrthographicCamera(MIN_WIDTH*2 , MIN_WIDTH*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
-        //OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH*2 , VIEWPORT_WIDTH*2  * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
+        OrthographicCamera camera = new OrthographicCamera(MIN_WIDTH*CAMERA_SIZE_MULTIPLIER , MIN_WIDTH* CAMERA_SIZE_MULTIPLIER * ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
         camera.update();
         debugRenderer = new Box2DDebugRenderer();
         return camera;
@@ -182,11 +181,11 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
         else if (yValue > VIEWPORT_HEIGHT - MIN_HEIGHT){
             yValue = VIEWPORT_HEIGHT - MIN_HEIGHT;
         }
-        if(xValue < MIN_WIDTH ){
-            xValue = MIN_WIDTH;
+        if(xValue < MIN_WIDTH * CAMERA_SIZE_MULTIPLIER/2f){
+            xValue = MIN_WIDTH * CAMERA_SIZE_MULTIPLIER/2f;
         }
-        else if(xValue > VIEWPORT_WIDTH - MIN_WIDTH ){
-            xValue = VIEWPORT_WIDTH - MIN_WIDTH;
+        else if(xValue > VIEWPORT_WIDTH - MIN_WIDTH * CAMERA_SIZE_MULTIPLIER/2f){
+            xValue = VIEWPORT_WIDTH - MIN_WIDTH * CAMERA_SIZE_MULTIPLIER/2f; //3/2
         }
         camera.position.set(xValue,yValue,0);
     }
