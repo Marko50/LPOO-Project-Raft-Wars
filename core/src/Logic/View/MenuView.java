@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import Logic.Model.Game;
@@ -77,11 +76,9 @@ public class MenuView implements Screen{
         Game.getInstance().getBatch().begin();
         Game.getInstance().getBatch().draw(backImage, 650, 800);
         Game.getInstance().getBatch().end();
-
         stage.act();
         stage.draw();
       //  debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
-
     }
 
     @Override
