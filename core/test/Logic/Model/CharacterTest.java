@@ -1,17 +1,9 @@
-package test;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+package Logic.Model;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import Logic.Body.GameStageController;
-import Logic.Model.Game;
-import Logic.Model.GameStage;
-import Logic.View.GameStageView;
-
-import static org.junit.Assert.*;
+import Logic.GameTest;
 
 /**
  * Created by Bruno on 02/06/2017.

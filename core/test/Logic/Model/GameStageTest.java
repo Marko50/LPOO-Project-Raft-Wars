@@ -1,11 +1,7 @@
-package test;
+package Logic.Model;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import Logic.Model.GameStage;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Bruno on 08/06/2017.
@@ -18,23 +14,12 @@ public class GameStageTest {
     }
 
     @Test
-    public void checkVictoryPlayer1() throws Exception {
-
-    }
-
-    @Test
-    public void checkVictoryPlayer2() throws Exception {
-
-    }
-
-    @Test
     public void resetGame() throws Exception {
 
     }
 
     @Test
     public void update() throws Exception {
-
     }
 
     @Test
@@ -83,16 +68,6 @@ public class GameStageTest {
     }
 
     @Test
-    public void getPlayerTurn() throws Exception {
-
-    }
-
-    @Test
-    public void setPlayerTurn() throws Exception {
-
-    }
-
-    @Test
     public void isChangedLevel() throws Exception {
 
     }
@@ -103,13 +78,10 @@ public class GameStageTest {
     }
 
     @Test
-    public void getGameLevel() throws Exception {
-
-    }
-
-    @Test
     public void setGameLevel() throws Exception {
-
+        GameLevel gameLevel = new FirstMap();
+        GameStage.getInstance().setGameLevel(gameLevel);
+        Assert.assertEquals(gameLevel, GameStage.getInstance().getGameLevel());
     }
 
     @Test
