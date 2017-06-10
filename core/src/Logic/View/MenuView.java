@@ -27,8 +27,9 @@ public class MenuView implements Screen{
     private Viewport viewport;
     private Skin skin = new Skin(Gdx.files.internal("rainbow/skin/rainbow-ui.json"));
     private TextButton startGame = new TextButton("Start Game", skin);
-    private TextButton howToPlay = new TextButton("How To Play", skin);
     private TextButton Exit = new TextButton("Exit", skin);
+    private Texture backImage;
+
 
     public MenuView() {
         batch = new SpriteBatch();
@@ -36,6 +37,8 @@ public class MenuView implements Screen{
         viewport.apply();
         stage = new Stage(viewport, batch);
         Gdx.input.setInputProcessor(stage);
+        backImage = new Texture(Gdx.files.internal("raftwars.png"));
+        Game.getInstance().getAssetManager().finishLoading();
     }
 
 
@@ -61,11 +64,9 @@ public class MenuView implements Screen{
             }
         });
 
-        mainTable.add(startGame).padTop(40).center();
+        mainTable.add(startGame).padTop(175 ).center();
         mainTable.row();
-        mainTable.add(howToPlay).padTop(20).center();
-        mainTable.row();
-        mainTable.add(Exit).padTop(70).center();
+        mainTable.add(Exit).padTop(10).center();
         stage.addActor(mainTable);
     }
 
@@ -73,6 +74,10 @@ public class MenuView implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Game.getInstance().getBatch().begin();
+        Game.getInstance().getBatch().draw(backImage, 5, 300);
+        Game.getInstance().getBatch().end();
+
         stage.act();
         stage.draw();
       //  debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
