@@ -75,7 +75,7 @@ public class MenuView implements Screen{
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Game.getInstance().getBatch().begin();
-        Game.getInstance().getBatch().draw(backImage, 5, 300);
+        Game.getInstance().getBatch().draw(backImage, 650, 800);
         Game.getInstance().getBatch().end();
 
         stage.act();
