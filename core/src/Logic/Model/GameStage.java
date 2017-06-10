@@ -27,10 +27,14 @@ public class GameStage{
         final Character c2 = new Character("wyvernwater.png", "ballwater.png");
         final Character c3 = new Character("wyvernfire.png", "ballfire.png");
         final Character c4 = new Character("wyvernwater.png", "ballwater.png");
+        final Character c5 = new Character("wyvernfire.png", "ballfire.png");
+        final Character c6 = new Character("wyvernwater.png", "ballwater.png");
         heroesPlayer1.add(c);
         heroesPlayer1.add(c3);
         heroesPlayer2.add(c2);
+        heroesPlayer1.add(c5);
         heroesPlayer2.add(c4);
+        heroesPlayer2.add(c6);
         heroesPlayer1.get(heroesPlayer1.size()-1).setSelected(true);
         heroesPlayer2.get(heroesPlayer2.size()-1).setSelected(true);
         this.playerTurn = 1;

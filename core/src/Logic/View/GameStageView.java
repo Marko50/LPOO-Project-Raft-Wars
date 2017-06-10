@@ -30,6 +30,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
     private BitmapFont player2Score;
     private Texture health;
     private Texture backImage;
+    private Texture obstacle;
     private ArrayList<CharacterView> heroesPlayer1 = new ArrayList<CharacterView>();
     private ArrayList<CharacterView> heroesPlayer2 = new ArrayList<CharacterView>();
     private Matrix4 debugMatrix;
@@ -54,9 +55,14 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
         Game.getInstance().getAssetManager().load("wyvernwater.png", Texture.class);
         Game.getInstance().getAssetManager().load("ballwater.png", Texture.class);
         Game.getInstance().getAssetManager().load("ballfire.png", Texture.class);
+        Game.getInstance().getAssetManager().load("rock.png", Texture.class);
         Game.getInstance().getAssetManager().finishLoading();
+    }
+
+    public void assetsCreator(){
         backImage = Game.getInstance().getAssetManager().get("background1.jpg");
         health = Game.getInstance().getAssetManager().get("heart.png");
+        obstacle = Game.getInstance().getAssetManager().get("rock.png");
         VIEWPORT_WIDTH = backImage.getWidth();
         VIEWPORT_HEIGHT = backImage.getHeight();
     }
@@ -64,6 +70,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
     public GameStageView() {
         c = 0;
         loadAssets();
+        this.assetsCreator();
         lastTouch = new Vector2();
         gyroscopeAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Gyroscope);
         for (int i = 0; i < GameStageController.getInstance().getBodiesPlayer1().size(); i++) {
@@ -135,6 +142,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
 
     public void drawScene(){
         Game.getInstance().getBatch().draw(backImage, 0, 0, VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
+        Game.getInstance().getBatch().draw(obstacle, GameStageController.getInstance().getMiddleObstacle().getPosition().x * PIXEL_TO_METER -obstacle.getWidth() / 8, GameStageController.getInstance().getMiddleObstacle().getPosition().y * PIXEL_TO_METER  - obstacle.getHeight() / 8, obstacle.getWidth() / 4 , obstacle.getHeight() / 4);
         if(GameStage.getInstance().getPlayerTurn() == 1){
             player1Score.draw(Game.getInstance().getBatch(), "SCORE: " + Integer.toString(GameStage.getInstance().getPlayer1Score()), camera.position.x - camera.viewportHeight/2, camera.position.y + camera.viewportHeight/2);
         }

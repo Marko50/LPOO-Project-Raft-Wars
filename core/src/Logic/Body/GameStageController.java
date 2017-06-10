@@ -3,6 +3,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -22,7 +23,8 @@ import Logic.View.GameStageView;
  */
 
 public class GameStageController implements ContactListener {
-    public final Body floor;
+    private static Body floor;
+    private static Body middleObstacle;
     private final World world;
     public static float FIELD_WIDTH;
     public static float FIELD_HEIGHT;
@@ -34,10 +36,38 @@ public class GameStageController implements ContactListener {
     private GameStageController() {
         FIELD_WIDTH = GameStageView.VIEWPORT_WIDTH / GameStageView.PIXEL_TO_METER;
         FIELD_HEIGHT = GameStageView.VIEWPORT_HEIGHT / GameStageView.PIXEL_TO_METER;
-       // System.out.println("FIELD_WIDTH: " + FIELD_WIDTH);
-        //System.out.println("FIELD_HEIGHT: " + FIELD_HEIGHT);
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(this);
+        this.floorCreator();
+        this.obstacleCreator();
+        for (int i = 0; i < GameStage.getInstance().getHeroesPlayer1().size(); i++) {
+            bodiesPlayer1.add(new CharacterBody(1+i,0.9f,2+i,2,world, GameStage.getInstance().getHeroesPlayer1().get(i), GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo()));
+        }
+        for (int i = 0; i < GameStage.getInstance().getHeroesPlayer2().size(); i++) {
+            bodiesPlayer2.add(new CharacterBody(FIELD_WIDTH - 1 - i , 0.9f, FIELD_WIDTH - 2 - i, 2, world, GameStage.getInstance().getHeroesPlayer2().get(i), GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo()));
+        }
+    }
+
+    private void obstacleCreator(){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.linearVelocity.set(0f,0f);
+        bodyDef.position.set(FIELD_WIDTH/2,1.1f);
+        middleObstacle = world.createBody(bodyDef);
+        // Create character fixture
+        CircleShape circle = new CircleShape();
+        circle.setRadius(30/GameStageView.PIXEL_TO_METER);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.density = .5f;      // how heavy is the character
+        fixtureDef.friction =  .10f;    // how slippery is the character
+        fixtureDef.restitution =  .5f; // how bouncy is the character
+        // Attach fixture to body
+        middleObstacle.createFixture(fixtureDef);
+        circle.dispose();
+    }
+
+    private void floorCreator(){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.linearVelocity.set(0f, 0f);
@@ -49,17 +79,11 @@ public class GameStageController implements ContactListener {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = rectangle;
         fixtureDef.density = 1f;      // how heavy is the character
-        fixtureDef.friction = 1;    // how slippery is the character
-        fixtureDef.restitution = .0f; // how bouncy is the character
+        fixtureDef.friction = 1f;    // how slippery is the character
+        fixtureDef.restitution = 0f; // how bouncy is the character
         // Attach fixture to body
         floor.createFixture(fixtureDef);
         rectangle.dispose();
-        for (int i = 0; i < GameStage.getInstance().getHeroesPlayer1().size(); i++) {
-            bodiesPlayer1.add(new CharacterBody(1+i,0.9f,2+i,2,world, GameStage.getInstance().getHeroesPlayer1().get(i), GameStage.getInstance().getHeroesPlayer1().get(i).getAmmo()));
-        }
-        for (int i = 0; i < GameStage.getInstance().getHeroesPlayer2().size(); i++) {
-            bodiesPlayer2.add(new CharacterBody(FIELD_WIDTH - 1 - i , 0.9f, FIELD_WIDTH - 2 - i, 2, world, GameStage.getInstance().getHeroesPlayer2().get(i), GameStage.getInstance().getHeroesPlayer2().get(i).getAmmo()));
-        }
     }
 
     public static GameStageController getInstance() {
@@ -78,9 +102,7 @@ public class GameStageController implements ContactListener {
         }
     }
 
-    public void reset(){
-        FIELD_WIDTH = GameStageView.VIEWPORT_WIDTH / GameStageView.PIXEL_TO_METER;
-        FIELD_HEIGHT = GameStageView.VIEWPORT_HEIGHT / GameStageView.PIXEL_TO_METER;
+    private void posPlayers(){
         for(int i = 0; i < this.getBodiesPlayer1().size(); i++){
             this.getBodiesPlayer1().get(i).getBody().setActive(true);
             this.getBodiesPlayer1().get(i).getBody().setTransform(1+i,0.9f, this.getBodiesPlayer1().get(i).getBody().getAngle());
@@ -101,6 +123,16 @@ public class GameStageController implements ContactListener {
             this.getBodiesPlayer2().get(i).getAmmoBody().setOriginX(FIELD_WIDTH - 2 - i);
             this.getBodiesPlayer2().get(i).getAmmoBody().setOriginY(2);
         }
+    }
+
+    public void reset(){
+        FIELD_WIDTH = GameStageView.VIEWPORT_WIDTH / GameStageView.PIXEL_TO_METER;
+        FIELD_HEIGHT = GameStageView.VIEWPORT_HEIGHT / GameStageView.PIXEL_TO_METER;
+        this.posPlayers();
+        world.destroyBody(floor);
+        world.destroyBody(middleObstacle);
+        this.floorCreator();
+        this.obstacleCreator();
     }
 
     public void update() {
@@ -165,6 +197,15 @@ public class GameStageController implements ContactListener {
     public void setBodiesPlayer2(ArrayList<CharacterBody> bodysPlayer2) {
         this.bodiesPlayer2 = bodysPlayer2;
     }
+
+    public static Body getMiddleObstacle() {
+        return middleObstacle;
+    }
+
+    public static void setMiddleObstacle(Body middleObstacle) {
+        GameStageController.middleObstacle = middleObstacle;
+    }
+
 
 
 }
