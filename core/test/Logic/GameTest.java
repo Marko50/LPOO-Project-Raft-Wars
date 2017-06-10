@@ -1,4 +1,4 @@
-package test;
+package Logic;
 
 
 import com.badlogic.gdx.Application;

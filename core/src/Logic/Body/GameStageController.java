@@ -95,6 +95,8 @@ public class GameStageController implements ContactListener {
     public void shootPlayerAmmo(float x, float y) {
         int c = GameStage.getInstance().getSelectedCharacter();
         if (GameStage.getInstance().getPlayerTurn() == 1) {
+            System.out.println(x);
+            System.out.println(y);
             this.getBodiesPlayer1().get(c).shootAmmo(x, y);
         }
         else if (GameStage.getInstance().getPlayerTurn() == 2) {
@@ -160,9 +162,11 @@ public class GameStageController implements ContactListener {
         Body bodyB = contact.getFixtureB().getBody();
         if (bodyA.getUserData() instanceof Ammo && bodyB.getUserData() instanceof Character){
             ((Ammo) bodyA.getUserData()).hitPlayer((Character) bodyB.getUserData());
+            System.out.println("ola1");
         }
         if (bodyA.getUserData() instanceof Character && bodyB.getUserData() instanceof Ammo){
             ((Ammo) bodyB.getUserData()).hitPlayer((Character) bodyA.getUserData());
+            System.out.println("ola1");
         }
 
     }
