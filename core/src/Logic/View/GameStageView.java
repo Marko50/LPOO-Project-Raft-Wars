@@ -210,7 +210,7 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
         Game.getInstance().getBatch().begin();
         this.drawScene();
         Game.getInstance().getBatch().end();
-        debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
+        //debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);
     }
 
     public void updateView(float delta) {
