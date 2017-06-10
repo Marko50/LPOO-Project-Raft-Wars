@@ -1,20 +1,21 @@
 package Logic.Model;
 
-
 import Logic.Body.EntityBody;
 import Logic.Body.GameStageController;
 
 /**
- * Created by André on 21-04-2017.
+ * class for character
  */
-
-
-
 public class Character extends Entity{
     private Ammo ammo;
     private boolean selected;
     private int hp;
 
+    /**
+     * constructor of character
+     * @param f file name for character sprite
+     * @param f2 file name for ammo sprite
+     */
     public Character(String f, String f2){
         super(f);
         this.selected = false;
@@ -23,6 +24,10 @@ public class Character extends Entity{
         this.ammo = new SimpleBall(f2);
     }
 
+    /**
+     * updates character health and status
+     * @param e character to be updated
+     */
     @Override
     public void update(EntityBody e){
         if(hp <= 0)
@@ -43,29 +48,44 @@ public class Character extends Entity{
         }
     }
 
+    /**
+     * get method for "selected" status
+     * @return true if selected
+     */
     public boolean isSelected() {
         return selected;
     }
 
+    /**
+     * setter for "selected" status
+     * @param selected true if selected
+     */
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
+    /**
+     * get method for character hp
+     * @return integer with character hp
+     */
     public int getHp() {
         return hp;
     }
 
+    /**
+     * setter for character hp
+     * @param hp integer with character hp
+     */
     public void setHp(int hp) {
         this.hp = hp;
     }
 
+    /**
+     * get method for character ammo
+     * @return Ammo
+     */
     public Ammo getAmmo() {
         return ammo;
     }
-
-    public void setAmmo(Ammo ammo) {
-        this.ammo = ammo;
-    }
-
 
 }

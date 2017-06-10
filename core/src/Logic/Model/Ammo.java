@@ -4,24 +4,33 @@ import Logic.Body.EntityBody;
 import Logic.Body.GameStageController;
 
 /**
- * Created by André on 22-04-2017.
+ * Class for character's ammo/weapon
  */
-
 public abstract class Ammo extends Entity{
     protected int damage;
 
-
+    /**
+     * Constructor of ammo
+     * @param d damage
+     * @param f file name for sprite
+     */
     public Ammo(int d, String f){
         super(f);
         this.damage = d;
     }
 
-    public void hitPlayer(Character c)
-    {
+    /**
+     * Deals damage to "c" character
+     * @param c Character to be hit
+     */
+    public void hitPlayer(Character c) {
         c.setHp(c.getHp() - this.damage);
     }
 
-
+    /**
+     * Updates position of body, puts it back at the start if velocity is 0
+     * @param body body to be moved
+     */
     @Override
     public void update(EntityBody body){
         float vx,vy, posX, posY;
@@ -37,16 +46,5 @@ public abstract class Ammo extends Entity{
         {
             beingUsed= true;
         }
-
     }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-
 }
