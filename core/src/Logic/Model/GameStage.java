@@ -7,6 +7,8 @@ import Logic.View.MenuView;
 /**
  * Created by André on 22-04-2017.
  */
+
+
 public class GameStage{
     private int playerTurn;
     private int player1Score;

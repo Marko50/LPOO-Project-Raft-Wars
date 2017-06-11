@@ -157,11 +157,9 @@ public class GameStageController implements ContactListener {
         Body bodyB = contact.getFixtureB().getBody();
         if (bodyA.getUserData() instanceof Ammo && bodyB.getUserData() instanceof Character){
             ((Ammo) bodyA.getUserData()).hitPlayer((Character) bodyB.getUserData());
-            System.out.println("ola1");
         }
         if (bodyA.getUserData() instanceof Character && bodyB.getUserData() instanceof Ammo){
             ((Ammo) bodyB.getUserData()).hitPlayer((Character) bodyA.getUserData());
-            System.out.println("ola1");
         }
 
     }
