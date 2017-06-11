@@ -33,13 +33,6 @@ public abstract class EntityView  {
      */
     public abstract void setSprite(String filename,int cols, int rows);
     public abstract  void update(float delta, EntityBody body);
-    public float getStateTime() {
-        return stateTime;
-    }
-    public void setStateTime(float stateTime) {
-        this.stateTime = stateTime;
-    }
-
     public Sprite getSprite() {
         return sprite;
     }

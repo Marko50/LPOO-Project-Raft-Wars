@@ -43,7 +43,6 @@ public class AmmoBody extends EntityBody {
 
     @Override
     public void update(Entity e) {
-        //System.out.println("BodyX: " + body.getPosition().x+ " BodyY: " + body.getPosition().y);
         if(e.isBeingUsed() == false){
             body.setTransform(originX, originY, body.getAngle());
             body.setLinearVelocity(0,0);

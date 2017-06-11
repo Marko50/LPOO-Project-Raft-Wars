@@ -1,5 +1,4 @@
 package Logic.View;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import Logic.Model.Game;
 
 /**
@@ -46,7 +44,6 @@ public class MenuView implements Screen{
         Table mainTable = new Table();
         mainTable.setFillParent(true);
         mainTable.top();
-
         //Add listeners to buttons
         this.startGame.addListener(new ClickListener(){
 
@@ -62,7 +59,6 @@ public class MenuView implements Screen{
                 System.exit(0);
             }
         });
-
         mainTable.add(startGame).padTop(175 ).center();
         mainTable.row();
         mainTable.add(Exit).padTop(10).center();
@@ -73,9 +69,9 @@ public class MenuView implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Game.getInstance().getBatch().begin();
-        Game.getInstance().getBatch().draw(backImage, 650, 800);
-        Game.getInstance().getBatch().end();
+        this.batch.begin();
+        this.batch.draw(backImage, 50, 300);
+        this.batch.end();
         stage.act();
         stage.draw();
       //  debugRenderer.render(GameStageController.getInstance().getWorld(), debugMatrix);

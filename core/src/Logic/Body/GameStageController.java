@@ -28,7 +28,6 @@ public class GameStageController implements ContactListener {
     private final World world;
     public static float FIELD_WIDTH;
     public static float FIELD_HEIGHT;
-
     private static GameStageController instance;
     private ArrayList<CharacterBody> bodiesPlayer1 = new ArrayList<CharacterBody>();
     private ArrayList<CharacterBody> bodiesPlayer2 = new ArrayList<CharacterBody>();
@@ -151,10 +150,6 @@ public class GameStageController implements ContactListener {
 
     }
 
-    public World getWorld() {
-        return world;
-    }
-
 
     @Override
     public void beginContact(Contact contact) {
@@ -190,26 +185,14 @@ public class GameStageController implements ContactListener {
         return bodiesPlayer1;
     }
 
-    public void setBodiesPlayer1(ArrayList<CharacterBody> bodysPlayer1) {
-        this.bodiesPlayer1 = bodysPlayer1;
-    }
 
     public ArrayList<CharacterBody> getBodiesPlayer2() {
         return bodiesPlayer2;
     }
 
-    public void setBodiesPlayer2(ArrayList<CharacterBody> bodysPlayer2) {
-        this.bodiesPlayer2 = bodysPlayer2;
-    }
 
     public static Body getMiddleObstacle() {
         return middleObstacle;
     }
-
-    public static void setMiddleObstacle(Body middleObstacle) {
-        GameStageController.middleObstacle = middleObstacle;
-    }
-
-
 
 }

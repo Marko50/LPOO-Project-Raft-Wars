@@ -228,32 +228,13 @@ public class GameStageView extends ScreenAdapter implements InputProcessor{
 
     }
 
-    public Texture getBackImage() {
-        return backImage;
-    }
-
-    public void setBackImage(Texture backImage) {
-        this.backImage = backImage;
-    }
-
     public ArrayList<CharacterView> getHeroesPlayer1() {
         return heroesPlayer1;
     }
 
-    public void setHeroesPlayer1(ArrayList<CharacterView> heroesPlayer1) {
-        this.heroesPlayer1 = heroesPlayer1;
-    }
-
-    public void addHeroPlayer1(CharacterView h) {
-        this.heroesPlayer1.add(h);
-    }
 
     public ArrayList<CharacterView> getHeroesPlayer2() {
         return heroesPlayer2;
-    }
-
-    public void setHeroesPlayer2(ArrayList<CharacterView> heroesPlayer2) {
-        this.heroesPlayer2 = heroesPlayer2;
     }
 
     @Override

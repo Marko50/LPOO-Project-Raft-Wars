@@ -1,9 +1,6 @@
 package Logic.Model;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Cursor;
-
 import java.util.ArrayList;
-
 import Logic.Body.GameStageController;
 import Logic.View.MenuView;
 
@@ -190,21 +187,10 @@ public class GameStage{
         return heroesPlayer1;
     }
 
-    public void setHeroesPlayer1(ArrayList<Character> heroesPlayer1) {
-        this.heroesPlayer1 = heroesPlayer1;
-    }
     public ArrayList<Character> getHeroesPlayer2() {
         return heroesPlayer2;
     }
 
-    public void setHeroesPlayer2(ArrayList<Character> heroesPlayer2) {
-        this.heroesPlayer2 = heroesPlayer2;
-    }
-    public void addHeroPlayer1(Logic.Model.Character c1)
-    {
-        this.heroesPlayer1.add(c1);
-    }
-    public void addHeroPlayer2(Logic.Model.Character c1) {this.heroesPlayer2.add(c1);}
     public int getPlayerTurn() {return playerTurn;}
 
     public void setPlayerTurn(int playerTurn) {
@@ -221,10 +207,6 @@ public class GameStage{
 
     public GameLevel getGameLevel() {
         return gameLevel;
-    }
-
-    public void setGameLevel(GameLevel gameLevel) {
-        this.gameLevel = gameLevel;
     }
 
     public int getPlayer1Score() {

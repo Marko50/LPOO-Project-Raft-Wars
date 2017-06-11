@@ -1,6 +1,6 @@
 package Logic.View;
 
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -33,8 +33,6 @@ public class CharacterView extends EntityView {
 
     @Override
     public void setSprite(String filename, int cols, int rows) {
-      //  Game.getInstance().getAssetManager().load(filename, Texture.class);
-       // Game.getInstance().getAssetManager().finishLoading();
         Texture t =  Game.getInstance().getAssetManager().get(filename);
         TextureRegion[][] region = TextureRegion.split(t,t.getWidth() / cols, t.getHeight()/rows);
         frames = new TextureRegion[cols*rows];
@@ -61,25 +59,4 @@ public class CharacterView extends EntityView {
     public AmmoView getAmmoView() {
         return ammoView;
     }
-
-    public void setAmmoView(AmmoView ammoView) {
-        this.ammoView = ammoView;
-    }
-
-    public Animation<TextureRegion> getAnimation() {
-        return animation;
-    }
-
-    public void setAnimation(Animation<TextureRegion> animation) {
-        this.animation = animation;
-    }
-
-    public TextureRegion[] getFrames() {
-        return frames;
-    }
-
-    public void setFrames(TextureRegion[] frames) {
-        this.frames = frames;
-    }
-
 }

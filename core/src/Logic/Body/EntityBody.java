@@ -28,16 +28,8 @@ public abstract class EntityBody{
         this.body = body;
     }
 
-    public float getOriginX() {
-        return originX;
-    }
-
     public void setOriginX(float originX) {
         this.originX = originX;
-    }
-
-    public float getOriginY() {
-        return originY;
     }
 
     public void setOriginY(float originY) {

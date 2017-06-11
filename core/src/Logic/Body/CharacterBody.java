@@ -32,7 +32,6 @@ public class CharacterBody extends EntityBody {
         fixtureDef.density = .5f;      // how heavy is the character
         fixtureDef.friction =  .10f;    // how slippery is the character
         fixtureDef.restitution =  .5f; // how bouncy is the character
-        // Attach fixture to body
         body.createFixture(fixtureDef);
         body.setUserData(e);
         circle.dispose();
@@ -40,7 +39,6 @@ public class CharacterBody extends EntityBody {
 
     @Override
     public void update(Entity e) {
-        //System.out.println("BodyX: " + body.getPosition().x+ " BodyY: " + body.getPosition().y);
         if(e.isActive() == false){
             body.setActive(false);
         }
@@ -60,7 +58,4 @@ public class CharacterBody extends EntityBody {
         return ammoBody;
     }
 
-    public void setAmmoBody(AmmoBody ammoBody) {
-        this.ammoBody = ammoBody;
-    }
 }
